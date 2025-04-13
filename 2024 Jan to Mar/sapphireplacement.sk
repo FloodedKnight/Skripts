@@ -1,0 +1,299 @@
+command /setsapphires:
+	permission: sk.dev
+	trigger:
+		loop all blocks in radius 50 of player:
+			if loop-block is purple concrete or purple concrete powder:
+				add location at loop-block to {magentaSapphire::*}
+
+on right click:
+	if player's tool is a yellow dye named "&eYellow Sapphire":
+		if player's world is "world_the_end":
+			if {SapphirePlaced} is not 2:
+				stop
+			if {SapphirePlacing::%player's uuid%} is not true:
+				stop
+			if {SapphirePlaced} is 2:
+				set {SapphirePlaced} to 3
+				remove 1 of player's held item from player's inventory
+				play sound "entity.ender_dragon.growl" to all players
+				play sound "block.end_portal.spawn" to all players
+				broadcast "§x§F§4§F§6§6§E🐉 %player% has placed the Yellow Sapphire!"
+				loop {yellowSapphire::*}:
+					set {_random} to a random integer between 1 and 100
+					if {_random} is between 0 and 10:
+						set block at loop-value to yellow concrete powder
+					if {_random} is between 11 and 100:
+						set block at loop-value to yellow concrete
+				loop 250 times:
+					if {DragonSpawned} is not true:
+						draw 3 of dust using dustOption(rgb(255, 255, 0), 10) at location(16.5, 158, 10, world "world_the_end")
+						wait 2 ticks
+					if {DeactivatingEndHexagon} is true:
+						stop
+				
+on right click:
+	if player's tool is a red dye named "&cRed Sapphire":
+		if player's world is "world_the_end":
+			if {SummoningEyesPlaced} > 0:
+				message "&8[&c✖&8] &7A &5summoning eye &7is currently placed!" to player
+				stop
+			if {SapphirePlaced} > 0:
+				stop
+			if {SapphirePlacing::%player's uuid%} is true:
+				stop
+			if {DragonSpawned} is true:
+				message "&8[&c✖&8] &7A &5dragon &7is currently spawned!" to player
+				stop
+			if {EnderMageSpawned} is true:
+				message "&8[&c✖&8] &7An &5Ender Mage &7is currently spawned!" to player
+				stop
+			if difference between now and {SapphirePlacementCooldown::%player's uuid%::SapphirePlacementCooldown} is less than 6 hours:
+				cancel event
+				message "&8[&c✖&8] &7You're need to wait before you do that. &8(%difference between {SapphirePlacementCooldown::%player's uuid%::SapphirePlacementCooldown} and (6 hours before now)%)" to player
+				stop
+			if {DragonSpawned} is not true:
+				set {SapphirePlacementCooldown::%player's uuid%::SapphirePlacementCooldown} to now
+				set {SapphirePlacing::%player's uuid%} to true
+				set {SapphirePlaced} to 1
+				remove 1 of player's held item from player's inventory
+				play sound "entity.ender_dragon.growl" to all players
+				play sound "block.end_portal.spawn" to all players
+				broadcast "§x§F§6§6§E§6§E🐉 %player's name% has placed the Red Sapphire!"
+				loop {redSapphire::*}:
+					set {_random} to a random integer between 1 and 100
+					if {_random} is between 0 and 10:
+						set block at loop-value to red concrete powder
+					if {_random} is between 11 and 100:
+						set block at loop-value to red concrete
+				loop 250 times:
+					if {DragonSpawned} is not true:
+						draw 3 of dust using dustOption(rgb(138, 0, 0), 10) at location(-15, 158, 10, world "world_the_end")
+						wait 2 ticks
+				if {DragonSpawned} is not true:
+					if {SapphirePlaced} >= 1:
+						give player 1 of red dye of soul speed 1 named "&cRed Sapphire" with lore "&d&l&kM &d&lMYTHIC &d&l&kM" with hide enchants item flag
+					wait 2 ticks
+					if {SapphirePlaced} >= 2:
+						give player 1 of orange dye of soul speed 1 named "&6Orange Sapphire" with lore "&d&l&kM &d&lMYTHIC &d&l&kM" with hide enchants item flag
+					wait 2 ticks
+					if {SapphirePlaced} >= 3:
+						give player 1 of yellow dye of soul speed 1 named "&eYellow Sapphire" with lore "&d&l&kM &d&lMYTHIC &d&l&kM" with hide enchants item flag
+						wait 2 ticks
+					if {SapphirePlaced} >= 4:
+						give player 1 of lime dye of soul speed 1 named "&aGreen Sapphire" with lore "&d&l&kM &d&lMYTHIC &d&l&kM" with hide enchants item flag
+					wait 2 ticks
+					if {SapphirePlaced} >= 5:
+						give player 1 of cyan dye of soul speed 1 named "&9Blue Sapphire" with lore "&d&l&kM &d&lMYTHIC &d&l&kM" with hide enchants item flag
+						wait 2 ticks
+					execute console command "/deactivatehexagon"
+					delete {SapphirePlaced}
+					delete {SapphirePlacing::%player's uuid%}
+				
+on right click:
+	if player's tool is a orange dye named "&6Orange Sapphire":
+		if player's world is "world_the_end":
+			if {SapphirePlaced} is not 1:
+				stop
+			if {SapphirePlacing::%player's uuid%} is not true:
+				stop
+			if {SapphirePlaced} is 1:
+				set {SapphirePlaced} to 2
+				remove 1 of player's held item from player's inventory
+				play sound "entity.ender_dragon.growl" to all players
+				play sound "block.end_portal.spawn" to all players
+				broadcast "§x§F§6§C§1§6§E🐉 %player% has placed the Orange Sapphire!"
+				loop {orangeSapphire::*}:
+					set {_random} to a random integer between 1 and 100
+					if {_random} is between 0 and 10:
+						set block at loop-value to orange concrete powder
+					if {_random} is between 11 and 100:
+						set block at loop-value to orange concrete
+				loop 250 times:
+					if {DragonSpawned} is not true:
+						draw 3 of dust using dustOption(rgb(255, 132, 0), 10) at location(1, 158, 16.5, world "world_the_end")
+						wait 2 ticks
+					if {DeactivatingEndHexagon} is true:
+						stop
+				
+on right click:
+	if player's tool is a lime dye named "&aGreen Sapphire":
+		if player's world is "world_the_end":
+			if {SapphirePlaced} is not 3:
+				stop
+			if {SapphirePlacing::%player's uuid%} is not true:
+				stop
+			if {SapphirePlaced} is 3:
+				set {SapphirePlaced} to 4
+				remove 1 of player's held item from player's inventory
+				play sound "entity.ender_dragon.growl" to all players
+				play sound "block.end_portal.spawn" to all players
+				broadcast "§x§9§1§F§6§6§E🐉 %player% has placed the Green Sapphire!"
+				loop {limeSapphire::*}:
+					set {_random} to a random integer between 1 and 100
+					if {_random} is between 0 and 10:
+						set block at loop-value to lime concrete powder
+					if {_random} is between 11 and 100:
+						set block at loop-value to lime concrete
+				loop 250 times:
+					if {DragonSpawned} is not true:
+						draw 3 of dust using dustOption(rgb(0, 255, 0), 10) at location(16.5, 158, -8, world "world_the_end")
+						wait 2 ticks
+					if {DeactivatingEndHexagon} is true:
+						stop
+				
+on right click:
+	if player's tool is a cyan dye named "&9Blue Sapphire":
+		if player's world is "world_the_end":
+			if {SapphirePlaced} is not 4:
+				stop
+			if {SapphirePlacing::%player's uuid%} is not true:
+				stop
+			if {SapphirePlaced} is 4:
+				set {SapphirePlaced} to 5
+				remove 1 of player's held item from player's inventory
+				play sound "entity.ender_dragon.growl" to all players
+				play sound "block.end_portal.spawn" to all players
+				broadcast "§x§6§E§9§4§F§6🐉 %player% has placed the Blue Sapphire!"
+				loop {cyanSapphire::*}:
+					set {_random} to a random integer between 1 and 100
+					if {_random} is between 0 and 10:
+						set block at loop-value to cyan concrete powder
+					if {_random} is between 11 and 100:
+						set block at loop-value to cyan concrete
+				loop 250 times:
+					if {DragonSpawned} is not true:
+						draw 3 of dust using dustOption(rgb(0, 86, 120), 10) at location(0.5, 158, -16, world "world_the_end")
+						wait 2 ticks
+					if {DeactivatingEndHexagon} is true:
+						stop
+				
+on right click:
+	if player's tool is a purple dye named "&5Purple Sapphire":
+		if player's world is "world_the_end":
+			if {SapphirePlaced} is not 5:
+				stop
+			if {SapphirePlacing::%player's uuid%} is not true:
+				stop
+			if {SapphirePlaced} is 5:
+				set {DragonSpawned} to true
+				set {SapphirePlaced} to 6
+				remove 1 of player's held item from player's inventory
+				play sound "entity.ender_dragon.growl" to all players
+				play sound "block.end_portal.spawn" to all players
+				broadcast "§x§D§E§6§E§F§6🐉 %player% has placed the Purple Sapphire! Here we go!"
+				loop {magentaSapphire::*}:
+					set {_random} to a random integer between 1 and 100
+					if {_random} is between 0 and 10:
+						set block at loop-value to magenta concrete powder
+					if {_random} is between 11 and 100:
+						set block at loop-value to magenta concrete
+				FinalDragonAnimationSpawn(player)
+				DragonSpawnCloseMineOpening(1)
+				
+command /deactivatehexagon:
+	permission: sk.dev
+	trigger:
+		message "&aDeactivating, this might take some time" to player
+		delete {SapphirePlaced}
+		delete {DragonSpawned}
+		set {DeactivatingEndHexagon} to true
+		loop {redSapphire::*}:
+			set {_random} to a random integer between 1 and 100
+			if {_random} is between 0 and 10:
+				set block at loop-value to gray concrete powder
+			if {_random} is between 11 and 100:
+				set block at loop-value to gray concrete
+		wait 1 second
+		loop {orangeSapphire::*}:
+			set {_random} to a random integer between 1 and 100
+			if {_random} is between 0 and 10:
+				set block at loop-value to gray concrete powder
+			if {_random} is between 11 and 100:
+				set block at loop-value to gray concrete
+		wait 1 second
+		loop {yellowSapphire::*}:
+			set {_random} to a random integer between 1 and 100
+			if {_random} is between 0 and 10:
+				set block at loop-value to gray concrete powder
+			if {_random} is between 11 and 100:
+				set block at loop-value to gray concrete
+		wait 1 second
+		loop {limeSapphire::*}:
+			set {_random} to a random integer between 1 and 100
+			if {_random} is between 0 and 10:
+				set block at loop-value to gray concrete powder
+			if {_random} is between 11 and 100:
+				set block at loop-value to gray concrete
+		wait 1 second
+		loop {cyanSapphire::*}:
+			set {_random} to a random integer between 1 and 100
+			if {_random} is between 0 and 10:
+				set block at loop-value to gray concrete powder
+			if {_random} is between 11 and 100:
+				set block at loop-value to gray concrete
+		wait 1 second
+		loop {magentaSapphire::*}:
+			set {_random} to a random integer between 1 and 100
+			if {_random} is between 0 and 10:
+				set block at loop-value to gray concrete powder
+			if {_random} is between 11 and 100:
+				set block at loop-value to gray concrete
+		delete {SapphirePlacing::*}
+		delete {DragonSpawned}
+		delete {SapphirePlaced}
+		delete {DeactivatingEndHexagon}
+		message "&aHexagon has been deactivated" to player
+		stop
+		
+
+function FinalDragonAnimationSpawn(p: player):
+	set {_r} to 16
+	set {_height} to 158.5
+	loop 180 times:
+		# Yellow
+		draw 3 dust using dustOption(rgb(255, 255, 0), 10) at circleVec(location(0.5, {_height}, 0.5, world "world_the_end"), {_r}, 1, 0, 0, 300, loop-value * 2)
+		# Red
+		draw 3 dust using dustOption(rgb(138, 0, 0), 10) at circleVec(location(0.5, {_height}, 0.5, world "world_the_end"), {_r}, 1, 0, 0, 60, loop-value * 2)
+		# Orange
+		draw 3 dust using dustOption(rgb(255, 132, 0), 10) at circleVec(location(0.5, {_height}, 0.5, world "world_the_end"), {_r}, 1, 0, 0, 360, loop-value * 2)
+		# Lime
+		draw 3 dust using dustOption(rgb(0, 255, 0), 10) at circleVec(location(0.5, {_height}, 0.5, world "world_the_end"), {_r}, 1, 0, 0, 240, loop-value * 2)
+		# Cyan
+		draw 3 dust using dustOption(rgb(0, 86, 120), 10) at circleVec(location(0.5, {_height}, 0.5, world "world_the_end"), {_r}, 1, 0, 0, 180, loop-value * 2)
+		# Magent
+		draw 3 dust using dustOption(rgb(179, 0, 191), 10) at circleVec(location(0.5, {_height}, 0.5, world "world_the_end"), {_r}, 1, 0, 0, 120, loop-value * 2)
+		set {_r} to {_r} - 0.088
+		set {_height} to {_height} + 0.0861
+		wait 1 tick
+		
+#	loop 20 times:
+#		draw 3 of dust using dustOption(rgb(255, 255, {_rgbyellow3}), 10) at location(0.5, 158.5, 0.5, world "world_the_end") with extra 0
+        # Red
+ #       draw 3 of dust using dustOption(rgb(138, 0, 0), 10) at location(0.5, 158.5, 0.5, world "world_the_end") with extra 0
+        # Orange
+  #      draw 3 of dust using dustOption(rgb(255, 132, 0), 10) at location(0.5, 158.5, 0.5, world "world_the_end") with extra 0
+        # Lime
+   #     draw 3 of dust using dustOption(rgb(0, 255, 0), 10) at location(0.5, 158.5, 0.5, world "world_the_end") with extra 0
+        # Cyan
+    #    draw 3 of dust using dustOption(rgb(0, 86, 120), 10) at location(0.5, 158.5, 0.5, world "world_the_end") with extra 0
+        # Magenta
+     #   draw 3 of dust using dustOption(rgb(179, 0, 191), 10) at  location(0.5, 158.5, 0.5, world "world_the_end") with extra 0
+	#	
+		
+	FinalDragonSpawn(1)
+	wait 1 tick
+	set {_FinalDragon} to last spawned ender dragon
+	set {_uFinalDragon} to uuid int array as string from {_FinalDragon}
+	set {mob::%{_uFinalDragon}%} to {_p}
+
+
+	
+		
+command /deletesapphires:
+	permission: sk.dev
+	trigger:
+		delete {SapphirePlacing::*}
+		delete {DragonSpawned}
+		delete {SapphirePlaced}
+		delete {DeactivatingEndHexagon}
+		message "&aSuccessfully deleted" to player

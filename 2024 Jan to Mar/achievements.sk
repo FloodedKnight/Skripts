@@ -1,0 +1,57 @@
+command /achievements:
+	trigger:
+		send "&8------&9Achievements&8------" to player
+		if {Achievement::%player's uuid%::Endgame} is not set:
+			send "&c✖ Achievement | We're in the endgame now: &7Summon Thanos" to player
+		if {Achievement::%player's uuid%::AFineAdditionToMyCollection} is not set:
+			send "&c✖ Achievement | A Fine Addition to My Collection: &7Buy all bow trails" to player
+		if {Achievement::%player's uuid%::BetterCallSaul} is not set:
+			send "&c✖ Achievement | Better Call Saul: &7Spend and win 50 or more ʀᴀɴᴅᴜᴍʙɪᴛѕ at an auction" to player
+		if {Achievement::%player's uuid%::MyHonestReaction} is not set:
+			send "&c✖ Achievement | My Honest Reaction To That Information: &7???" to player
+		
+	
+		if {Achievement::%player's uuid%::Endgame} is true:
+			send "&a✔ Achievement | We're in the endgame now: &6Summon Thanos" to player
+		if {Achievement::%player's uuid%::AFineAdditionToMyCollection} is true:
+			send "&a✔ Achievement | A Fine Addition to My Collection: &6Buy all bow trails" to player
+		if {Achievement::%player's uuid%::BetterCallSaul} is true:
+			send "&a✔ Achievement | Better Call Saul: &6Spend and win 50 or more ʀᴀɴᴅᴜᴍʙɪᴛѕ at an auction" to player
+		if {Achievement::%player's uuid%::MyHonestReaction} is true:
+			send "&a✔ Achievement | My Honest Reaction To That Information: &6Die 2500 times" to player
+		send "&8------&9Achievements&8------" to player
+			
+	
+			
+on death:
+	victim is a player:
+		add 1 to {DeathCount::%victim's uuid%}
+		wait 1 tick
+		if {Achievement::%victim's uuid%::MyHonestReaction} is true:
+			stop
+		if {DeathCount::%victim's uuid%} >= 2500:
+			broadcast "&8[&5◆&8] &d%victim% completed the achievement: &5My Honest Reaction to That Information"
+			play sound "entity.player.levelup" at pitch 0 to all players
+			message "&7You now have access to the emoji: &e:moyai:" to victim
+			set {Achievement::%victim's uuid%::MyHonestReaction} to true
+			stop
+	
+command /returndeath [<offline player>]:
+	trigger:
+		send "&9%arg-1% has died &a%{DeathCount::%arg-1's uuid%}% times"
+
+command /deathtop:
+	cooldown: 10 minutes
+	cooldown bypass: sk.dev
+	trigger:			
+			
+		set {_index::*} to sorted indexes of {DeathCount::*} in descending order
+		message "&8------&9Top &aDeaths&8------" to player
+		loop 10 times:
+			set {_index} to {_index::%loop-value%}
+			set {_player} to {_index} parsed as offline player
+			set {_playerindexuuid} to uuid of {_player}
+			message "&7%loop-value%.- &6%{_player}'s name% &8» &b%{DeathCount::%{_playerindexuuid}%}%" to player
+			if {_index} > 10:
+				stop
+		message "&8------&9Top &aDeaths&8------" to player

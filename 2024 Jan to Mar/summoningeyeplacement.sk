@@ -1,0 +1,162 @@
+command sendgroup:
+	trigger:
+		send player's group to player
+
+on right click:
+	name of player's tool is "&5Summoning Eye":
+		cancel event
+
+on right click on end portal frame:
+	if difference between now and {SummoningEyePlacementCooldown::%player's uuid%::SummoningEyePlacementCooldown} is less than 2 seconds:
+		cancel event
+		stop
+	else:
+		player's world is "world_the_end"
+		name of player's tool is "&5Summoning Eye":
+			if {EnderMageSpawned} is true:
+				message "&8[&c✖&8] &7An &5Ender Mage &7is currently spawned!" to player
+				stop
+			if {DragonSpawned} is true:
+				message "&8[&c✖&8] &7A &5dragon &7is currently spawned!" to player
+				stop
+			if {SapphirePlaced} > 0:
+				message "&8[&c✖&8] &7A &dsapphire &7is currently placed!" to player
+				stop
+			if {DragonSpawned} is not true:
+				set {SummoningEyePlacementCooldown::%player's uuid%::SummoningEyePlacementCooldown} to now
+				play sound "block.end_portal_frame.fill" to all players
+				remove 1 of ender eye named "&5Summoning Eye" from player's inventory
+				add 1 to {SummoningEyesPlaced}
+				if {SummoningEyesPlaced} is not 4:
+					broadcast "&5🐉 %hexfix(player's prefix)%%player% &dplaced a Summoning Eye &7(&e%{SummoningEyesPlaced}%&7/&a4&7)"
+				if {SummoningEyesPlaced} is 4:
+					broadcast "&5🐉 %hexfix(player's prefix)%%player% &dplaced a Summoning Eye &7(&a4&7/&a4&7)"
+				set {SpecificPlayerEyePlaced::%location at event-block%} to player's uuid
+				wait 1 tick
+				set block at location at event-block to amethyst block
+				if {SummoningEyesPlaced} is 4:
+					set {DragonSpawned} to true
+					loop {SpecificPlayerEyePlaced::*}:
+						set {_randgemt2} to random integer between 1 and 3
+						set {_ZZplayer} to "%loop-value%" parsed as player
+						if {_randgemt2} is 1:
+							broadcast "&5🐉 %hexfix({_ZZplayer}'s prefix)%%{_ZZplayer}% &7got a &aT2 Green Gem"
+							give {_ZZplayer} 1 of {Tier2GreenGem}
+						if {_randgemt2} is 2:
+							broadcast "&5🐉 %hexfix({_ZZplayer}'s prefix)%%{_ZZplayer}% &7got a &cT2 Red Gem"
+							give {_ZZplayer} 1 of {Tier2RedGem}
+						if {_randgemt2} is 3:
+							broadcast "&5🐉 %hexfix({_ZZplayer}'s prefix)%%{_ZZplayer}% &7got a &bT2 Blue Gem"
+							give {_ZZplayer} 1 of {Tier2BlueGem}
+					delete {SpecificPlayerEyePlaced::*}
+					set {_random} to a random integer between 1 and 3
+					DragonSpawnCloseMineOpening(1)
+					if {_random} is 1:
+						HyperDragonSpawn(1)
+					if {_random} is 2:
+						LifeDragonSpawn(1)
+					if {_random} is 3:
+						RagingDragonSpawn(1)
+					wait 3 seconds
+					DragonAnimBlocks()
+				
+			stop
+		
+on right click on amethyst block:
+	if difference between now and {SummoningEyePlacementCooldown::%player's uuid%::SummoningEyePlacementCooldown} is less than 2 seconds:
+		cancel event
+		stop
+	else:
+		player's world is "world_the_end"
+		if {DragonSpawned} is true:
+			stop
+		if {SpecificPlayerEyePlaced::%location at event-block%} is player's uuid:
+			subtract 1 from {SummoningEyesPlaced}
+			delete {SpecificPlayerEyePlaced::%location at event-block%}
+			give player 1 of ender eye of soul speed 1 with name "&5Summoning Eye" with hide enchants item flag
+		
+			if location at event-block is location(0.5, 155.5, 2.5, world "world_the_end"):
+				set block at location at event-block to end portal frame
+			
+			if location at event-block is location(0.5, 155.5, -1.5, world "world_the_end"):
+				set block at location at event-block to end portal frame
+			
+			if location at event-block is location(2.5, 155.5, 0.5, world "world_the_end"):
+				set block data of event-block to end_portal_frame[facing=west]
+			
+			if location at event-block is location(-1.5, 155.5, 0.5, world "world_the_end"):
+				set block data of event-block to end_portal_frame[facing=west]
+		
+command /sendeyes:
+	permission: sk.dev
+	trigger:
+		send {SummoningEyesPlaced} to player
+		delete {SpecificPlayerEyePlaced::*}
+		delete {SummoningEyesPlaced}
+		
+		
+function DragonSpawnCloseMineOpening(useless: number):
+	set block data of block at location(1, 155, -1, world "world_the_end") to purple_glazed_terracotta[facing=east]
+	wait 1 tick
+	set block data of block at location(1, 155, 1, world "world_the_end") to purple_glazed_terracotta[facing=south]
+	wait 1 tick
+	set block data of block at location(-1, 155, 1, world "world_the_end") to purple_glazed_terracotta[facing=west]
+	wait 1 tick
+	set block data of block at location(-1, 155, -1, world "world_the_end") to purple_glazed_terracotta[facing=north]
+	loop all players in radius 30 around location(0, 155, 0, world "world_the_end"):
+		play sound "block.chain.place" at pitch 0.5 to loop-player
+	
+	wait 15 ticks
+	
+	
+	set block data of block at location(1, 155, 0, world "world_the_end") to magenta_glazed_terracotta[facing=east]
+	wait 1 tick
+	set block data of block at location(0, 155, -1, world "world_the_end") to magenta_glazed_terracotta[facing=north]
+	wait 1 tick
+	set block data of block at location(0, 155, 1, world "world_the_end") to magenta_glazed_terracotta[facing=south]
+	wait 1 tick
+	set block data of block at location(-1, 155, 0, world "world_the_end") to magenta_glazed_terracotta[facing=west]
+	loop all players in radius 30 around location(0, 155, 0, world "world_the_end"):
+		play sound "block.chain.place" at pitch 0.5 to loop-player
+		
+	wait 15 ticks
+	
+	set block at location(0, 155, 0, world "world_the_end") to bedrock
+	loop all players in radius 30 around location(0, 155, 0, world "world_the_end"):
+		play sound "block.chain.place" at pitch 0.5 to loop-player
+	
+function DragonAnimBlocks():
+	loop {DragonAnimationTopBlocksLOCATIONS::*}:
+		set {_speed} to random number between 0 and 1
+		spawn ("falling %type of block at loop-value%" parsed as an entitytype) at loop-value with nbt from "{DropItem:0}"
+		push last spawned entity up with force {_speed}
+		set {_v} to spherical vector radius 5, yaw {_y}, pitch 0
+		push last spawned entity {_v} at speed {_speed}
+		push last spawned entity up at speed 1
+		add 5 to {_y}
+		set block data of block at loop-value to air
+	
+		
+	set block at location(4, 156, -2, world "world_the_end") to purpur block
+	set block at location(2, 156, 4, world "world_the_end") to purpur block
+	set block at location(-2, 156, 4, world "world_the_end") to purpur block
+	set block at location(-4, 156, -2, world "world_the_end") to purpur block
+	set block at location(-4, 156, 2, world "world_the_end") to purpur block
+	set block at location(4, 155, 2, world "world_the_end") to purpur block
+	set block at location(-2, 156, -4, world "world_the_end") to purpur block
+	set block at location(2, 156, -4, world "world_the_end") to purpur block
+	wait 2 seconds
+	loop {DragonAnimationTopBlocksLOCATIONS::*}:
+		if "%{DragonAnimationTopBlocksBLOCKDATAS::%loop-index%}%" contains "end":
+			set block data of block at loop-value to {DragonAnimationTopBlocksBLOCKDATAS::%loop-index%}
+	
+command setDragStuff:
+	permission: sk.dev
+	trigger:
+		loop all blocks in radius 25 of player where [input is not air]:
+			"%region at loop-block%" contains "drgonspawnanimation"
+			add block data of loop-block to {DragonAnimationTopBlocksBLOCKDATAS::*}
+			add location at loop-block to {DragonAnimationTopBlocksLOCATIONS::*}
+			wait 1 tick
+			send "a" to player
+		broadcast "&6DONE"

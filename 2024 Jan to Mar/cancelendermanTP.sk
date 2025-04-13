@@ -1,0 +1,35 @@
+on entity teleport:
+	if event-entity is enderman:
+		teleport cause is not plugin:
+			cancel event
+		
+on damage:
+	victim's name contains "§x§a§b§0§0§f§b&lENDER MAGE":
+		damage cause is void:
+			loop 3 times:
+				push victim up at speed 50
+				wait 1 tick
+				if victim's y coordinate > 100:
+					exit loop
+					set {_v} to vector from victim to location(-1, 155, 1, world "world_the_end")
+					loop 3 times:
+						push victim {_v} at speed 1
+						wait 1 tick
+
+command sendallentities:
+	permission: sk.dev
+	trigger:
+		loop all entities where [input is an enderman]:
+			send name of loop-entity
+			if name of loop-entity contains "§x§a§b§0§0§f§b&lENDER MAGE":
+				teleport loop-entity to player	
+	
+on pickup:
+	event-projectile is arrow:
+		cancel event
+
+on projectile hit:
+	victim is an enderman:
+		name of shooter's tool contains "&5End Bow":
+			set victim's target to shooter
+			

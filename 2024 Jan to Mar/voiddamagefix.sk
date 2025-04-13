@@ -1,0 +1,16 @@
+on damage:
+	damage cause is the void:
+		victim's world is "world_the_end":
+			teleport victim to location(13, 153, 0, world "world_the_end", 0, 0)
+
+on place of ender chest:
+	player's gamemode is not creative:
+		cancel event
+
+on place of block of amethyst:
+	player's gamemode is not creative:
+		cancel event
+
+on place of any stained glass pane:
+	player's gamemode is not creative:
+		cancel event

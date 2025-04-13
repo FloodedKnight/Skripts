@@ -1,0 +1,51 @@
+function DragonChomp(e: entity):
+	loop all players in radius 70 of {_e}:
+		message "&5&l» &r%{_e}'s name% &5uses: &r&c&nDRAGON CHOMP &c&l&n🐲" to loop-player
+		make {_e} damage loop-player by 1000
+		wait 5 ticks
+		play sound "entity.player.burp" at volume 999 at pitch 0.8 for loop-player
+		wait 5 ticks
+		play sound "entity.player.burp" at volume 999 at pitch 0.8 for loop-player
+		wait 5 ticks
+		play sound "entity.player.burp" at volume 999 at pitch 0.8 for loop-player
+		
+function ProperDragonHealSound(p: player):
+	loop 40 times:
+		play sound "block.note_block.bit" at volume 999 for {_p}
+		wait 5 ticks
+	
+
+function DragonHeal(e: entity):
+	loop all players where [input's world is "world_the_end"]:
+		message "&5&l» &r%{_e}'s name% &5uses: &r&a&nHEAL ♥" to loop-player
+		ProperDragonHealSound(loop-player)
+	loop 40 times:
+		heal {_e} by 100
+		wait 5 ticks
+		
+		
+function DragonLightning(e: entity):
+	loop all players where [input's world is "world_the_end"]:
+		message "&5&l» &r%{_e}'s name% &5uses: &r&b&nLIGHTNING &b&l&n⚡" to loop-player
+		create lightning effect at loop-player
+		make {_e} damage loop-player by 450
+		
+function DragonLaunch(e: entity):
+	loop all players where [input's world is "world_the_end"]:
+		message "&5&l» &r%{_e}'s name% &5uses: &r&6&nLAUNCH &6&l&n↑" to loop-player
+		push loop-player upwards at speed 20
+		
+function DragonMinions(e: entity):
+	loop all players where [input's world is "world_the_end"]:
+		message "&5&l» &r%{_e}'s name% &5uses: &r&d&nMINIONS ☻" to loop-player
+		loop 3 times:
+			spawn enderman at loop-player
+			set {_w} to last spawned enderman
+			set name of {_w} to "&5Dragon Minions"
+			set max health of {_w} to 300
+			set health of {_w} to 300
+			set {_w}'s attack damage attribute to 400
+			set glowing of {_w} to true
+			set {_w}'s target to the loop-player
+			wait 1 tick
+			

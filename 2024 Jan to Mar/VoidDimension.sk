@@ -1,0 +1,49 @@
+on mine:
+	"%region at player%" contains "voiddimension":
+	
+		event-block is redstone block:
+			give player 1 of redstone block
+		event-block is redstone ore:
+			set {_num} to random integer between 3 and 6
+			give player {_num} of redstone dust
+			
+		event-block is diamond block:
+			give player 1 of diamond block
+		event-block is diamond ore:
+			set {_num} to random integer between 2 and 4
+			give player {_num} of diamond
+			
+		event-block is emerald block:
+			give player 1 of emerald block
+		event-block is emerald ore:
+			set {_num} to random integer between 2 and 4
+			give player {_num} of emerald
+			
+		event-block is oak log:
+			give player 1 of oak log
+			
+		event-block is gold block:
+			give player 1 of gold block
+		event-block is gold ore:
+			set {_num} to random integer between 1 and 4
+			give player {_num} of gold ingot
+	
+		event-block is iron block:
+			give player 1 of iron block
+		event-block is iron ore:
+			set {_num} to random integer between 1 and 4
+			give player {_num} of iron ingot
+			
+		event-block is stone:
+			give player 1 of cobblestone
+			
+		event-block is crying obsidian:
+			give player 1 of crying obsidian
+		event-block is obsidian:
+			give player 1 of obsidian
+			
+		event-block is coal block:
+			give player 1 of coal block
+		event-block is coal ore:
+			set {_num} to random integer between 2 and 4
+			give player {_num} of coal

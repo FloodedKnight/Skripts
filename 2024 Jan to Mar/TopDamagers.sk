@@ -1,0 +1,307 @@
+
+
+on death of ender dragon:
+	delete boss bar with id "RagingDragonBossBar"
+	delete boss bar with id "HyperDragonBossBar"
+	delete boss bar with id "LifeDragonBossBar"
+	delete boss bar with id "FinalDragonBossBar"
+	execute console command "/deactivatehexagon"
+	
+	loop all monsters:
+		name of loop-monster is "&5Dragon Minions"
+		kill loop-monster
+		
+	unformatted name of victim contains "Ultimate":
+		set {_u} to uuid int array as string from victim
+		give {mob::%{_u}%} 1 of dragon egg of soul speed 1 named "&dThe Dragon Egg" with lore "&d&l&kM &d&lMYTHIC &d&l&kM" with hide enchants item flag
+		delete {mob::%{_u}%}
+	set {_index::*} to sorted indexes of {DragonDamageTop::*} in descending order
+	
+	
+# &#7F14CCEnd Talisman   §x§7§F§1§4§C§CE
+	
+	
+	loop all players:
+		message "&a&m                                                                                " to loop-player
+		send "" to loop-player
+		name of victim is "&c&lRaging Dragon":
+			message "                        &r&6&lRAGING DRAGON DOWN!" to loop-player
+		name of victim is "&b&lHyper Dragon":
+			message "                        &r&6&lHYPER DRAGON DOWN!" to loop-player
+		name of victim is "&a&lLife Dragon":
+			message "                        &r&6&lLIFE DRAGON DOWN!" to loop-player
+		unformatted name of victim is "M Ultimate Dragon M":
+			message "                 &r&4&l&kM &r&6&lULTIMATE &c&lDRAGON &r&4&l&kM &r&6&lDOWN!" to loop-player
+		send "" to loop-player
+		loop 3 times:
+			set {_index} to {_index::%loop-value-2%}
+			set {_player} to {_index} parsed as offline player	
+			if loop-value-2 is 1:
+				send "          &e&l%loop-value-2%st Damager &r&7- %hexfix({_player}'s prefix)%%{_player}% &r&7» &c%{DragonDamageTop::%{_player}'s uuid%}%" to loop-player
+			if loop-value-2 is 2:
+				send "          &6&l%loop-value-2%nd Damager &r&7- %hexfix({_player}'s prefix)%%{_player}% &r&7» &c%{DragonDamageTop::%{_player}'s uuid%}%" to loop-player
+			if loop-value-2 is 3:
+				send "          &c&l%loop-value-2%rd Damager &r&7- %hexfix({_player}'s prefix)%%{_player}% &r&7» &c%{DragonDamageTop::%{_player}'s uuid%}%" to loop-player
+		message "" to loop-player
+		message "                        &7Your Damage: &c%{DragonDamageTop::%loop-player's uuid%} ? 0% " to loop-player
+		message "" to loop-player
+		message "&a&m                                                                                " to loop-player
+		if {DragonDamageTop::%loop-player's uuid%} > 0:
+			set {Collections::%loop-player's uuid%::Dragons} to ({Collections::%loop-player's uuid%::Dragons} + 1)
+			wait 1 tick
+			if {Collections::%loop-player's uuid%::Dragons} = 1:
+				play sound "entity.player.levelup" to loop-player
+				send "" to loop-player
+				send " &6&lCOLLECTION UNLOCKED" to loop-player
+				send smallFont(" &5Dragons") to loop-player
+				send "" to loop-player
+			if {Collections::%loop-player's uuid%::Dragons} = 5:
+				CollectionLevelUp("&5Dragons", 2, loop-player)
+			if {Collections::%loop-player's uuid%::Dragons} = 10:
+				CollectionLevelUp("&5Dragons", 3, loop-player)	
+			if {Collections::%loop-player's uuid%::Dragons} = 15:
+				CollectionLevelUp("&5Dragons", 4, loop-player)	
+			if {Collections::%loop-player's uuid%::Dragons} = 20:
+				CollectionLevelUp("&5Dragons", 5, loop-player)	
+			if {Collections::%loop-player's uuid%::Dragons} = 25:
+				CollectionLevelUp("&5Dragons", 6, loop-player)	
+			if {Collections::%loop-player's uuid%::Dragons} = 30:
+				CollectionLevelUp("&5Dragons", 7, loop-player)	
+			if {Collections::%loop-player's uuid%::Dragons} = 35:
+				CollectionLevelUp("&5Dragons", 8, loop-player)	
+			if {Collections::%loop-player's uuid%::Dragons} = 40:
+				CollectionLevelUp("&5Dragons", 9, loop-player)	
+			if {Collections::%loop-player's uuid%::Dragons} = 50:
+				CollectionLevelUp("&5Dragons", 10, loop-player)	
+
+	loop 3 times:
+		wait 1 second
+		set {_index} to {_index::%loop-value%}
+		set {_player} to {_index} parsed as offline player
+		set {_RewardLuck} to a random integer between 1 and 100
+		set {_EndTalsLuck} to a random integer between 1 and 100
+		
+		if loop-value is 1:		
+		
+			if {_EndTalsLuck} is between 1 and 50:
+				raredropSFX({_player})
+				broadcast formatted "<tooltip:&7Teleports you back to your death spot>&5🐉 &6&lRARE DROP! %hexfix({_player}'s prefix)%%{_player}% &epicked up an &x&7&F&1&4&C&CEnd Talisman &d(50%%)<reset>"
+				give {_player} 1 of black dye of soul speed 1 named "§x§7§F§1§4§C§CEnd Talisman &8[&7💎💎💎💎💎&8]" with lore "", "&e&lOFFHAND:", smallFont("&7- teleports you back to your death spot"), smallFont("&c⚠ Only works in The End"), "", "&5&lEPIC TALISMAN" with hide enchants item flag
+				
+			if {_RewardLuck} is between 41 and 70:
+				give {_player} 1 of {DragonsWand}
+				raredropSFX({_player})
+				broadcast formatted "<tooltip:&e&lRIGHT CLICK:%nl%&7ѕʜᴏᴏᴛѕ ᴀ ʙᴇᴀᴍ ᴛʜᴀᴛ ɪɴꜰʟɪᴄᴛѕ%nl%&7ᴀʟʟ ᴘʟᴀʏᴇʀѕ ɪɴ ᴛʜᴇ ᴡᴀʏ ᴡɪᴛʜ%nl%&dᴅʀᴀɢᴏɴ᾽ѕ ʙʀᴇᴀᴛʜ>&5🐉 &6&lRARE DROP! %hexfix({_player}'s prefix)%%{_player}% &epicked up a &dDragon's Wand<reset> &d(30%%)"
+					
+			if {_RewardLuck} is between 71 and 100:
+				give {_player} 1 of {EndSmash}
+				raredropSFX({_player})
+				broadcast formatted "<tooltip:&e&lRIGHT CLICK:%nl%&7ʟᴀᴜɴᴄʜᴇѕ ʏᴏᴜ ɪɴᴛᴏ ᴛʜᴇ ᴀɪʀ%nl%&7ᴀɴᴅ ᴛʜᴇɴ ʙʀɪɴɢѕ ʏᴏᴜ ᴅᴏᴡɴ,%nl%&7ᴄᴀᴜѕɪɴɢ ᴀ ᴍᴀѕѕɪᴠᴇ ѕʜᴏᴄᴋᴡᴀᴠᴇ>&5🐉 &6&lRARE DROP! %hexfix({_player}'s prefix)%%{_player}% &epicked up a &dEnd Smash<reset> &d(30%%)"
+				
+
+			if any:
+				name of victim is "&c&lRaging Dragon"
+				name of victim contains "Ultimate"
+			then:
+				if {_RewardLuck} is between 1 and 15:
+					give {_player} 1 of red dye of soul speed 1 with name "&cRed Sapphire" with lore "&d&l&kM &d&lMYTHIC &d&l&kM" with hide enchants item flag
+					raredropSFX({_player})
+					broadcast "&5🐉 &d&l&kM &r&d&lULTRA RARE DROP! &r&d&l&kM %hexfix({_player}'s prefix)%%{_player}% &epicked up a &cRed Sapphire &d(15%%)"
+					continue
+						
+				if {_RewardLuck} is between 16 and 40:
+					give {_player} 1 of {Tier3RedGem}
+					raredropSFX({_player})
+					broadcast "&5🐉 &6&lRARE DROP! %hexfix({_player}'s prefix)%%{_player}% &epicked up a &cT3 Red Gem &d(25%%)"
+				
+						
+						
+			
+			if any:
+				name of victim is "&b&lHyper Dragon"
+				name of victim contains "Ultimate"
+			then:
+				if {_RewardLuck} is between 1 and 15:
+					give {_player} 1 of cyan dye of soul speed 1 with name "&9Blue Sapphire" with lore "&d&l&kM &d&lMYTHIC &d&l&kM" with hide enchants item flag
+					raredropSFX({_player})
+					broadcast "&5🐉 &d&l&kM &r&d&lULTRA RARE DROP! &r&d&l&kM %hexfix({_player}'s prefix)%%{_player}% &epicked up a &9Blue Sapphire &d(15%%)"
+					continue
+				if {_RewardLuck} is between 16 and 40:
+					give {_player} 1 of {Tier3BlueGem}
+					raredropSFX({_player})
+					broadcast "&5🐉 &6&lRARE DROP! %hexfix({_player}'s prefix)%%{_player}% &epicked up a &bT3 Blue Gem &d(25%%)"
+				
+						
+			if any:
+				name of victim is "&a&lLife Dragon"
+				name of victim contains "Ultimate"
+			then:
+				if {_RewardLuck} is between 1 and 15:
+					give {_player} 1 of lime dye of soul speed 1 with name "&aGreen Sapphire" with lore "&d&l&kM &d&lMYTHIC &d&l&kM" with hide enchants item flag
+					raredropSFX({_player})
+					broadcast "&5🐉 &d&l&kM &r&d&lULTRA RARE DROP! &r&d&l&kM %hexfix({_player}'s prefix)%%{_player}% &epicked up a &aGreen Sapphire &d(15%%)"
+					continue
+				if {_RewardLuck} is between 16 and 40:
+					give {_player} 1 of {Tier3GreenGem}
+					raredropSFX({_player})
+					broadcast "&5🐉 &6&lRARE DROP! %hexfix({_player}'s prefix)%%{_player}% &epicked up a &aT3 Green Gem &d(25%%)"
+					
+		if loop-value is 2:
+			if "%{_player}%" is "<none>":
+				exit loop
+		
+			if {_RewardLuck} is between 56 and 80:
+				raredropSFX({_player})
+				broadcast formatted "<tooltip:&7Teleports you back to your death spot>&5🐉 &6&lRARE DROP! %hexfix({_player}'s prefix)%%{_player}% &epicked up an &x&7&F&1&4&C&CEnd Talisman &d(25%%)<reset>"
+				give {_player} 1 of black dye of soul speed 1 named "§x§7§F§1§4§C§CEnd Talisman &8[&7💎💎💎💎💎&8]" with lore "", "&e&lOFFHAND:", smallFont("&7- teleports you back to your death spot"), smallFont("&c⚠ Only works in The End"), "", "&5&lEPIC TALISMAN" with hide enchants item flag
+				
+			if {_RewardLuck} is between 1 and 15:
+				give {_player} 1 of {DragonsWand}
+				raredropSFX({_player})
+				broadcast formatted "<tooltip:&e&lRIGHT CLICK:%nl%&7ѕʜᴏᴏᴛѕ ᴀ ʙᴇᴀᴍ ᴛʜᴀᴛ ɪɴꜰʟɪᴄᴛѕ%nl%&7ᴀʟʟ ᴘʟᴀʏᴇʀѕ ɪɴ ᴛʜᴇ ᴡᴀʏ ᴡɪᴛʜ%nl%&dᴅʀᴀɢᴏɴ᾽ѕ ʙʀᴇᴀᴛʜ>&5🐉 &6&lRARE DROP! %hexfix({_player}'s prefix)%%{_player}% &epicked up a &dDragon's Wand<reset> &d(15%%)"
+						
+			if {_RewardLuck} is between 16 and 30:
+				give {_player} 1 of {EndSmash}
+				raredropSFX({_player})
+				broadcast formatted "<tooltip:&e&lRIGHT CLICK:%nl%&7ʟᴀᴜɴᴄʜᴇѕ ʏᴏᴜ ɪɴᴛᴏ ᴛʜᴇ ᴀɪʀ%nl%&7&7ᴀɴᴅ ᴛʜᴇɴ ʙʀɪɴɢѕ ʏᴏᴜ ᴅᴏᴡɴ,%nl%&7ᴄᴀᴜѕɪɴɢ ᴀ ᴍᴀѕѕɪᴠᴇ ѕʜᴏᴄᴋᴡᴀᴠᴇ>&5🐉 &6&lRARE DROP! %hexfix({_player}'s prefix)%%{_player}% &epicked up a &dEnd Smash<reset> &d(15%%)"
+				
+
+
+			if any:
+				name of victim is "&c&lRaging Dragon"
+				name of victim contains "Ultimate"
+			then:
+
+						
+				if {_RewardLuck} is between 31 and 55:
+					give {_player} 1 of {Tier2RedGem}
+					raredropSFX({_player})
+					broadcast "&5🐉 &6&lRARE DROP! %hexfix({_player}'s prefix)%%{_player}% &epicked up a &cT2 Red Gem &d(25%%)"
+				
+				if {_RewardLuck} is between 81 and 100:
+					give {_player} 1 of {Tier3RedGem}
+					raredropSFX({_player})
+					broadcast "&5🐉 &6&lRARE DROP! %hexfix({_player}'s prefix)%%{_player}% &epicked up a &cT3 Red Gem &d(20%%)"
+			
+				
+						
+						
+						
+			if any:
+				name of victim is "&b&lHyper Dragon"
+				name of victim contains "Ultimate"
+			then:
+						
+				if {_RewardLuck} is between 31 and 55:
+					give {_player} 1 of {Tier2BlueGem}
+					raredropSFX({_player})
+					broadcast "&5🐉 &6&lRARE DROP! %hexfix({_player}'s prefix)%%{_player}% &epicked up a &bT2 Blue Gem &d(25%%)"
+					
+				if {_RewardLuck} is between 81 and 100:
+					give {_player} 1 of {Tier3BlueGem}
+					raredropSFX({_player})
+					broadcast "&5🐉 &6&lRARE DROP! %hexfix({_player}'s prefix)%%{_player}% &epicked up a &bT3 Blue Gem &d(20%%)"
+				
+						
+			if any:
+				name of victim is "&a&lLife Dragon"
+				name of victim contains "Ultimate"
+			then:
+				if {_RewardLuck} is between 31 and 55:
+					give {_player} 1 of {Tier2GreenGem}
+					raredropSFX({_player})
+					broadcast "&5🐉 &6&lRARE DROP! %hexfix({_player}'s prefix)%%{_player}% &epicked up a &aT2 Green Gem &d(25%%)"
+					
+				if {_RewardLuck} is between 81 and 100:
+					give {_player} 1 of {Tier3GreenGem}
+					raredropSFX({_player})
+					broadcast "&5🐉 &6&lRARE DROP! %hexfix({_player}'s prefix)%%{_player}% &epicked up a &aT3 Green Gem &d(20%%)"
+		
+		if loop-value is 3:
+			if "%{_player}%" is "<none>":
+				exit loop
+		
+			if {_RewardLuck} is between 56 and 80:
+				raredropSFX({_player})
+				broadcast formatted "<tooltip:&7Teleports you back to your death spot>&5🐉 &6&lRARE DROP! %hexfix({_player}'s prefix)%%{_player}% &epicked up an &x&7&F&1&4&C&CEnd Talisman &d(25%%)<reset>"
+			give {_player} 1 of black dye of soul speed 1 named "§x§7§F§1§4§C§CEnd Talisman &8[&7💎💎💎💎💎&8]" with lore "", "&e&lOFFHAND:", smallFont("&7- teleports you back to your death spot"), smallFont("&c⚠ Only works in The End"), "", "&5&lEPIC TALISMAN" with hide enchants item flag
+				
+			if {_RewardLuck} is between 1 and 15:
+				give {_player} 1 of {DragonsWand}
+				raredropSFX({_player})
+				broadcast formatted "<tooltip:&e&lRIGHT CLICK:%nl%&7ѕʜᴏᴏᴛѕ ᴀ ʙᴇᴀᴍ ᴛʜᴀᴛ ɪɴꜰʟɪᴄᴛѕ%nl%&7ᴀʟʟ ᴘʟᴀʏᴇʀѕ ɪɴ ᴛʜᴇ ᴡᴀʏ ᴡɪᴛʜ%nl%&dᴅʀᴀɢᴏɴ᾽ѕ ʙʀᴇᴀᴛʜ>&5🐉 &6&lRARE DROP! %hexfix({_player}'s prefix)%%{_player}% &epicked up a &dDragon's Wand<reset> &d(15%%)"
+						
+			if {_RewardLuck} is between 16 and 30:
+				give {_player} 1 of {EndSmash}
+				raredropSFX({_player})
+				broadcast formatted "<tooltip:&e&lRIGHT CLICK:%nl%&7ʟᴀᴜɴᴄʜᴇѕ ʏᴏᴜ ɪɴᴛᴏ ᴛʜᴇ ᴀɪʀ%nl%&7&7ᴀɴᴅ ᴛʜᴇɴ ʙʀɪɴɢѕ ʏᴏᴜ ᴅᴏᴡɴ,%nl%&7ᴄᴀᴜѕɪɴɢ ᴀ ᴍᴀѕѕɪᴠᴇ ѕʜᴏᴄᴋᴡᴀᴠᴇ>&5🐉 &6&lRARE DROP! %hexfix({_player}'s prefix)%%{_player}% &epicked up a &dEnd Smash<reset> &d(15%%)"
+				
+
+
+			name of victim is "&c&lRaging Dragon":
+
+						
+				if {_RewardLuck} is between 31 and 55:
+					give {_player} 1 of {Tier2RedGem}
+					raredropSFX({_player})
+					broadcast "&5🐉 &6&lRARE DROP! %hexfix({_player}'s prefix)%%{_player}% &epicked up a &cT2 Red Gem &d(50%%)"
+				
+				if {_RewardLuck} is between 81 and 100:
+					give {_player} 1 of {Tier2RedGem}
+					raredropSFX({_player})
+					broadcast "&5🐉 &6&lRARE DROP! %hexfix({_player}'s prefix)%%{_player}% &epicked up a &cT2 Red Gem &d(50%%)"
+						
+						
+						
+			if any:
+				name of victim is "&b&lHyper Dragon"
+				name of victim contains "Ultimate"
+			then:
+						
+				if {_RewardLuck} is between 31 and 55:
+					give {_player} 1 of {Tier2BlueGem}
+					raredropSFX({_player})
+					broadcast "&5🐉 &6&lRARE DROP! %hexfix({_player}'s prefix)%%{_player}% &epicked up a &bT2 Blue Gem &d(50%%)"
+					
+				if {_RewardLuck} is between 81 and 100:
+					give {_player} 1 of {Tier2BlueGem}
+					raredropSFX({_player})
+					broadcast "&5🐉 &6&lRARE DROP! %hexfix({_player}'s prefix)%%{_player}% &epicked up a &bT2 Blue Gem &d(50%%)"
+				
+						
+			if any:
+				name of victim is "&a&lLife Dragon"
+				name of victim contains "Ultimate"
+			then:
+				if {_RewardLuck} is between 31 and 55:
+					give {_player} 1 of {Tier2GreenGem}
+					raredropSFX({_player})
+					broadcast "&5🐉 &6&lRARE DROP! %hexfix({_player}'s prefix)%%{_player}% &epicked up a &aT2 Blue Gem &d(50%%)"
+					
+				if {_RewardLuck} is between 81 and 100:
+					give {_player} 1 of {Tier2GreenGem}
+					raredropSFX({_player})
+					broadcast "&5🐉 &6&lRARE DROP! %hexfix({_player}'s prefix)%%{_player}% &epicked up a &aT2 Blue Gem &d(50%%)"
+		
+	wait 1 tick
+	execute console command "/deletesapphires"
+	delete {DragonDamageTop::*}
+	delete {SummoningEyesPlaced}
+	wait 10 seconds
+	loop {DragonAnimationTopBlocksLOCATIONS::*}:
+		set block data of block at loop-value to {DragonAnimationTopBlocksBLOCKDATAS::%loop-index%}
+	set block at location(0, 155, 2, world "world_the_end") to end portal frame
+	set block at location(0.5, 155.5, -1.5, world "world_the_end") to end portal frame
+	set block data of block at location(2, 155, 0, world "world_the_end") to end_portal_frame[facing=west]
+	set block data of block at location(-1.5, 155, 0.5, world "world_the_end") to end_portal_frame[facing=west]
+	
+	set block at location(1, 155, -1, world "world_the_end") to air
+	set block at location(1, 155, 1, world "world_the_end") to air
+	set block at location(-1, 155, 1, world "world_the_end") to air
+	set block at location(-1, 155, -1, world "world_the_end") to air
+	set block at location(1, 155, 0, world "world_the_end") to air
+	
+	set block at location(0, 155, -1, world "world_the_end") to air
+	set block at location(0, 155, 1, world "world_the_end") to air
+	set block at location(-1, 155, 0, world "world_the_end") to air
+	set block at location(0, 155, 0, world "world_the_end") to air

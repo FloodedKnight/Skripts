@@ -1,0 +1,125 @@
+on break:
+	if "%type of event-block%" contains "red stained glass" or "lime stained glass" or "blue stained glass" or "amethyst":
+		remove haste from player
+		player's gamemode is not creative
+		if name of player's tool does not contain "&5End Drill":
+			cancel event
+			message "&8[&c✖&8] &7You need an &5End Drill &7to mine that." to player
+			stop
+		if event-block is red stained glass or red stained glass pane:
+			clear drops
+			give player 1 of amethyst shard named "&cRed Gem Bit" with lore "&f&lCOMMON"
+			chance of 0.1%:
+				raredropSFX(player)
+				message "&6&lRARE DROP! &cT1 Red Gem &d(0.1%%)" to player
+				give player 1 of {T1RedGem}
+			stop
+		if event-block is light blue stained glass or light blue stained glass pane:
+			clear drops
+			give player 1 of amethyst shard named "&bBlue Gem Bit" with lore "&f&lCOMMON"
+			chance of 0.1%:
+				raredropSFX(player)
+				message "&6&lRARE DROP! &bT1 Blue Gem &d(0.1%%)" to player
+				give player 1 of {T1BlueGem}
+			stop
+		if event-block is lime stained glass or lime stained glass pane:
+			clear drops
+			give player 1 of amethyst shard named "&aGreen Gem Bit" with lore "&f&lCOMMON"
+			chance of 0.1%:
+				raredropSFX(player)
+				message "&6&lRARE DROP! &aT1 Green Gem &d(0.1%%)" to player
+				give player 1 of {T1GreenGem}
+			stop
+		if event-block is amethyst block:
+			clear drops
+			give player 1 of {Randumium}
+			stop
+	else:
+		stop
+	
+on break:
+	"%region at event-block%" contains "gem-balls":
+		"%type of event-block%" does not contain "red" or "lime" or "blue":
+			cancel event
+
+on mine:
+	if name of player's tool contains "&5End Drill":
+		if player's world is "world":
+			cancel event
+			message "&8[&c✖&8] &7You must be in the &5End &7to use that." to player
+
+on mine of end stone:
+	"%region at player%" does not contain "gem-balls"
+	if name of player's tool contains "&5End Drill":
+		player's world is "the_end"
+		clear drops
+		give player 1 of end stone
+	if name of player's tool contains "&5End Drill &8[&b💎":
+		player's world is "the_end"
+		clear drops
+		chance of 25%:
+			give player 1 of end stone
+	if name of player's tool contains "&5End Drill &8[&b💎💎":
+		player's world is "the_end"
+		clear drops
+		remove 1 of plain end stone from player's inventory
+		chance of 40%:
+			remove 1 of plain end stone from player's inventory
+		
+
+on mine of purpur block:
+	"%region at event-block%" contains "mineable-end"
+	if name of player's tool contains "&5End Drill":
+		clear drops
+		give player 1 of purpur block
+			
+on break:
+	if player's world is "world_the_end":
+		if name of player's tool contains "&5End Drill &8[&b💎":
+			if event-block is red stained glass:
+				chance of 40%:
+					give player 1 of amethyst shard named "&cRed Gem Bit" with lore "&f&lCOMMON"
+			if event-block is light blue stained glass:
+				chance of 40%:
+					give player 1 of amethyst shard named "&bBlue Gem Bit" with lore "&f&lCOMMON"
+			if event-block is lime stained glass:
+				chance of 40%:
+					give player 1 of amethyst shard named "&aGreen Gem Bit" with lore "&f&lCOMMON"
+			if event-block is amethyst block:
+				chance of 40%:
+					give player 1 of {Randumium}
+
+command /setVoidDimensionGems:
+	permission: sk.dev
+	trigger:
+		message "&ccheck file GemMining.sk" to player
+		stop
+		delete {GemLocVoidDimension::*}
+		delete {GemColorVoidDimension::*}
+		loop all blocks in radius 50 around player where ["%input's type%" contains ("red" or "lime" or "blue") and "glass"]:
+			add loop-block's location to {GemLocVoidDimension::*}
+			add loop-block's type to {GemColorVoidDimension::*}
+		message "&aSET VOID DIMENSION GEM" to player
+		
+every 5 minutes:
+	loop {GemLocVoidDimension::*}:
+		set block at loop-value to {GemColorVoidDimension::%loop-index%}
+		wait 3 ticks		
+		
+every 10 minutes:
+	loop {GemMineLocVoidBall::*}:
+		set block at loop-value to {SpecificGemVoidBall::%loop-index%}
+		wait 3 ticks
+		
+command GemMineReset:
+	permission: sk.dev
+	trigger:
+		loop {GemMineLocVoidBall::*}:
+			set {_loc} to loop-value
+			set block at {_loc} to {SpecificGemVoidBall::%loop-index%}
+			wait 1 ticks
+		stop
+		loop {GemLocVoidDimension::*}:
+			set block at loop-value to {GemColorVoidDimension::%loop-index%}
+			wait 3 ticks		
+		

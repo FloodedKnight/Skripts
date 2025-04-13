@@ -1,0 +1,532 @@
+on shoot:
+	if name of shooter's tool contains "&5End Bow":
+		endbowtrail(shooter, event-projectile)
+
+on left click:
+	if name of player's tool is "&5End Bow &8[&b💎&7💎💎💎💎&8]":
+		if player has 1 of arrow:
+			remove 1 of arrow from player's inventory
+			wait 3 tick
+			make player shoot an arrow at speed 3
+		else:
+			message "&8[&c✖&8] &7You're out of arrows!" to player
+		
+	
+on left click:
+	if name of player's tool is "&5End Bow &8[&b💎💎&7💎💎💎&8]":
+		if player has 3 of arrow:
+			remove 3 of arrow from player's inventory
+			wait 3 tick
+			make player shoot an arrow at speed 3
+			push last shot projectile right at speed 0.8
+			make player shoot an arrow at speed 3
+			push last shot projectile left at speed 0.8
+			make player shoot an arrow at speed 3
+		else:
+			message "&8[&c✖&8] &7You're out of arrows!" to player
+			
+on left click:
+	if name of player's tool is "&5End Bow &8[&b💎💎💎&7💎💎&8]":
+		if player has 1 of arrow:
+			remove 1 of arrow from player's inventory
+			wait 3 tick
+			make player shoot an arrow at speed 3
+			push last shot projectile right at speed 0.8
+			make player shoot an arrow at speed 3
+			push last shot projectile left at speed 0.8
+			make player shoot an arrow at speed 3
+		else:
+			message "&8[&c✖&8] &7You're out of arrows!" to player
+			
+on left click:
+	if name of player's tool is "&5End Bow &8[&b💎💎💎💎&7💎&8]":
+		if player has 1 of arrow:
+			chance of 50%:
+				remove 1 of arrow from player's inventory
+			wait 3 tick
+			make player shoot an arrow at speed 3
+			push last shot projectile right at speed 0.8
+			make player shoot an arrow at speed 3
+			push last shot projectile left at speed 0.8
+			make player shoot an arrow at speed 3
+		else:
+			message "&8[&c✖&8] &7You're out of arrows!" to player
+		
+on left click:
+	if name of player's tool is "&5End Bow &8[&b💎💎💎💎💎&8]":
+		if player has 1 of arrow:
+			chance of 10%:
+				remove 1 of arrow from player's inventory
+			wait 3 tick
+			make player shoot an arrow at speed 3
+			push last shot projectile right at speed 0.8
+			make player shoot an arrow at speed 3
+			push last shot projectile left at speed 0.8
+			make player shoot an arrow at speed 3
+		else:
+			message "&8[&c✖&8] &7You're out of arrows!" to player		
+			
+on right click:
+	if name of player's tool is "&5End Bow &8[&b💎💎💎💎💎&8]":
+		if player has 1 of arrow:
+			chance of 10%:
+				remove 1 of arrow from player's inventory
+			wait 3 tick
+			make player shoot an arrow at speed 3
+			push last shot projectile right at speed 0.8
+			make player shoot an arrow at speed 3
+			push last shot projectile left at speed 0.8
+			make player shoot an arrow at speed 3
+		else:
+			message "&8[&c✖&8] &7You're out of arrows!" to player	
+		
+function endbowtrail(p: player, arrow: projectile):
+	if {BowTrail::%{_p}'s uuid%::SoulFlame} is true:
+		loop 80 times:
+			if {_arrow} is alive:
+				show soul fire flame at {_arrow}
+				wait 1 ticks
+			else:
+				stop
+		stop
+	if {BowTrail::%{_p}'s uuid%::Firework} is true:
+		loop 80 times:
+			if {_arrow} is alive:
+				show firework's spark at {_arrow}
+				wait 1 ticks
+			else:
+				stop
+		stop
+	if {BowTrail::%{_p}'s uuid%::HappyVillager} is true:
+		loop 80 times:
+			if {_arrow} is alive:
+				show happy villager at {_arrow}
+				wait 1 ticks
+			else:
+				stop
+		stop
+	if {BowTrail::%{_p}'s uuid%::Hearts} is true:
+		loop 80 times:
+			if {_arrow} is alive:
+				show heart at {_arrow}
+				wait 1 ticks
+			else:
+				stop
+		stop
+	if {BowTrail::%{_p}'s uuid%::OrangeFlame} is true:
+		loop 80 times:
+			if {_arrow} is alive:
+				show flame at {_arrow}
+				wait 1 ticks
+			else:
+				stop
+		stop
+	if {BowTrail::%{_p}'s uuid%::WaterSplash} is true:
+		loop 80 times:
+			if {_arrow} is alive:
+				show 5 water splash at {_arrow}
+				wait 1 ticks
+			else:
+				stop
+		stop
+	if {BowTrail::%{_p}'s uuid%::AngryVillager} is true:
+		loop 80 times:
+			if {_arrow} is alive:
+				show angry villager at {_arrow}
+				wait 1 ticks
+			else:
+				stop
+		stop
+	if {BowTrail::%{_p}'s uuid%::RandomColor} is true:
+		set {_r1} to random integer between 1 and 255
+		set {_r2} to random integer between 1 and 255
+		set {_r3} to random integer between 1 and 255
+		loop 80 times:
+			if {_arrow} is alive:
+				draw 1 dust using dustOption(rgb({_r1}, {_r2}, {_r3}), 1) at {_arrow}
+				wait 1 ticks
+			else:
+				stop
+		stop
+	if {BowTrail::%{_p}'s uuid%::None} is true:
+		stop
+
+on projectile hit:
+	if event-projectile is an arrow:
+		wait 10 ticks
+		kill event-projectile
+		
+		
+command /resetbowtrails:
+	permission: sk.dev
+	trigger:
+		delete {BowTrailBought::%player's uuid%::*}
+		delete {BowTrail::%player's uuid%::*}
+		
+command /bowtrailshop:
+	permission: sk.dev
+	trigger:
+		bowtrailSHOP(player)
+		
+function bowtrailSHOP(p: player):
+	open chest inventory with 4 rows named "&5Bow Trails Shop" to {_p}
+	wait 1 tick
+	set {_clickToOpen} to mini message from "<gradient:#FFE259:#FFA751>[!] Click to select"
+	set slot (integers between 0 and 35) of {_p}'s current inventory to black stained glass pane named "&a"
+	set slot 10 of {_p}'s current inventory to campfire of soul speed 1 named "&6Flame Trail" with hide enchants item flag with lore {_clickToOpen}
+	set slot 11 of {_p}'s current inventory to soul campfire of soul speed 1 named "&bSoul Flame Trail" with hide enchants item flag with lore {_clickToOpen}
+	set slot 12 of {_p}'s current inventory to emerald block of soul speed 1 named "&aGreen Spark" with hide enchants item flag with lore {_clickToOpen}
+	set slot 13 of {_p}'s current inventory to white wool of soul speed 1 named "&cRandom Color" with hide enchants item flag with lore {_clickToOpen}
+	set slot 14 of {_p}'s current inventory to redstone dust of soul speed 1 named "&cHearts" with hide enchants item flag with lore {_clickToOpen}
+	set slot 15 of {_p}'s current inventory to water bucket of soul speed 1 named "&9Water" with hide enchants item flag with lore {_clickToOpen}
+	set slot 16 of {_p}'s current inventory to light gray wool of soul speed 1 named "&6Angry Villager" with hide enchants item flag with lore {_clickToOpen}
+	set slot 19 of {_p}'s current inventory to sugar of soul speed 1 named "&fFirework Spark" with hide enchants item flag with lore {_clickToOpen}
+	set slot 20 of {_p}'s current inventory to barrier of soul speed 1 named "&7No Trail" with hide enchants item flag with lore {_clickToOpen}
+	
+	
+	if {BowTrailBought::%{_p}'s uuid%::FlameTrail} is not set:
+		set {_BowTrailOrangeFlame} to campfire of soul speed 1 named "&6Flame Trail" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- 2x t1 blue gem"), smallFont("§x§E§2§6§E§6§E- 1x Soul Stone Fragment")
+		set slot 10 of {_p}'s current inventory to {_BowTrailOrangeFlame}
+		
+	if {BowTrailBought::%{_p}'s uuid%::SoulFlameTrail} is not set:
+		set {_BowTrailSoulFlame} to soul campfire of soul speed 1 named "&bSoul Flame Trail" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- 2x t1 blue gem"), smallFont("§x§E§2§6§E§6§E- 2x space Stone Fragment")
+		
+		set slot 11 of {_p}'s current inventory to {_BowTrailSoulFlame}
+		
+	if {BowTrailBought::%{_p}'s uuid%::GreenSparkle} is not set:
+		set {_BowTrailGreenSparkle} to emerald block of soul speed 1 named "&aGreen Spark" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- 2x t1 blue gem"), smallFont("§x§E§2§6§E§6§E- x4 Time Stone Fragments")
+		set slot 12 of {_p}'s current inventory to {_BowTrailGreenSparkle}
+		
+	if {BowTrailBought::%{_p}'s uuid%::RandomColor} is not set:
+		set {_BowTrailRandomColor} to white wool of soul speed 1 named "&cRandom Color" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- 2x t1 blue gem"), smallFont("§x§E§2§6§E§6§E- x32 command blocks")
+		set slot 13 of {_p}'s current inventory to {_BowTrailRandomColor}
+		
+	if {BowTrailBought::%{_p}'s uuid%::Hearts} is not set:
+		set {_BowTrailHearts} to redstone dust of soul speed 1 named "&cHearts" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- 2x t1 blue gem"), smallFont("§x§E§2§6§E§6§E- x12 blood")
+		set slot 14 of {_p}'s current inventory to {_BowTrailHearts}
+		
+	if {BowTrailBought::%{_p}'s uuid%::WaterSplash} is not set:
+		set {_BowTrailWater} to water bucket of soul speed 1 named "&9Water" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- 2x t1 blue gem"), smallFont("§x§E§2§6§E§6§E- x1 poseidon heads")
+		set slot 15 of {_p}'s current inventory to {_BowTrailWater}
+		
+	if {BowTrailBought::%{_p}'s uuid%::AngryVillager} is not set:
+		set {_BowTrailAngryVillager} to light gray wool of soul speed 1 named "&6Angry Villager" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- 2x t1 blue gem"), smallFont("§x§E§2§6§E§6§E- x2 impostor heads")
+		set slot 16 of {_p}'s current inventory to {_BowTrailAngryVillager}
+		
+	if {BowTrailBought::%{_p}'s uuid%::Firework} is not set:
+		set {_BowTrailFirework} to sugar of soul speed 1 named "&fFirework Spark" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- 2x t1 blue gem"), smallFont("§x§E§2§6§E§6§E- x3 all of techs")
+		set slot 19 of {_p}'s current inventory to {_BowTrailFirework}
+	
+	if {BowTrail::%{_p}'s uuid%::OrangeFlame} is true:
+		set slot 10 of {_p}'s current inventory to campfire of soul speed 1 named "&6Flame Trail" with hide enchants item flag with lore "&aSelected"
+		
+	if {BowTrail::%{_p}'s uuid%::SoulFlame} is true:
+		set slot 11 of {_p}'s current inventory to soul campfire of soul speed 1 named "&bSoul Flame Trail" with hide enchants item flag with lore "&aSelected"
+		
+	if {BowTrail::%{_p}'s uuid%::HappyVillager} is true:
+		set slot 12 of {_p}'s current inventory to emerald block of soul speed 1 named "&aGreen Spark" with hide enchants item flag with lore "&aSelected"
+		
+	if {BowTrail::%{_p}'s uuid%::RandomColor} is true:
+		set slot 13 of {_p}'s current inventory to white wool of soul speed 1 named "&cRandom Color" with hide enchants item flag with lore "&aSelected"
+		
+	if {BowTrail::%{_p}'s uuid%::Hearts} is true:
+		set slot 14 of {_p}'s current inventory to redstone dust of soul speed 1 named "&cHearts" with hide enchants item flag with lore "&aSelected"
+		
+	if {BowTrail::%{_p}'s uuid%::WaterSplash} is true:
+		set slot 15 of {_p}'s current inventory to water bucket of soul speed 1 named "&9Water" with hide enchants item flag with lore "&aSelected"
+		
+	if {BowTrail::%{_p}'s uuid%::AngryVillager} is true:
+		set slot 16 of {_p}'s current inventory to light gray wool of soul speed 1 named "&6Angry Villager" with hide enchants item flag with lore "&aSelected"
+		
+	if {BowTrail::%{_p}'s uuid%::Firework} is true:
+		set slot 19 of {_p}'s current inventory to sugar of soul speed 1 named "&fFirework Spark" with hide enchants item flag with lore "&aSelected"
+		
+	if {BowTrail::%{_p}'s uuid%::None} is true:
+		set slot 20 of {_p}'s current inventory to barrier of soul speed 1 named "&7No Trail" with hide enchants item flag with lore "&aSelected"
+	
+	
+		
+	
+on inventory click:
+	name of player's inventory is "&5Bow Trails Shop":
+		cancel event
+		set {_clickToOpen} to mini message from "<gradient:#FFE259:#FFA751>[!] Click to select"
+		play sound "ui.button.click" at pitch 2
+		if lore of event-slot is "&aSelected":
+			message "&8[&c✖&8] &7You already have that bow trail selected!" to player
+			close player's inventory
+			play sound "block.note_block.pling" at pitch 0 to player
+			stop
+		if event-slot is 10:
+			if {BowTrailBought::%player's uuid%::FlameTrail} is not set:
+				if player has 2 of {T1BlueGem}:
+					if player has 1 of gold ingot named "&eѕᴏᴜʟ ѕᴛᴏɴᴇ ꜰʀᴀɢᴍᴇɴᴛ":
+						remove 2 of {T1BlueGem} from player's inventory
+						remove 1 of gold ingot named "&eѕᴏᴜʟ ѕᴛᴏɴᴇ ꜰʀᴀɢᴍᴇɴᴛ" from player's inventory
+						play sound "entity.player.levelup" at pitch 2 to player
+						send "&6[&c-&6] &7x2 T1 Blue Gem"
+						send "&6[&c-&6] &7x1 Soul Stone Fragment"
+						send "&6[&a+&6] &7Flames Bow Trail"
+						set {BowTrailBought::%player's uuid%::FlameTrail} to true
+						FineAdditionToMyCollection(player)
+						close player's inventory
+					else:
+						close player's inventory
+						send "&8[&c✖&8] &7You don't have enough resources!" to player 
+						play sound "block.note_block.pling" at pitch 0 to player
+				else:
+					close player's inventory
+					send "&8[&c✖&8] &7You don't have enough resources!" to player 
+					play sound "block.note_block.pling" at pitch 0 to player
+			if lore of event-slot is {_clickToOpen}:
+				close player's inventory
+				delete {BowTrail::%player's uuid%::*}
+				wait 2 ticks
+				set {BowTrail::%player's uuid%::OrangeFlame} to true
+				send "&aYou have selected the bow trail: &6&nFlame Trail" to player
+				play sound "block.note_block.pling" at pitch 2 to player
+				stop
+				
+				
+		if event-slot is 11:
+			if {BowTrailBought::%player's uuid%::SoulFlameTrail} is not set:
+				if player has 2 of {T1BlueGem}:
+					if player has 2 of heart of the sea named "&3ѕᴘᴀᴄᴇ ѕᴛᴏɴᴇ ꜰʀᴀɢᴍᴇɴᴛ":
+						remove 2 of {T1BlueGem} from player's inventory
+						remove 2 of heart of the sea named "&3ѕᴘᴀᴄᴇ ѕᴛᴏɴᴇ ꜰʀᴀɢᴍᴇɴᴛ" from player's inventory
+						play sound "entity.player.levelup" at pitch 2 to player
+						send "&6[&c-&6] &7x2 T1 Blue Gem"
+						send "&6[&c-&6] &7x2 Space Stone Fragments"
+						send "&6[&a+&6] &7Soul Flames Bow Trail"
+						set {BowTrailBought::%player's uuid%::SoulFlameTrail} to true
+						FineAdditionToMyCollection(player)
+						close player's inventory
+					else:
+						close player's inventory
+						send "&8[&c✖&8] &7You don't have enough resources!" to player 
+						play sound "block.note_block.pling" at pitch 0 to player
+				else:
+					close player's inventory
+					send "&8[&c✖&8] &7You don't have enough resources!" to player 
+					play sound "block.note_block.pling" at pitch 0 to player
+					
+			if lore of event-slot is {_clickToOpen}:
+				close player's inventory
+				delete {BowTrail::%player's uuid%::*}
+				wait 2 ticks
+				set {BowTrail::%player's uuid%::SoulFlame} to true
+				send "&aYou have selected the bow trail: &b&nSoul Flame Trail" to player
+				play sound "block.note_block.pling" at pitch 2 to player
+				stop
+		
+		if event-slot is 12:
+			if {BowTrailBought::%player's uuid%::GreenSparkle} is not set:
+				if player has 2 of {T1BlueGem}:
+					if player has 4 of emerald named "&aᴛɪᴍᴇ ѕᴛᴏɴᴇ ꜰʀᴀɢᴍᴇɴᴛ":
+						remove 2 of {T1BlueGem} from player's inventory
+						remove 4 of emerald named "&aᴛɪᴍᴇ ѕᴛᴏɴᴇ ꜰʀᴀɢᴍᴇɴᴛ" from player's inventory
+						play sound "entity.player.levelup" at pitch 2 to player
+						send "&6[&c-&6] &7x2 T1 Blue Gem"
+						send "&6[&c-&6] &7x4 Time Stone Fragments"
+						send "&6[&a+&6] &7Green Sparks Bow Trail"
+						set {BowTrailBought::%player's uuid%::GreenSparkle} to true
+						FineAdditionToMyCollection(player)
+						close player's inventory
+					else:
+						close player's inventory
+						send "&8[&c✖&8] &7You don't have enough resources!" to player 
+						play sound "block.note_block.pling" at pitch 0 to player
+				else:
+					close player's inventory
+					send "&8[&c✖&8] &7You don't have enough resources!" to player 
+					play sound "block.note_block.pling" at pitch 0 to player
+			
+			if lore of event-slot is {_clickToOpen}:
+				close player's inventory
+				delete {BowTrail::%player's uuid%::*}
+				wait 2 ticks
+				set {BowTrail::%player's uuid%::HappyVillager} to true
+				send "&aYou have selected the bow trail: &a&nGreen Sparks" to player
+				play sound "block.note_block.pling" at pitch 2 to player
+				stop
+			
+		if event-slot is 13:
+			if {BowTrailBought::%player's uuid%::RandomColor} is not set:
+				if player has 2 of {T1BlueGem}:
+					if player has 32 command blocks:
+						remove 2 of {T1BlueGem} from player's inventory
+						remove 32 of command block from player's inventory
+						play sound "entity.player.levelup" at pitch 2 to player
+						send "&6[&c-&6] &7x2 T1 Blue Gem"
+						send "&6[&c-&6] &7x32 Command Blocks"
+						send "&6[&a+&6] &7Random Colors Bow Trail"
+						set {BowTrailBought::%player's uuid%::RandomColor} to true
+						FineAdditionToMyCollection(player)
+						close player's inventory
+					else:
+						close player's inventory
+						send "&8[&c✖&8] &7You don't have enough resources!" to player 
+						play sound "block.note_block.pling" at pitch 0 to player
+				else:
+					close player's inventory
+					send "&8[&c✖&8] &7You don't have enough resources!" to player 
+					play sound "block.note_block.pling" at pitch 0 to player
+					
+			if lore of event-slot is {_clickToOpen}:
+				close player's inventory
+				delete {BowTrail::%player's uuid%::*}
+				wait 2 ticks
+				set {BowTrail::%player's uuid%::RandomColor} to true
+				send "&aYou have selected the bow trail: &c&nRandom Colors Trail" to player
+				play sound "block.note_block.pling" at pitch 2 to player
+				stop
+				
+				
+		if event-slot is 14:
+			if {BowTrailBought::%player's uuid%::Hearts} is not set:
+				if player has 2 of {T1BlueGem}:
+					if player has 12 of redstone named "&cBlood":
+						remove 2 of {T1BlueGem} from player's inventory
+						remove 12 of redstone named "&cBlood" from player's inventory
+						play sound "entity.player.levelup" at pitch 2 to player
+						send "&6[&c-&6] &7x2 T1 Blue Gem"
+						send "&6[&c-&6] &7x12 Blood"
+						send "&6[&a+&6] &7Hearts Bow Trail"
+						set {BowTrailBought::%player's uuid%::Hearts} to true
+						FineAdditionToMyCollection(player)
+						close player's inventory
+					else:
+						close player's inventory
+						send "&8[&c✖&8] &7You don't have enough resources!" to player 
+						play sound "block.note_block.pling" at pitch 0 to player
+				else:
+					close player's inventory
+					send "&8[&c✖&8] &7You don't have enough resources!" to player 
+					play sound "block.note_block.pling" at pitch 0 to player
+					
+			if lore of event-slot is {_clickToOpen}:
+				close player's inventory
+				delete {BowTrail::%player's uuid%::*}
+				wait 2 ticks
+				set {BowTrail::%player's uuid%::Hearts} to true
+				send "&aYou have selected the bow trail: &c&nHearts" to player
+				play sound "block.note_block.pling" at pitch 2 to player
+				stop
+		
+		if event-slot is 15:
+			if {BowTrailBought::%player's uuid%::WaterSplash} is not set:
+				if player has 2 of {T1BlueGem}:
+					if player has 1 of {PoseidonHeadSkriptFix}:
+						remove 2 of {T1BlueGem} from player's inventory
+						remove 1 of {PoseidonHeadSkriptFix} from player's inventory
+						play sound "entity.player.levelup" at pitch 2 to player
+						send "&6[&c-&6] &7x2 T1 Blue Gem"
+						send "&6[&c-&6] &7x2 Poseidon Head"
+						send "&6[&a+&6] &7Water Bow Trail"
+						set {BowTrailBought::%player's uuid%::WaterSplash} to true
+						FineAdditionToMyCollection(player)
+						close player's inventory
+					else:
+						close player's inventory
+						send "&8[&c✖&8] &7You don't have enough resources!" to player 
+						play sound "block.note_block.pling" at pitch 0 to player
+				else:
+					close player's inventory
+					send "&8[&c✖&8] &7You don't have enough resources!" to player 
+					play sound "block.note_block.pling" at pitch 0 to player
+					
+			if lore of event-slot is {_clickToOpen}:
+				close player's inventory
+				delete {BowTrail::%player's uuid%::*}
+				wait 2 ticks
+				set {BowTrail::%player's uuid%::WaterSplash} to true
+				send "&aYou have selected the bow trail: &9&nWater" to player
+				play sound "block.note_block.pling" at pitch 2 to player
+				stop
+
+		if event-slot is 16:
+			if {BowTrailBought::%player's uuid%::AngryVillager} is not set:
+				if player has 2 of {T1BlueGem}:
+					if player has 2 of {ImpostorHead}:
+						remove 2 of {T1BlueGem} from player's inventory
+						remove 2 of {ImpostorHead} from player's inventory
+						play sound "entity.player.levelup" at pitch 2 to player
+						send "&6[&c-&6] &7x2 T1 Blue Gem"
+						send "&6[&c-&6] &7x2 Impostor Heads"
+						send "&6[&a+&6] &7Angry Villager Bow Trail"
+						set {BowTrailBought::%player's uuid%::AngryVillager} to true
+						FineAdditionToMyCollection(player)
+						close player's inventory
+					else:
+						close player's inventory
+						send "&8[&c✖&8] &7You don't have enough resources!" to player 
+						play sound "block.note_block.pling" at pitch 0 to player
+				else:
+					close player's inventory
+					send "&8[&c✖&8] &7You don't have enough resources!" to player 
+					play sound "block.note_block.pling" at pitch 0 to player
+					
+			if lore of event-slot is {_clickToOpen}:
+				close player's inventory
+				delete {BowTrail::%player's uuid%::*}
+				wait 2 ticks
+				set {BowTrail::%player's uuid%::AngryVillager} to true
+				send "&aYou have selected the bow trail: &6&nAngry Villager" to player
+				play sound "block.note_block.pling" at pitch 2 to player
+				stop
+				
+				
+		if event-slot is 19:
+			if {BowTrailBought::%player's uuid%::Firework} is not set:
+				if player has 2 of {T1BlueGem}:
+					if player has 3 of {AllOfTech}:
+						remove 2 of {T1BlueGem} from player's inventory
+						remove 3 of {AllOfTech} from player's inventory
+						play sound "entity.player.levelup" at pitch 2 to player
+						send "&6[&c-&6] &7x2 T1 Blue Gem"
+						send "&6[&c-&6] &7x3 All of Tech"
+						send "&6[&a+&6] &7Firework Spark Bow Trail"
+						set {BowTrailBought::%player's uuid%::Firework} to true
+						FineAdditionToMyCollection(player)
+						close player's inventory
+					else:
+						close player's inventory
+						send "&8[&c✖&8] &7You don't have enough resources!" to player 
+						play sound "block.note_block.pling" at pitch 0 to player
+				else:
+					close player's inventory
+					send "&8[&c✖&8] &7You don't have enough resources!" to player 
+					play sound "block.note_block.pling" at pitch 0 to player
+					
+			if lore of event-slot is {_clickToOpen}:
+				close player's inventory
+				delete {BowTrail::%player's uuid%::*}
+				wait 2 ticks
+				set {BowTrail::%player's uuid%::Firework} to true
+				send "&aYou have selected the bow trail: &f&nFirework Sparks" to player
+				play sound "block.note_block.pling" at pitch 2 to player
+				stop
+				
+		if event-slot is 20:
+			close player's inventory
+			delete {BowTrail::%player's uuid%::*}
+			wait 2 ticks
+			set {BowTrail::%player's uuid%::None} to true
+			send "&aYou have deselected your bow trail." to player
+			play sound "block.note_block.pling" at pitch 2 to player
+			stop
+			
+function FineAdditionToMyCollection(p: player):
+	if all:
+		{BowTrailBought::%{_p}'s uuid%::WaterSplash} is true
+		{BowTrailBought::%{_p}'s uuid%::Firework} is true
+		{BowTrailBought::%{_p}'s uuid%::AngryVillager} is true
+		{BowTrailBought::%{_p}'s uuid%::FlameTrail} is true
+		{BowTrailBought::%{_p}'s uuid%::SoulFlameTrail} is true
+		{BowTrailBought::%{_p}'s uuid%::GreenSparkle} is true
+		{BowTrailBought::%{_p}'s uuid%::Hearts} is true
+		{BowTrailBought::%{_p}'s uuid%::RandomColor} is true
+	then:
+		broadcast "&8[&5◆&8] &d%{_p}% completed the achievement: &5A Fine Addition to My Collection"
+		play sound "entity.player.levelup" at pitch 0 to all players
+		set {Achievement::%{_p}'s uuid%::AFineAdditionToMyCollection} to true

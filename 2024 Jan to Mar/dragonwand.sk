@@ -1,0 +1,53 @@
+function dragonpoison(p: player, e: entity):
+	loop 10 times:
+		damage {_e} by 10
+		wait 1 second
+
+			
+on right click:
+	{pvptoggle.%player's uuid%.pvptoggle} is not the player
+	name of player's tool = "&dDragon's Wand":
+		if difference between now and {DragonWand::%player's uuid%::DragonWand} is less than 20 seconds:
+			cancel event
+			message "&8[&c✖&8] &dDragon's Wand &cis on cooldown! &8(%difference between {DragonWand::%player's uuid%::DragonWand} and (20 seconds before now)%)" to player
+			stop
+		else:
+			dragonwand(player)
+			set {DragonWand::%player's uuid%::DragonWand} to now
+	
+function dragonwand(p: player):
+	set {_x} to -1
+	set {_x2} to 1
+	set {_loc} to location of {_p}
+	set {_a} to {_p}'s yaw
+	set {_b} to {_p}'s pitch
+	set {_r1} to 123
+	set {_r2} to 0
+	set {_r3} to 255
+	loop 30 times:
+		loop (numbers from -45 to 45):
+			set {_v2} to spherical vector radius 3, yaw loop-value-2 + {_a}, pitch ((loop-value-2 / 2)*{_x}) + {_b}
+			draw 1 of dust using dustOption(rgb({_r1}, {_r2}, {_r3}), 1) at (location ((loop-value-1) - 3) infront of and 1.3 above {_loc}) ~ {_v2} with offset vector(0.1, 0.1, 0.1)
+			draw 1 of dust using dustOption(rgb({_r1}, {_r2}, {_r3}), 1) at (location (((loop-value-1)-3)+0.4) infront of and 1.3 above {_loc}) ~ {_v2} with offset vector(0.1, 0.1, 0.1)
+			draw 1 of dust using dustOption(rgb({_r1}, {_r2}, {_r3}), 1) at (location (((loop-value-1) -3)-0.4) infront of and 1.3 above {_loc}) ~ {_v2} with offset vector(0.1, 0.1, 0.1)
+
+			set {_v2} to spherical vector radius 3, yaw loop-value-2 + {_a}, pitch ((loop-value-2 / 2)*{_x2}) + {_b}
+			draw 1 of dust using dustOption(rgb({_r1}, {_r2}, {_r3}), 1) at (location ((loop-value-1) - 3) infront of and 1.3 above {_loc}) ~ {_v2} with offset vector(0.1, 0.1, 0.1)
+			draw 1 of dust using dustOption(rgb({_r1}, {_r2}, {_r3}), 1) at (location (((loop-value-1)-3)+0.4) infront of and 1.3 above {_loc}) ~ {_v2} with offset vector(0.1, 0.1, 0.1)
+			draw 1 of dust using dustOption(rgb({_r1}, {_r2}, {_r3}), 1) at (location (((loop-value-1) -3)-0.4) infront of and 1.3 above {_loc}) ~ {_v2} with offset vector(0.1, 0.1, 0.1)
+
+		loop all players in radius 3 around (location (loop-value - 5) infront of and 1.3 above {_loc}) where [input is not {_p}]:
+			{pvptoggle.%loop-player's uuid%.pvptoggle} is not the loop-player
+			if {_damaged::*} does not contain loop-player:
+				add loop-player to {_damaged::*}
+				"%region at loop-player%" contains "main"
+				if name of {_p}'s tool is "&dDragon's Wand":
+					make {_p} damage loop-player by 200
+				send "&7You have been inflicted with &dDragon's Breath&7!" to loop-player
+				dragonpoison({_p}, loop-player)
+			else:
+				stop
+		wait 1 tick
+		add 4 to {_r1}
+		add 0 to {_r2}
+		add 0 to {_r3}

@@ -1,0 +1,125 @@
+on left click:
+	name of player's tool = "&5End Staff &8| &dBlack Hole &8[&7💎💎💎&8]":
+		set name of player's tool to "&5End Staff &8| &dDragon Magic &8[&7💎💎💎&8]"
+		stop
+	name of player's tool = "&5End Staff &8| &dDragon Magic &8[&7💎💎💎&8]":
+		set name of player's tool to "&5End Staff &8| &dMechanical Scythe &8[&7💎💎💎&8]"
+		stop
+	name of player's tool = "&5End Staff &8| &dMechanical Scythe &8[&7💎💎💎&8]":
+		set name of player's tool to "&5End Staff &8| &dEnd Smash &8[&7💎💎💎&8]"
+		stop
+	name of player's tool = "&5End Staff &8| &dEnd Smash &8[&7💎💎💎&8]":
+		set name of player's tool to "&5End Staff &8| &dBlack Hole &8[&7💎💎💎&8]"
+		stop
+		
+on left click:
+	name of player's tool = "&5End Staff &8| &dBlack Hole &8[&c💎&7💎💎&8]":
+		set name of player's tool to "&5End Staff &8| &dDragon Magic &8[&c💎&7💎💎&8]"
+		stop
+	name of player's tool = "&5End Staff &8| &dDragon Magic &8[&c💎&7💎💎&8]":
+		set name of player's tool to "&5End Staff &8| &dMechanical Scythe &8[&c💎&7💎💎&8]"
+		stop
+	name of player's tool = "&5End Staff &8| &dMechanical Scythe &8[&c💎&7💎💎&8]":
+		set name of player's tool to "&5End Staff &8| &dEnd Smash &8[&c💎&7💎💎&8]"
+		stop
+	name of player's tool = "&5End Staff &8| &dEnd Smash &8[&c💎&7💎💎&8]":
+		set name of player's tool to "&5End Staff &8| &dBlack Hole &8[&c💎&7💎💎&8]"
+		stop
+		
+on left click:
+	name of player's tool = "&5End Staff &8| &dBlack Hole &8[&c💎💎💎&8]":
+		set name of player's tool to "&5End Staff &8| &dDragon Magic &8[&c💎💎💎&8]"
+		stop
+	name of player's tool = "&5End Staff &8| &dDragon Magic &8[&c💎💎💎&8]":
+		set name of player's tool to "&5End Staff &8| &dMechanical Scythe &8[&c💎💎💎&8]"
+		stop
+	name of player's tool = "&5End Staff &8| &dMechanical Scythe &8[&c💎💎💎&8]":
+		set name of player's tool to "&5End Staff &8| &dEnd Smash &8[&c💎💎💎&8]"
+		stop
+	name of player's tool = "&5End Staff &8| &dEnd Smash &8[&c💎💎💎&8]":
+		set name of player's tool to "&5End Staff &8| &dBlack Hole &8[&c💎💎💎&8]"
+		stop
+
+
+on right click:
+	name of player's tool contains "&5End Staff &8| &dBlack Hole":
+		if difference between now and {BlackHoleWand::%player's uuid%::BlackHoleWand} is less than 90 seconds:
+			cancel event
+			message "&8[&c✖&8] &8Black Hole Wand &cis on cooldown! &8(%difference between {BlackHoleWand::%player's uuid%::BlackHoleWand} and (90 seconds before now)%)" to player
+			stop
+		else:
+			blackholewand(player)
+			set {BlackHoleWand::%player's uuid%::BlackHoleWand} to now
+			
+on right click:
+	name of player's tool contains "&5End Staff &8| &dDragon Magic":
+		if difference between now and {DragonWand::%player's uuid%::DragonWand} is less than 20 seconds:
+			cancel event
+			message "&8[&c✖&8] &dDragon's Wand &cis on cooldown! &8(%difference between {DragonWand::%player's uuid%::DragonWand} and (20 seconds before now)%)" to player
+			stop
+		else:
+			dragonwand(player)
+			set {DragonWand::%player's uuid%::DragonWand} to now
+			
+on right click:
+	name of player's tool is "&5End Staff &8| &dMechanical Scythe &8[&7💎💎💎&8]":
+		if {EndScytheUses::%player's uuid%} = 0:
+			cancel event
+			message "&8[&c✖&8] &8Mechanical Scythe &cis out of uses! &7%{EndScytheUses::%player's uuid%}%/15 Uses" to player
+			stop
+		if {RegeneratingUses::%player's uuid%} is true:
+			cancel event
+			message "&8[&c✖&8] &7Your uses are regenerating since you just joined the game!" to player
+			stop
+		set {_time} to difference between {Randumcombat::%player's uuid%} and now
+		if {_time} < 5 seconds:
+			send action bar "&8[&c✖&8] &cYou can't use this while in combat!" to player
+			stop
+		else:
+			mechanicalscythe(player)
+			
+on right click:
+	name of player's tool is "&5End Staff &8| &dMechanical Scythe &8[&c💎&7💎💎&8]":
+		if {EndScytheUses::%player's uuid%} = 0:
+			cancel event
+			message "&8[&c✖&8] &8Mechanical Scythe &cis out of uses! &7%{EndScytheUses::%player's uuid%}%/25 Uses" to player
+			stop
+		if {RegeneratingUses::%player's uuid%} is true:
+			cancel event
+			message "&8[&c✖&8] &7Your uses are regenerating since you just joined the game!" to player
+			stop
+		set {_time} to difference between {Randumcombat::%player's uuid%} and now
+		if {_time} < 5 seconds:
+			send action bar "&8[&c✖&8] &cYou can't use this while in combat!" to player
+			stop
+		else:
+			mechanicalscythe(player)
+			
+on right click:
+	name of player's tool is "&5End Staff &8| &dMechanical Scythe &8[&c💎💎💎&8]":
+		if {EndScytheUses::%player's uuid%} = 0:
+			cancel event
+			message "&8[&c✖&8] &8Mechanical Scythe &cis out of uses! &7%{EndScytheUses::%player's uuid%}%/45 Uses" to player
+			stop
+		if {RegeneratingUses::%player's uuid%} is true:
+			cancel event
+			message "&8[&c✖&8] &7Your uses are regenerating since you just joined the game!" to player
+			stop
+		set {_time} to difference between {Randumcombat::%player's uuid%} and now
+		if {_time} < 5 seconds:
+			send action bar "&8[&c✖&8] &cYou can't use this while in combat!" to player
+			stop
+		else:
+			mechanicalscythe(player)
+	
+on right click:
+	name of player's tool contains "&5End Staff &8| &dEnd Smash":
+		if difference between now and {EndSmash::%player's uuid%} is less than 60 seconds:
+			cancel event
+			message "&8[&c✖&8] &dEnd Smash &cis on cooldown! &8(%difference between {EndSmash::%player's uuid%} and (60 seconds before now)%)" to player
+			stop
+		else:
+			endsmash(player)
+			set {EndSmash::%player's uuid%} to now
+	
+	

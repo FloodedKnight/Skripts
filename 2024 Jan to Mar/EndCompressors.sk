@@ -1,0 +1,64 @@
+on right click:
+	unformatted name of player's tool = "End Compressor"
+	item cooldown of player's tool for player < 0.05 seconds
+	set item cooldown of player's tool for player to 1 second
+	set {_OREamount} to amount of plain end stone in player's inventory
+	set {_compdecimal} to {_OREamount} / 64
+	set {_compNumber} to floor({_compdecimal})
+	give player {_compNumber} of {CompressedEndstone}
+	remove ({_compNumber} * 64) of plain end stone from player's inventory
+	
+	set {_OREamountPurp} to amount of plain purpur block in player's inventory
+	set {_compdecimalPurp} to {_OREamountPurp} / 64
+	set {_compNumberPurp} to floor({_compdecimalPurp})
+	give player {_compNumberPurp} of {CompressedPurpur}
+	remove ({_compNumberPurp} * 64) of plain purpur block from player's inventory
+	stop
+
+
+on right click:
+	unformatted name of player's offhand tool = "End Compressor"
+	item cooldown of player's offhand tool for player < 0.05 seconds
+	set item cooldown of player's offhand tool for player to 1 second
+	set {_OREamount} to amount of plain end stone in player's inventory
+	set {_compdecimal} to {_OREamount} / 64
+	set {_compNumber} to floor({_compdecimal})
+	give player {_compNumber} of {CompressedEndstone}
+	remove ({_compNumber} * 64) of plain end stone from player's inventory
+	
+	set {_OREamountPurp} to amount of plain purpur block in player's inventory
+	set {_compdecimalPurp} to {_OREamountPurp} / 64
+	set {_compNumberPurp} to floor({_compdecimalPurp})
+	give player {_compNumberPurp} of {CompressedPurpur}
+	remove ({_compNumberPurp} * 64) of plain purpur block from player's inventory
+	stop
+
+on right click:
+	unformatted name of player's tool = "Voidling Compressor"
+	item cooldown of player's tool for player < 0.05 seconds
+	set item cooldown of player's tool for player to 1 second
+	set {_OREamount} to amount of {VoidlingSoulUncomp} in player's inventory
+	set {_compdecimal} to {_OREamount} / 32
+	set {_compNumber} to floor({_compdecimal})
+	give player {_compNumber} of {VoidlingSoulCompressed}
+	remove ({_compNumber} * 32) of {VoidlingSoulUncomp} from player's inventory
+	stop
+
+on right click:
+	unformatted name of player's offhand tool = "Voidling Compressor"
+	item cooldown of player's offhand tool for player < 0.05 seconds
+	set item cooldown of player's offhand tool for player to 1 second
+	set {_OREamount} to amount of {VoidlingSoulUncomp} in player's inventory
+	set {_compdecimal} to {_OREamount} / 32
+	set {_compNumber} to floor({_compdecimal})
+	give player {_compNumber} of {VoidlingSoulCompressed}
+	remove ({_compNumber} * 32) of {VoidlingSoulUncomp} from player's inventory
+	stop
+command /setcompend:
+	permission: sk.dev
+	trigger:
+		set {CompressedEndstone} to player's held item
+		send "&ae" to player
+		wait 3 seconds
+		set {CompressedPurpur} to player's held item
+		send "&ae" to player

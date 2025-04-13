@@ -1,0 +1,889 @@
+# set slot 0 of metadata tag "CustomItemToken" of player to emerald with name "&aEmerald"
+# open (metadata tag "GemBounderShop" of player) to player
+
+function GemBounderShop(p: player):
+	set {_clickToOpen} to mini message from "<gradient:#FFE259:#FFA751>[!] Click to select"
+	set metadata tag "GemBounderShop" of {_p} to chest inventory with 5 rows named "&5Gem Bounder"
+	set slot (integers between 0 and 44) of metadata tag "GemBounderShop" of {_p} to black stained glass pane named "&a"
+	set slot 20 of metadata tag "GemBounderShop" of {_p} to orange dye of soul speed 1 named "&aTalismans" with hide enchants item flag with lore {_clickToOpen}
+	set slot 22 of metadata tag "GemBounderShop" of {_p} to iron sword of soul speed 1 named "&cWeapons" with hide enchants item flag with lore {_clickToOpen}
+	set slot 24 of metadata tag "GemBounderShop" of {_p} to black dye of soul speed 1 named "&bMiscellaneous" with hide enchants item flag with lore {_clickToOpen}
+	open (metadata tag "GemBounderShop" of {_p}) to {_p}
+	
+function GemBounderShopTalismans(p: player):
+	set {_clickToOpen} to mini message from "<gradient:#FFE259:#FFA751>[!] Click to select"
+	set metadata tag "GemBounderShopTalismans" of {_p} to chest inventory with 5 rows named "&5Gem Bounder | Talismans"
+	set slot (integers between 0 and 44) of metadata tag "GemBounderShopTalismans" of {_p} to black stained glass pane named "&a"
+	set slot 20 of metadata tag "GemBounderShopTalismans" of {_p} to brown dye of soul speed 1 named "&6Upgrade Wood Talisman" with hide enchants item flag with lore {_clickToOpen}
+	set slot 21 of metadata tag "GemBounderShopTalismans" of {_p} to iron ingot of soul speed 1 named "&cUpgrade Strength Talisman" with hide enchants item flag with lore {_clickToOpen}
+	set slot 22 of metadata tag "GemBounderShopTalismans" of {_p} to light blue dye of soul speed 1 named "&bUpgrade Speed Talisman" with hide enchants item flag with lore {_clickToOpen}
+	set slot 23 of metadata tag "GemBounderShopTalismans" of {_p} to red dye of soul speed 1 named "&cUpgrade Health Talisman" with hide enchants item flag with lore {_clickToOpen}
+	set slot 24 of metadata tag "GemBounderShopTalismans" of {_p} to brick of soul speed 1 named "&6Upgrade Mining Talisman" with hide enchants item flag with lore {_clickToOpen}
+	set slot 36 of metadata tag "GemBounderShopTalismans" of {_p} to arrow named "&eGo Back"
+	open (metadata tag "GemBounderShopTalismans" of {_p}) to {_p}
+	
+function GemBounderShopWeapons(p: player):
+	set {_clickToOpen} to mini message from "<gradient:#FFE259:#FFA751>[!] Click to select"
+	set metadata tag "GemBounderShopWeapons" of {_p} to chest inventory with 5 rows named "&5Gem Bounder | Weapons"
+	set slot (integers between 0 and 44) of metadata tag "GemBounderShopWeapons" of {_p} to black stained glass pane named "&a"
+	set slot 20 of metadata tag "GemBounderShopWeapons" of {_p} to diamond sword of soul speed 1 named "&8Upgrade Undead Sword" with hide enchants item flag with lore {_clickToOpen}
+	set slot 22 of metadata tag "GemBounderShopWeapons" of {_p} to stick of soul speed 1 named "&bUpgrade Water Staff" with hide enchants item flag with lore {_clickToOpen}
+	set slot 24 of metadata tag "GemBounderShopWeapons" of {_p} to netherite shovel of soul speed 1 named "&dUpgrade End Staff" with hide enchants item flag with lore {_clickToOpen}
+	set slot 36 of metadata tag "GemBounderShopWeapons" of {_p} to arrow named "&eGo Back"
+	open (metadata tag "GemBounderShopWeapons" of {_p}) to {_p}
+	
+function GemBounderShopMisc(p: player):
+	set {_clickToOpen} to mini message from "<gradient:#FFE259:#FFA751>[!] Click to select"
+	set metadata tag "GemBounderShopMisc" of {_p} to chest inventory with 5 rows named "&5Gem Bounder | Misc"
+	set slot (integers between 0 and 44) of metadata tag "GemBounderShopMisc" of {_p} to black stained glass pane named "&a"
+	set slot 20 of metadata tag "GemBounderShopMisc" of {_p} to netherite pickaxe of soul speed 1 named "&5Upgrade End Drill" with hide enchants item flag with lore {_clickToOpen}
+	set slot 22 of metadata tag "GemBounderShopMisc" of {_p} to black dye of soul speed 1 named "&5Upgrade End Talisman" with hide enchants item flag with lore {_clickToOpen}
+	set slot 24 of metadata tag "GemBounderShopMisc" of {_p} to bow of soul speed 1 named "&5Upgrade End Bow" with hide enchants item flag with lore {_clickToOpen}
+	set slot 36 of metadata tag "GemBounderShopMisc" of {_p} to arrow named "&eGo Back"
+	open (metadata tag "GemBounderShopMisc" of {_p}) to {_p}
+	
+function GemBounderShopTalismansStrengthTal(p: player):
+	set metadata tag "GemBounderShopTalismansStrength" of {_p} to chest inventory with 5 rows named "&5Gem Bounder | Talismans | Str..."
+	set slot (integers between 0 and 44) of metadata tag "GemBounderShopTalismansStrength" of {_p} to black stained glass pane named "&a"
+	
+	set {_Strength1} to iron ingot of soul speed 1 named "&cStrength Talisman &8[&a💎&7💎&8]" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- previous upgrade"), smallFont("§x§E§2§6§E§6§E- 1x t3 green gem"), smallFont("&dperks:"), smallFont("&d- 50.0%% » 60.0%% Damage")
+
+	
+	set {_Strength2} to iron ingot of soul speed 1 named "&cStrength Talisman &8[&a💎💎&8]" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- previous upgrade"), smallFont("§x§E§2§6§E§6§E- 1x t3 green gem"), smallFont("&dperks:"), smallFont("&d- 60.0%% » 67.5%% Damage")
+	
+	set slot 21 of metadata tag "GemBounderShopTalismansStrength" of {_p} to {_Strength1}
+	set slot 23 of metadata tag "GemBounderShopTalismansStrength" of {_p} to {_Strength2}
+	set slot 36 of metadata tag "GemBounderShopTalismansStrength" of {_p} to arrow named "&eGo Back"
+	open (metadata tag "GemBounderShopTalismansStrength" of {_p}) to {_p}
+
+function GemBounderShopTalismansSpeedTal(p: player):
+	set metadata tag "GemBounderShopTalismansSpeed" of {_p} to chest inventory with 5 rows named "&5Gem Bounder | Talismans | Speed"
+	set slot (integers between 0 and 44) of metadata tag "GemBounderShopTalismansSpeed" of {_p} to black stained glass pane named "&a"
+	
+	set {_Speed1} to light blue dye of soul speed 1 named "&bSpeed Talisman &8[&a💎&7💎💎💎&8]" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- previous upgrade"), smallFont("§x§E§2§6§E§6§E- 1x t3 green gem"), smallFont("&dperks:"), smallFont("&d- 22.5%% » 27.5%% Speed")
+	
+	set {_Speed2} to light blue dye of soul speed 1 named "&bSpeed Talisman &8[&a💎💎&7💎💎&8]" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- previous upgrade"), smallFont("§x§E§2§6§E§6§E- 1x t3 green gem"), smallFont("&dperks:"), smallFont("&d- 27.5%% » 32.5%% Speed")
+	
+	set {_Speed3} to light blue dye of soul speed 1 named "&bSpeed Talisman &8[&a💎💎💎&7💎&8]" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- previous upgrade"), smallFont("§x§E§2§6§E§6§E- 1x t3 green gem"), smallFont("&dperks:"), smallFont("&d- 32.5%% » 35.0%% Speed")
+	
+	set {_Speed4} to light blue dye of soul speed 1 named "&bSpeed Talisman &8[&a💎💎💎💎&8]" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- previous upgrade"), smallFont("§x§E§2§6§E§6§E- 1x t3 green gem"), smallFont("&dperks:"), smallFont("&d- 35.0%% » 40.0%% Speed")
+
+	set slot 20 of metadata tag "GemBounderShopTalismansSpeed" of {_p} to {_Speed1}
+	set slot 21 of metadata tag "GemBounderShopTalismansSpeed" of {_p} to {_Speed2}
+	set slot 23 of metadata tag "GemBounderShopTalismansSpeed" of {_p} to {_Speed3}
+	set slot 24 of metadata tag "GemBounderShopTalismansSpeed" of {_p} to {_Speed4}
+	set slot 36 of metadata tag "GemBounderShopTalismansSpeed" of {_p} to arrow named "&eGo Back"
+	open (metadata tag "GemBounderShopTalismansSpeed" of {_p}) to {_p}
+	
+function GemBounderShopTalismansMiningTal(p: player):
+	set metadata tag "GemBounderShopTalismansMining" of {_p} to chest inventory with 5 rows named "&5Gem Bounder | Talismans | Mining"
+	set slot (integers between 0 and 44) of metadata tag "GemBounderShopTalismansMining" of {_p} to black stained glass pane named "&a"
+	
+	set {_Mining1} to brick of soul speed 1 named "&6Mining Talisman &8[&a💎&7💎&8]" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- previous upgrade"), smallFont("§x§E§2§6§E§6§E- 1x t3 green gem"), smallFont("&dperks:"), smallFont("&d- 0.015%% » 0.0175%% Bonus Drops")
+
+	
+	set slot 22 of metadata tag "GemBounderShopTalismansMining" of {_p} to {_Mining1}
+	set slot 36 of metadata tag "GemBounderShopTalismansMining" of {_p} to arrow named "&eGo Back"
+	open (metadata tag "GemBounderShopTalismansMining" of {_p}) to {_p}
+	
+function GemBounderShopTalismansHealthTal(p: player):
+	set metadata tag "GemBounderShopTalismansHealth" of {_p} to chest inventory with 5 rows named "&5Gem Bounder | Talismans | Health"
+	set slot (integers between 0 and 44) of metadata tag "GemBounderShopTalismansHealth" of {_p} to black stained glass pane named "&a"
+	
+	set {_Health1} to red dye of soul speed 1 named "&cHealth Talisman &8[&a💎&7💎💎💎💎&8]" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- previous upgrade"), smallFont("§x§E§2§6§E§6§E- 1x t3 green gem"), smallFont("&dperks:"), smallFont("&d- 30HP » 35HP")
+	
+	set {_Health2} to red dye of soul speed 1 named "&cHealth Talisman &8[&a💎💎💎&7💎💎&8]" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- previous upgrade"), smallFont("§x§E§2§6§E§6§E- 2x t3 green gem"), smallFont("&dperks:"), smallFont("&d- 35HP » 40HP")
+	
+	set {_Health3} to red dye of soul speed 1 named "&cHealth Talisman &8[&a💎💎💎💎💎&8]" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- previous upgrade"), smallFont("§x§E§2§6§E§6§E- 2x t3 green gem"), smallFont("&dperks:"), smallFont("&d- 40HP » 45HP")
+	
+	set slot 20 of metadata tag "GemBounderShopTalismansHealth" of {_p} to {_Health1}
+	set slot 22 of metadata tag "GemBounderShopTalismansHealth" of {_p} to {_Health2}
+	set slot 24 of metadata tag "GemBounderShopTalismansHealth" of {_p} to {_Health3}
+	set slot 36 of metadata tag "GemBounderShopTalismansHealth" of {_p} to arrow named "&eGo Back"
+	open (metadata tag "GemBounderShopTalismansHealth" of {_p}) to {_p}
+	
+function GemBounderShopTalismansWoodTal(p: player):
+	set metadata tag "GemBounderShopTalismansWood" of {_p} to chest inventory with 5 rows named "&5Gem Bounder | Talismans | Wood"
+	set slot (integers between 0 and 44) of metadata tag "GemBounderShopTalismansWood" of {_p} to black stained glass pane named "&a"
+	
+	set {_Wood1} to brown dye of soul speed 1 named "&6Wood Talisman &8[&a💎&7💎&8]" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- previous upgrade"), smallFont("§x§E§2§6§E§6§E- 1x t3 green gem"), smallFont("&dperks:"), smallFont("&d- 15%% chance to drop 3 wood")
+	
+	set {_Wood2} to brown dye of soul speed 1 named "&6Wood Talisman &8[&a💎💎&8]" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- previous upgrade"), smallFont("§x§E§2§6§E§6§E- 1x t3 green gem"), smallFont("&dperks:"), smallFont("&d- 25%% chance to drop 3 wood")
+	
+	set slot 21 of metadata tag "GemBounderShopTalismansWood" of {_p} to {_Wood1}
+	set slot 23 of metadata tag "GemBounderShopTalismansWood" of {_p} to {_Wood2}
+	set slot 36 of metadata tag "GemBounderShopTalismansWood" of {_p} to arrow named "&eGo Back"
+	open (metadata tag "GemBounderShopTalismansWood" of {_p}) to {_p}
+	
+function GemBounderShopWeaponsUndeadSword(p: player):
+	set metadata tag "GemBounderShopWeaponsUndeadSword" of {_p} to chest inventory with 5 rows named "&5Gem Bounder | Weapons | Unde..."
+	set slot (integers between 0 and 44) of metadata tag "GemBounderShopWeaponsUndeadSword" of {_p} to black stained glass pane named "&a"
+	
+	set {_UndeadSword1} to diamond sword of soul speed 1 named "&8Undead Sword &8[&c💎💎&7💎💎&8]" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- previous upgrade"), smallFont("§x§E§2§6§E§6§E- 2x t3 red gem"), smallFont("&dperks:"), smallFont("&d- Triple Shot Skulls"), smallFont("&c- Slower shots")
+	
+	set {_UndeadSword2} to diamond sword of soul speed 1 named "&8Undead Sword &8[&c💎💎💎💎&8]" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- previous upgrade"), smallFont("§x§E§2§6§E§6§E- 2x t3 red gem"), smallFont("&dperks:"), smallFont("&d- faster Shots")
+	
+	set slot 21 of metadata tag "GemBounderShopWeaponsUndeadSword" of {_p} to {_UndeadSword1}
+	set slot 23 of metadata tag "GemBounderShopWeaponsUndeadSword" of {_p} to {_UndeadSword2}
+	set slot 36 of metadata tag "GemBounderShopWeaponsUndeadSword" of {_p} to arrow named "&eGo Back"
+	open (metadata tag "GemBounderShopWeaponsUndeadSword" of {_p}) to {_p}
+
+function GemBounderShopWeaponsWaterStaff(p: player):
+	set metadata tag "GemBounderShopWeaponsWaterStaff" of {_p} to chest inventory with 5 rows named "&5Gem Bounder | Weapons | Wate..."
+	set slot (integers between 0 and 44) of metadata tag "GemBounderShopWeaponsWaterStaff" of {_p} to black stained glass pane named "&a"
+	
+	set {_Trident1} to stick of soul speed 1 named "&9Water Staff &8[&c💎💎&7💎💎💎&8]" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- previous upgrade"), smallFont("§x§E§2§6§E§6§E- 2x t3 red gem"), smallFont("&dperks:"), smallFont("&d- waves are massive")
+	
+	set {_Trident2} to stick of soul speed 1 named "&9Water Staff &8[&c💎💎💎💎💎&8]" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- previous upgrade"), smallFont("§x§E§2§6§E§6§E- 3x t3 red gem"), smallFont("&dperks:"), smallFont("&d- shield gives 270° protection")
+	set slot 21 of metadata tag "GemBounderShopWeaponsWaterStaff" of {_p} to {_Trident1}
+	set slot 23 of metadata tag "GemBounderShopWeaponsWaterStaff" of {_p} to {_Trident2}
+	set slot 36 of metadata tag "GemBounderShopWeaponsWaterStaff" of {_p} to arrow named "&eGo Back"
+	open (metadata tag "GemBounderShopWeaponsWaterStaff" of {_p}) to {_p}
+	
+function GemBounderShopWeaponsEndStaff(p: player):
+	set metadata tag "GemBounderShopWeaponsEndStaff" of {_p} to chest inventory with 5 rows named "&5Gem Bounder | Weapons | Wate..."
+	set slot (integers between 0 and 44) of metadata tag "GemBounderShopWeaponsEndStaff" of {_p} to black stained glass pane named "&a"
+	
+	set {_Trident1} to netherite shovel of soul speed 1 named "&5End Staff &8[&c💎&7💎💎&8]" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- previous upgrade"), smallFont("§x§E§2§6§E§6§E- 1x t3 red gem"), smallFont("&dperks:"), smallFont("&d- end smash does more damage")
+	
+	set {_Trident2} to netherite shovel of soul speed 1 named "&5End Staff &8[&c💎💎💎&8]" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- previous upgrade"), smallFont("§x§E§2§6§E§6§E- 2x t3 red gem"), smallFont("&dperks:"), smallFont("&d- mechanical scythe has 45 uses")
+	
+	set slot 21 of metadata tag "GemBounderShopWeaponsEndStaff" of {_p} to {_Trident1}
+	set slot 23 of metadata tag "GemBounderShopWeaponsEndStaff" of {_p} to {_Trident2}
+	set slot 36 of metadata tag "GemBounderShopWeaponsEndStaff" of {_p} to arrow named "&eGo Back"
+	open (metadata tag "GemBounderShopWeaponsEndStaff" of {_p}) to {_p}
+	
+function GemBounderShopMiscBows(p: player):
+	set metadata tag "GemBounderShopMiscBows" of {_p} to chest inventory with 5 rows named "&5Gem Bounder | Misc | Bows"
+	set slot (integers between 0 and 44) of metadata tag "GemBounderShopMiscBows" of {_p} to black stained glass pane named "&a"
+	
+	set {_EndBow1} to bow of soul speed 1 named "&5End Bow &8[&b💎&7💎💎💎💎&8]" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- previous upgrade"), smallFont("§x§E§2§6§E§6§E- 1x t3 blue gem"), smallFont("&dperks:"), smallFont("&d- increased damage"), smallFont("&d- left click to shoot")
+	
+	set {_EndBow2} to bow of soul speed 1 named "&5End Bow &8[&b💎💎&7💎💎💎&8]" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- previous upgrade"), smallFont("§x§E§2§6§E§6§E- 1x t3 blue gem"), smallFont("&dperks:"), smallFont("&d- increased damage"), smallFont("&d- triple shot")
+	
+	set {_EndBow3} to bow of soul speed 1 named "&5End Bow &8[&b💎💎💎&7💎💎&8]" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- previous upgrade"), smallFont("§x§E§2§6§E§6§E- 1x t3 blue gem"), smallFont("&dperks:"), smallFont("&d- increased damage"), smallFont("&d- uses only 1 arrow")
+	
+	set {_EndBow4} to bow of soul speed 1 named "&5End Bow &8[&b💎💎💎💎&7💎&8]" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- previous upgrade"), smallFont("§x§E§2§6§E§6§E- 1x t3 blue gem"), smallFont("&dperks:"), smallFont("&d- increased damage"), smallFont("&d- 50%% chance to use 1 arrow")
+	
+	set {_EndBow5} to bow of soul speed 1 named "&5End Bow &8[&b💎💎💎💎💎&8]" with hide enchants item flag with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- previous upgrade"), smallFont("§x§E§2§6§E§6§E- 1x t3 blue gem"), smallFont("&dperks:"), smallFont("&d- increased damage"), smallFont("&d- 10%% chance to use 1 arrow")
+	
+	set slot 20 of metadata tag "GemBounderShopMiscBows" of {_p} to {_EndBow1}
+	set slot 21 of metadata tag "GemBounderShopMiscBows" of {_p} to {_EndBow2}
+	set slot 22 of metadata tag "GemBounderShopMiscBows" of {_p} to {_EndBow3}
+	set slot 23 of metadata tag "GemBounderShopMiscBows" of {_p} to {_EndBow4}
+	set slot 24 of metadata tag "GemBounderShopMiscBows" of {_p} to {_EndBow5}
+	set slot 36 of metadata tag "GemBounderShopMiscBows" of {_p} to arrow named "&eGo Back"
+	open (metadata tag "GemBounderShopMiscBows" of {_p}) to {_p}
+	
+function GemBounderShopMiscDrills(p: player):
+	set metadata tag "GemBounderShopMiscDrills" of {_p} to chest inventory with 5 rows named "&5Gem Bounder | Misc | Drills"
+	set slot (integers between 0 and 44) of metadata tag "GemBounderShopMiscDrills" of {_p} to black stained glass pane named "&a"
+	
+	set {_EndDrillTier1} to {EndDrillTier1}
+	set line 9 of lore of {_EndDrillTier1} to "&cᴘʀɪᴄᴇ:"
+	set line 10 of lore of {_EndDrillTier1} to smallFont("§x§E§2§6§E§6§E- previous upgrade")
+	set line 11 of lore of {_EndDrillTier1} to smallFont("§x§E§2§6§E§6§E- 1x t3 blue gem")
+	set {_EndDrillTier2} to {EndDrillTier3}
+	set line 10 of lore of {_EndDrillTier2} to "&cᴘʀɪᴄᴇ:"
+	set line 11 of lore of {_EndDrillTier2} to smallFont("§x§E§2§6§E§6§E- previous upgrade")
+	set line 12 of lore of {_EndDrillTier2} to smallFont("§x§E§2§6§E§6§E- 1x t3 blue gem")
+	
+	set slot 21 of metadata tag "GemBounderShopMiscDrills" of {_p} to {_EndDrillTier1}
+	set slot 23 of metadata tag "GemBounderShopMiscDrills" of {_p} to {_EndDrillTier2}
+	set slot 36 of metadata tag "GemBounderShopMiscDrills" of {_p} to arrow named "&eGo Back"
+	open (metadata tag "GemBounderShopMiscDrills" of {_p}) to {_p}
+	
+function GemBounderShopMiscEndTalisman(p: player):
+	set metadata tag "GemBounderShopMiscEndTalisman" of {_p} to chest inventory with 5 rows named "&5Gem Bounder | Misc | End Talis..."
+	set slot (integers between 0 and 44) of metadata tag "GemBounderShopMiscEndTalisman" of {_p} to black stained glass pane named "&a"
+	
+	set {_EndTalismanTier1} to {EndTalismanTier1}
+	set line 9 of lore of {_EndTalismanTier1} to "&cᴘʀɪᴄᴇ:"
+	set line 10 of lore of {_EndTalismanTier1} to smallFont("§x§E§2§6§E§6§E- previous upgrade")
+	set line 11 of lore of {_EndTalismanTier1} to smallFont("§x§E§2§6§E§6§E- 3x t3 blue gem")
+	
+	set {_EndTalismanTier2} to {EndTalismanTier2}
+	set line 10 of lore of {_EndTalismanTier2} to "&cᴘʀɪᴄᴇ:"
+	set line 11 of lore of {_EndTalismanTier2} to smallFont("§x§E§2§6§E§6§E- previous upgrade")
+	set line 12 of lore of {_EndTalismanTier2} to smallFont("§x§E§2§6§E§6§E- 2x t3 blue gem")
+	
+	set slot 21 of metadata tag "GemBounderShopMiscEndTalisman" of {_p} to {_EndTalismanTier1}
+	set slot 23 of metadata tag "GemBounderShopMiscEndTalisman" of {_p} to {_EndTalismanTier2}
+	set slot 36 of metadata tag "GemBounderShopMiscEndTalisman" of {_p} to arrow named "&eGo Back"
+	open (metadata tag "GemBounderShopMiscEndTalisman" of {_p}) to {_p}
+
+	
+on inventory click:
+	name of player's inventory contains "&5Gem Bounder":
+		cancel event
+		play sound "ui.button.click" at pitch 2
+		
+on inventory click:
+	if event-inventory = (metadata tag "GemBounderShop" of player):
+		if event-slot is 20:
+			close player's inventory
+			GemBounderShopTalismans(player)
+		if event-slot is 22:
+			close player's inventory
+			GemBounderShopWeapons(player)
+		if event-slot is 24:
+			close player's inventory
+			GemBounderShopMisc(player)
+			
+on inventory click:
+	if event-inventory = (metadata tag "GemBounderShopTalismans" of player):
+		if event-slot is 20:
+			close player's inventory
+			GemBounderShopTalismansWoodTal(player)
+		if event-slot is 21:
+			close player's inventory
+			GemBounderShopTalismansStrengthTal(player)
+		if event-slot is 22:
+			close player's inventory
+			GemBounderShopTalismansSpeedTal(player)
+		if event-slot is 23:
+			close player's inventory
+			GemBounderShopTalismansHealthTal(player)
+		if event-slot is 24:
+			close player's inventory
+			GemBounderShopTalismansMiningTal(player)
+		if event-slot is 36:
+			close player's inventory
+			GemBounderShop(player)
+
+on inventory click:
+	if event-inventory = (metadata tag "GemBounderShopWeapons" of player):
+		if event-slot is 20:
+			close player's inventory
+			GemBounderShopWeaponsUndeadSword(player)
+		if event-slot is 22:
+			close player's inventory
+			GemBounderShopWeaponsWaterStaff(player)
+		if event-slot is 24:
+			close player's inventory
+			GemBounderShopWeaponsEndStaff(player)
+		if event-slot is 36:
+			close player's inventory
+			GemBounderShop(player)
+
+on inventory click:
+	if event-inventory = (metadata tag "GemBounderShopMisc" of player):
+		if event-slot is 24:
+			close player's inventory
+			GemBounderShopMiscBows(player)
+		if event-slot is 20:
+			close player's inventory
+			GemBounderShopMiscDrills(player)
+		if event-slot is 22:
+			close player's inventory
+			GemBounderShopMiscEndTalisman(player)
+		if event-slot is 36:
+			close player's inventory
+			GemBounderShop(player)
+			
+			
+on inventory click:
+	if event-inventory = (metadata tag "GemBounderShopTalismansStrength" of player):
+		if event-slot is 21:
+			close player's inventory
+			GreenGemBuyFromGemBounder(player, 1, iron ingot, "&cStrength Talisman &8[&7💎💎&8]", {StrengthTalismanTier1})
+		if event-slot is 23:
+			close player's inventory
+			GreenGemBuyFromGemBounder(player, 1, iron ingot, "&cStrength Talisman &8[&a💎&7💎&8]", {StrengthTalismanTier2})
+		if event-slot is 36:
+			close player's inventory
+			GemBounderShopTalismans(player)
+			
+on inventory click:
+	if event-inventory = (metadata tag "GemBounderShopTalismansSpeed" of player):
+		if event-slot is 20:
+			close player's inventory
+			GreenGemBuyFromGemBounder(player, 1, light blue dye, "&x&0&0&F&5&F&FSpeed Talisman &8[&7💎💎💎💎&8]", {SpeedTalismanTier1})
+		if event-slot is 21:
+			close player's inventory
+			GreenGemBuyFromGemBounder(player, 1, light blue dye, "&x&0&0&F&5&F&FSpeed Talisman &8[&a💎&7💎💎💎&8]", {SpeedTalismanTier2})
+		if event-slot is 23:
+			close player's inventory
+			GreenGemBuyFromGemBounder(player, 1, light blue dye, "&x&0&0&F&5&F&FSpeed Talisman &8[&a💎💎&7💎💎&8]", {SpeedTalismanTier3})
+		if event-slot is 24:
+			close player's inventory
+			GreenGemBuyFromGemBounder(player, 1, light blue dye, "&x&0&0&F&5&F&FSpeed Talisman &8[&a💎💎💎&7💎&8]", {SpeedTalismanTier4})
+		if event-slot is 36:
+			close player's inventory
+			GemBounderShopTalismans(player)
+			
+on inventory click:
+	if event-inventory = (metadata tag "GemBounderShopTalismansHealth" of player):
+		if event-slot is 20:
+			close player's inventory
+			GreenGemBuyFromGemBounder(player, 1, red dye, "&cHealth Talisman &8[&7💎💎💎💎💎&8]", {HealthTalismanTier1})
+		if event-slot is 22:
+			close player's inventory
+			GreenGemBuyFromGemBounder(player, 2, red dye, "&cHealth Talisman &8[&a💎&7💎💎💎💎&8]", {HealthTalismanTier2})
+		if event-slot is 24:
+			close player's inventory
+			GreenGemBuyFromGemBounder(player, 2, red dye, "&cHealth Talisman &8[&a💎💎💎&7💎💎&8]", {HealthTalismanTier3})
+		if event-slot is 36:
+			close player's inventory
+			GemBounderShopTalismans(player)
+			
+on inventory click:
+	if event-inventory = (metadata tag "GemBounderShopTalismansWood" of player):
+		if event-slot is 21:
+			close player's inventory
+			GreenGemBuyFromGemBounder(player, 1, brown dye, "&6Wood Talisman &8[&7💎💎&8]", (brown dye of soul speed 1 named "&6Wood Talisman &8[&a💎&7💎&8]" with lore "", "&e&lOFFHAND:", smallFont("&7Doubles your wood drops and"), smallFont("&7has a 15%% chance to give a 3rd."), "", and "&5&lEPIC TALISMAN" with hide enchants item flag))
+		if event-slot is 23:
+			close player's inventory
+			GreenGemBuyFromGemBounder(player, 1, brown dye, "&6Wood Talisman &8[&a💎&7💎&8]", (brown dye of soul speed 1 named "&6Wood Talisman &8[&a💎💎&8]" with lore "", "&e&lOFFHAND:", smallFont("&7Doubles your wood drops and"), smallFont("&7has a 25%% chance to give a 3rd."), "", and "&5&lEPIC TALISMAN" with hide enchants item flag))
+		if event-slot is 36:
+			close player's inventory
+			GemBounderShopTalismans(player)
+			
+on inventory click:
+	if event-inventory = (metadata tag "GemBounderShopTalismansMining" of player):
+		if event-slot is 22:
+			close player's inventory
+			GreenGemBuyFromGemBounder(player, 1, brick, "§x§f§b§b§1§5§aMining Talisman &8[&7💎💎&8]", (brick of soul speed 1 named "§x§f§b§b§1§5§aMining Talisman &8[&a💎&7💎&8]" with lore "", "&e&lOFFHAND:", smallFont("&7Very small chance of granting"), smallFont("&7bonus ores which can be traded"), smallFont("&7at Zircon. Just interact with him!"), and "" with hide enchants item flag))
+		if event-slot is 36:
+			close player's inventory
+			GemBounderShopTalismans(player)
+			
+on inventory click:
+	if event-inventory = (metadata tag "GemBounderShopWeaponsUndeadSword" of player):
+		if event-slot is 21:
+			if player has 1 of {UndeadSwordNyxGiveSaveItem}:
+				if player has 2 of {Tier3RedGem}:
+					wait 1 tick
+					remove 2 of {Tier3RedGem} from player's inventory
+					remove 1 of {UndeadSwordNyxGiveSaveItem} from player's inventory
+					BoundAGemAnim(1)
+					close player's inventory
+					wait 2 seconds
+					send "" to player
+					send "&6[&c-&6] &7x1 &8Undead Sword" to player
+					send "&6[&c-&6] &7x2 T3 Red Gem" to player
+					send "&6[&a+&6] &7x1 &8Undead Sword [&c💎💎&7💎💎&8]" to player
+					send "" to player
+					give player 1 of unbreakable {UndeadSwordForGemsTier1}
+					play sound "entity.player.levelup" at pitch 2 to player
+					stop
+				else:
+					message "&8[&c✖&8] &7You don't have enough resources!" to player
+					play sound "block.note_block.pling" at pitch 0 to player
+					close player's inventory
+					stop
+			else:
+				message "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+				close player's inventory
+				stop
+				
+		if event-slot is 23:
+			if player has 1 of {UndeadSwordForGemsTier1}:
+				if player has 2 of {Tier3RedGem}:
+					wait 1 tick
+					remove 2 of {Tier3RedGem} from player's inventory
+					remove 1 of {UndeadSwordForGemsTier1} from player's inventory
+					BoundAGemAnim(1)
+					close player's inventory
+					wait 2 seconds
+					send "" to player
+					send "&6[&c-&6] &7x1 &8Undead Sword [&c💎💎&7💎💎&8]" to player
+					send "&6[&c-&6] &7x2 T3 Red Gem" to player
+					send "&6[&a+&6] &7x1 &8Undead Sword [&c💎💎💎💎&8]" to player
+					send "" to player
+					give player 1 of unbreakable {UndeadSwordForGemsTier2}
+					play sound "entity.player.levelup" at pitch 2 to player
+					stop
+				else:
+					message "&8[&c✖&8] &7You don't have enough resources!" to player
+					play sound "block.note_block.pling" at pitch 0 to player
+					close player's inventory
+					stop
+			else:
+				message "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+				close player's inventory
+				stop
+		if event-slot is 36:
+			close player's inventory
+			GemBounderShopWeapons(player)
+
+on inventory click:
+	if event-inventory = (metadata tag "GemBounderShopWeaponsWaterStaff" of player):
+		if event-slot is 21:
+			if player has 1 of stick named "&9Water Staff &8| &bHotter Water &8[&7💎💎💎💎💎&8]":
+				if player has 2 of {Tier3RedGem}:
+					wait 1 tick
+					remove 2 of {Tier3RedGem} from player's inventory
+					remove 1 of stick named "&9Water Staff &8| &bHotter Water &8[&7💎💎💎💎💎&8]" from player's inventory
+					BoundAGemAnim(1)
+					close player's inventory
+					wait 2 seconds
+					send "" to player
+					send "&6[&c-&6] &7x1 &9Water Staff" to player
+					send "&6[&c-&6] &7x2 T3 Red Gem" to player
+					send "&6[&a+&6] &7x1 &9Water Staff &8[&c💎💎&7💎💎💎&8]" to player
+					send "" to player
+					give player 1 of {WaterStaffTier2Fix}
+					play sound "entity.player.levelup" at pitch 2 to player
+					stop
+				else:
+					message "&8[&c✖&8] &7You don't have enough resources!" to player
+					play sound "block.note_block.pling" at pitch 0 to player
+					close player's inventory
+					stop
+			if player has 1 of stick named "&9Water Staff &8| &bWave &8[&7💎💎💎💎💎&8]":
+				if player has 2 of {Tier3RedGem}:
+					wait 1 tick
+					remove 2 of {Tier3RedGem} from player's inventory
+					remove 1 of stick named "&9Water Staff &8| &bWave &8[&7💎💎💎💎💎&8]" from player's inventory
+					BoundAGemAnim(1)
+					close player's inventory
+					wait 2 seconds
+					send "" to player
+					send "&6[&c-&6] &7x1 &9Water Staff" to player
+					send "&6[&c-&6] &7x2 T3 Red Gem" to player
+					send "&6[&a+&6] &7x1 &9Water Staff &8[&c💎💎&7💎💎💎&8]" to player
+					send "" to player
+					give player 1 of {WaterStaffTier2Fix}
+					play sound "entity.player.levelup" at pitch 2 to player
+					stop
+				else:
+					message "&8[&c✖&8] &7You don't have enough resources!" to player
+					play sound "block.note_block.pling" at pitch 0 to player
+					close player's inventory
+					stop
+			if player has 1 of stick named "&9Water Staff &8| &bWater Hook &8[&7💎💎💎💎💎&8]":
+				if player has 2 of {Tier3RedGem}:
+					wait 1 tick
+					remove 2 of {Tier3RedGem} from player's inventory
+					remove 1 of stick named "&9Water Staff &8| &bWater Hook &8[&7💎💎💎💎💎&8]" from player's inventory
+					BoundAGemAnim(1)
+					close player's inventory
+					wait 2 seconds
+					send "" to player
+					send "&6[&c-&6] &7x1 &9Water Staff" to player
+					send "&6[&c-&6] &7x2 T3 Red Gem" to player
+					send "&6[&a+&6] &7x1 &9Water Staff &8[&c💎💎&7💎💎💎&8]" to player
+					send "" to player
+					give player 1 of {WaterStaffTier2Fix}
+					play sound "entity.player.levelup" at pitch 2 to player
+					stop
+				else:
+					message "&8[&c✖&8] &7You don't have enough resources!" to player
+					play sound "block.note_block.pling" at pitch 0 to player
+					close player's inventory
+					stop
+			if player has 1 of stick named "&9Water Staff &8| &bWater Shield &8[&7💎💎💎💎💎&8]":
+				if player has 2 of {Tier3RedGem}:
+					wait 1 tick
+					remove 2 of {Tier3RedGem} from player's inventory
+					remove 1 of stick named "&9Water Staff &8| &bWater Shield &8[&7💎💎💎💎💎&8]" from player's inventory
+					BoundAGemAnim(1)
+					close player's inventory
+					wait 2 seconds
+					send "" to player
+					send "&6[&c-&6] &7x1 &9Water Staff" to player
+					send "&6[&c-&6] &7x2 T3 Red Gem" to player
+					send "&6[&a+&6] &7x1 &9Water Staff &8[&c💎💎&7💎💎💎&8]" to player
+					send "" to player
+					give player 1 of {WaterStaffTier2Fix}
+					play sound "entity.player.levelup" at pitch 2 to player
+					stop
+				else:
+					message "&8[&c✖&8] &7You don't have enough resources!" to player
+					play sound "block.note_block.pling" at pitch 0 to player
+					close player's inventory
+					stop
+			else:
+				message "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+				close player's inventory
+				stop
+				
+		if event-slot is 23:	
+			if player has 1 of stick named "&9Water Staff &8| &bHotter Water &8[&c💎💎&7💎💎💎&8]":
+				if player has 3 of {Tier3RedGem}:
+					wait 1 tick
+					remove 3 of {Tier3RedGem} from player's inventory
+					remove 1 of stick named "&9Water Staff &8| &bHotter Water &8[&c💎💎&7💎💎💎&8]" from player's inventory
+					BoundAGemAnim(1)
+					close player's inventory
+					wait 2 seconds
+					send "" to player
+					send "&6[&c-&6] &7x1 &9Water Staff &8[&c💎💎&7💎💎💎&8]" to player
+					send "&6[&c-&6] &7x2 T3 Red Gem" to player
+					send "&6[&a+&6] &7x1 &9Water Staff &8[&c💎💎💎💎💎&8]" to player
+					send "" to player
+					give player 1 of {WaterStaffTier3Fix}
+					play sound "entity.player.levelup" at pitch 2 to player
+					stop
+				else:
+					message "&8[&c✖&8] &7You don't have enough resources!" to player
+					play sound "block.note_block.pling" at pitch 0 to player
+					close player's inventory
+					stop
+			if player has 1 of stick named "&9Water Staff &8| &bWave &8[&c💎💎&7💎💎💎&8]":
+				if player has 3 of {Tier3RedGem}:
+					wait 1 tick
+					remove 3 of {Tier3RedGem} from player's inventory
+					remove 1 of stick named "&9Water Staff &8| &bWave &8[&c💎💎&7💎💎💎&8]" from player's inventory
+					BoundAGemAnim(1)
+					close player's inventory
+					wait 2 seconds
+					send "" to player
+					send "&6[&c-&6] &7x1 &9Water Staff &8[&c💎💎&7💎💎💎&8]" to player
+					send "&6[&c-&6] &7x2 T3 Red Gem" to player
+					send "&6[&a+&6] &7x1 &9Water Staff &8[&c💎💎💎💎💎&8]" to player
+					send "" to player
+					give player 1 of {WaterStaffTier3Fix}
+					play sound "entity.player.levelup" at pitch 2 to player
+					stop
+				else:
+					message "&8[&c✖&8] &7You don't have enough resources!" to player
+					play sound "block.note_block.pling" at pitch 0 to player
+					close player's inventory
+					stop
+			if player has 1 of stick named "&9Water Staff &8| &bBubble &8[&c💎💎&7💎💎💎&8]":
+				if player has 3 of {Tier3RedGem}:
+					wait 1 tick
+					remove 3 of {Tier3RedGem} from player's inventory
+					remove 1 of stick named "&9Water Staff &8| &bBubble &8[&c💎💎&7💎💎💎&8]" from player's inventory
+					BoundAGemAnim(1)
+					close player's inventory
+					wait 2 seconds
+					send "" to player
+					send "&6[&c-&6] &7x1 &9Water Staff &8[&c💎💎&7💎💎💎&8]" to player
+					send "&6[&c-&6] &7x2 T3 Red Gem" to player
+					send "&6[&a+&6] &7x1 &9Water Staff &8[&c💎💎💎💎💎&8]" to player
+					send "" to player
+					give player 1 of {WaterStaffTier3Fix}
+					play sound "entity.player.levelup" at pitch 2 to player
+					stop
+				else:
+					message "&8[&c✖&8] &7You don't have enough resources!" to player
+					play sound "block.note_block.pling" at pitch 0 to player
+					close player's inventory
+					stop
+			if player has 1 of stick named "&9Water Staff &8| &bWater Shield &8[&c💎💎&7💎💎💎&8]":
+				if player has 3 of {Tier3RedGem}:
+					wait 1 tick
+					remove 3 of {Tier3RedGem} from player's inventory
+					remove 1 of stick named "&9Water Staff &8| &bWater Shield &8[&c💎💎&7💎💎💎&8]" from player's inventory
+					BoundAGemAnim(1)
+					close player's inventory
+					wait 2 seconds
+					send "" to player
+					send "&6[&c-&6] &7x1 &9Water Staff &8[&c💎💎&7💎💎💎&8]" to player
+					send "&6[&c-&6] &7x2 T3 Red Gem" to player
+					send "&6[&a+&6] &7x1 &9Water Staff &8[&c💎💎💎💎💎&8]" to player
+					send "" to player
+					give player 1 of {WaterStaffTier3Fix}
+					play sound "entity.player.levelup" at pitch 2 to player
+					stop
+				else:
+					message "&8[&c✖&8] &7You don't have enough resources!" to player
+					play sound "block.note_block.pling" at pitch 0 to player
+					close player's inventory
+					stop
+			else:
+				message "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+				close player's inventory
+				stop
+		if event-slot is 36:
+			close player's inventory
+			GemBounderShopWeapons(player)
+			
+on inventory click:
+	if event-inventory = (metadata tag "GemBounderShopWeaponsEndStaff" of player):
+		if event-slot is 21:
+			loop all items in player's inventory:
+				if all:
+					name of loop-item contains "&5End Staff"  
+					name of loop-item contains "&8[&7💎💎💎&8]"
+				then:
+					set {_n} to loop-item
+					exit loop
+			if player has 1 of {_n}:
+				if player has 1 of {Tier3RedGem}:
+					wait 1 tick
+					remove 1 of {Tier3RedGem} from player's inventory
+					remove 1 of {_n} from player's inventory
+					BoundAGemAnim(1)
+					close player's inventory
+					wait 2 seconds
+					send "" to player
+					send "&6[&c-&6] &7x1 &5End Staff" to player
+					send "&6[&c-&6] &7x2 T3 Red Gem" to player
+					send "&6[&a+&6] &7x1 &5End Staff &8[&c💎&7💎💎&8]" to player
+					send "" to player
+					give player 1 of {Tier1BoundedEndStaff} named "&5End Staff &8| &dDragon Magic &8[&c💎&7💎💎&8]"
+					play sound "entity.player.levelup" at pitch 2 to player
+					stop
+				else:
+					message "&8[&c✖&8] &7You don't have enough resources!" to player
+					play sound "block.note_block.pling" at pitch 0 to player
+					close player's inventory
+					stop
+		if event-slot is 23:
+			loop all items in player's inventory:
+				if all:
+					name of loop-item contains "&5End Staff"  
+					name of loop-item contains "&8[&c💎&7💎💎&8]"
+				then:
+					set {_n} to loop-item
+					exit loop
+			if player has 1 of {_n}:
+				if player has 2 of {Tier3RedGem}:
+					wait 1 tick
+					set {MechanicalScytheLevel::%player's uuid%} to 1
+					remove 2 of {Tier3RedGem} from player's inventory
+					remove 1 of {_n} from player's inventory
+					BoundAGemAnim(1)
+					close player's inventory
+					wait 2 seconds
+					send "" to player
+					send "&6[&c-&6] &7x1 &5End Staff &8[&c💎&7💎💎&8]" to player
+					send "&6[&c-&6] &7x2 T3 Red Gem" to player
+					send "&6[&a+&6] &7x1 &5End Staff &8[&c💎💎💎&8]" to player
+					send "" to player
+					give player 1 of {Tier1BoundedEndStaff} named "&5End Staff &8| &dDragon Magic &8[&c💎💎💎&8]"
+					play sound "entity.player.levelup" at pitch 2 to player
+					stop
+				else:
+					message "&8[&c✖&8] &7You don't have enough resources!" to player
+					play sound "block.note_block.pling" at pitch 0 to player
+					close player's inventory
+					stop
+		if event-slot is 36:
+			close player's inventory
+			GemBounderShopWeapons(player)
+			
+
+on inventory click:
+	if event-inventory = (metadata tag "GemBounderShopMiscBows" of player):
+		if event-slot is 20:
+			close player's inventory
+			set {_i} to bow of soul speed 1 with name "&5End Bow &8[&b💎&7💎💎💎💎&8]" with lore "", "&7 🏹 Dragon Slayer 2", "&7 ⚡ Fast Shot 1", "", "&5&lEPIC BOW" with hide enchants item flag
+			BlueGemBuyFromGemBounder(player, 1, bow, "&5End Bow &8[&7💎💎💎💎💎&8]", {_i})
+		if event-slot is 21:
+			close player's inventory
+			set {_i} to bow of soul speed 1 with name "&5End Bow &8[&b💎💎&7💎💎💎&8]" with lore "", "&7 🏹 Dragon Slayer 3", "&7 ⚡ Fast Shot 1", "&7 ☠ Triple Shot 1", "", "&5&lEPIC BOW" with hide enchants item flag
+			BlueGemBuyFromGemBounder(player, 1, bow, "&5End Bow &8[&b💎&7💎💎💎💎&8]", {_i})
+		if event-slot is 22:
+			set {_i} to bow of soul speed 1 with name "&5End Bow &8[&b💎💎💎&7💎💎&8]" with lore "", "&7 🏹 Dragon Slayer 3", "&7 ⚡ Fast Shot 1", "&7 ☠ Triple Shot 1", "&7 🍀 Arrow Luck 1", "", "&5&lEPIC BOW" with hide enchants item flag
+			close player's inventory
+			BlueGemBuyFromGemBounder(player, 1, bow, "&5End Bow &8[&b💎💎&7💎💎💎&8]", {_i})
+		if event-slot is 23:
+			set {_i} to bow of soul speed 1 with name "&5End Bow &8[&b💎💎💎💎&7💎&8]" with lore "", "&7 🏹 Dragon Slayer 3", "&7 ⚡ Fast Shot 1", "&7 ☠ Triple Shot 1", "&7 🍀 Arrow Luck 2", "", "&6&lLEGENDARY BOW" with hide enchants item flag
+			close player's inventory
+			BlueGemBuyFromGemBounder(player, 1, bow, "&5End Bow &8[&b💎💎💎&7💎💎&8]", {_i})
+		if event-slot is 24:
+			set {_i} to bow of soul speed 1 with name "&5End Bow &8[&b💎💎💎💎💎&8]" with lore "", "&7 🏹 Dragon Slayer 3", "&7 ⚡ Fast Shot 1", "&7 ☠ Triple Shot 1", "&7 🍀 Arrow Luck 3", "", "&6&lLEGENDARY BOW" with hide enchants item flag
+			close player's inventory
+			BlueGemBuyFromGemBounder(player, 1, bow, "&5End Bow &8[&b💎💎💎💎&7💎&8]", {_i})
+		if event-slot is 36:
+			close player's inventory
+			GemBounderShopMisc(player)
+			
+on inventory click:
+	if event-inventory = (metadata tag "GemBounderShopMiscDrills" of player):
+		if event-slot is 21:
+			if player has 1 of {EndDrillTier0}:
+				if player has {Tier3BlueGem}:
+					wait 1 tick
+					remove 1 of {Tier3BlueGem} from player's inventory
+					remove 1 of {EndDrillTier0} from player's inventory
+					BoundAGemAnim(1)
+					close player's inventory
+					wait 2 seconds
+					send "" to player
+					send "&6[&c-&6] &7x1 &5End Drill &8[&7💎💎&8]" to player
+					send "&6[&c-&6] &7x1 T3 Blue Gem" to player
+					send "&6[&a+&6] &7x1 &5End Drill &8[&b💎&7💎&8]" to player
+					send "" to player
+					give player 1 of {EndDrillTier1}
+					play sound "entity.player.levelup" at pitch 2 to player
+					stop
+				else:
+					message "&8[&c✖&8] &7You don't have enough resources!" to player
+					play sound "block.note_block.pling" at pitch 0 to player
+					close player's inventory
+					stop
+			else:
+				message "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+				close player's inventory
+				stop
+					
+		if event-slot is 23:
+			if player has 1 of {EndDrillTier2}:
+				if player has 1 of {Tier3BlueGem}:
+					wait 1 tick
+					remove 1 of {Tier3BlueGem} from player's inventory
+					remove 1 of {EndDrillTier2} from player's inventory
+					BoundAGemAnim(1)
+					close player's inventory
+					wait 2 seconds
+					send "" to player
+					send "&6[&c-&6] &7x1 &5End Drill &8[&b💎&7💎&8]" to player
+					send "&6[&c-&6] &7x1 T3 Blue Gem" to player
+					send "&6[&a+&6] &7x1 &5End Drill &8[&b💎💎&8]" to player
+					send "" to player
+					give player 1 of {EndDrillTier3}
+					play sound "entity.player.levelup" at pitch 2 to player
+					stop
+				else:
+					message "&8[&c✖&8] &7You don't have enough resources!" to player
+					play sound "block.note_block.pling" at pitch 0 to player
+					close player's inventory
+					stop
+			else:
+				message "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+				close player's inventory
+				stop
+		if event-slot is 36:
+			close player's inventory
+			GemBounderShopMisc(player)
+
+
+on inventory click:
+	if event-inventory = (metadata tag "GemBounderShopMiscEndTalisman" of player):
+		if event-slot is 21:
+			close player's inventory
+			BlueGemBuyFromGemBounder(player, 3, {EndTalismanTier0}, name of {EndTalismanTier0}, {EndTalismanTier1})
+		if event-slot is 23:
+			close player's inventory
+			BlueGemBuyFromGemBounder(player, 2, {EndTalismanTier1}, name of {EndTalismanTier1}, {EndTalismanTier2})
+		if event-slot is 36:
+			close player's inventory
+			GemBounderShopMisc(player)
+			
+		
+function GreenGemBuyFromGemBounder(p: player, amount: number, PrevType: item, name: text, reward: item): 
+	loop all items in {_p}'s inventory:
+		if name of loop-item is "%{_name}%":
+			set {_n} to loop-item
+			exit loop
+	if {_p} has 1 of {_n}:
+		if {_p} has {_amount} of {Tier3GreenGem}:
+			wait 1 tick
+			remove {_amount} of {Tier3GreenGem} from {_p}'s inventory
+			remove 1 of {_n} from {_p}'s inventory
+			BoundAGemAnim(1)
+			close {_p}'s inventory
+			wait 2 seconds
+			send "" to {_p}
+			send "&6[&c-&6] &7x1 %{_name}%" to {_p}
+			send "&6[&c-&6] &7x%{_amount}% T3 Green Gem" to {_p}
+			send "&6[&a+&6] &7x1 %name of {_reward}%" to {_p}
+			send "" to {_p}
+			give {_p} 1 of unbreakable {_reward}
+			play sound "entity.player.levelup" at pitch 2 to {_p}
+			stop
+		else:
+			message "&8[&c✖&8] &7You don't have enough resources!" to {_p}
+			play sound "block.note_block.pling" at pitch 0 to {_p}
+			close {_p}'s inventory
+			stop
+	else:
+		message "&8[&c✖&8] &7You don't have enough resources!" to {_p}
+		play sound "block.note_block.pling" at pitch 0 to {_p}
+		close {_p}'s inventory
+		stop
+		
+function RedGemBuyFromGemBounder(p: player, amount: number, PrevType: item, name: text, reward: item):
+	loop all items in {_p}'s inventory:
+		if name of loop-item is "%{_name}%":
+			set {_n} to loop-item
+			exit loop
+	if {_p} has 1 of {_n}:
+		if {_p} has {_amount} of {Tier3RedGem}:
+			wait 1 tick
+			remove {_amount} of {Tier3RedGem} from {_p}'s inventory
+			remove 1 of {_n} from {_p}'s inventory
+			BoundAGemAnim(1)
+			close {_p}'s inventory
+			wait 2 seconds
+			send "" to {_p}
+			send "&6[&c-&6] &7x1 %{_name}%" to {_p}
+			send "&6[&c-&6] &7x%{_amount}% T3 Red Gem" to {_p}
+			send "&6[&a+&6] &7x1 %name of {_reward}%" to {_p}
+			send "" to {_p}
+			give {_p} 1 of unbreakable {_reward}
+			play sound "entity.player.levelup" at pitch 2 to {_p}
+			stop
+		else:
+			message "&8[&c✖&8] &7You don't have enough resources!" to {_p}
+			play sound "block.note_block.pling" at pitch 0 to {_p}
+			close {_p}'s inventory
+			stop
+	else:
+		message "&8[&c✖&8] &7You don't have enough resources!" to {_p}
+		play sound "block.note_block.pling" at pitch 0 to {_p}
+		close {_p}'s inventory
+		stop
+		
+function BlueGemBuyFromGemBounder(p: player, amount: number, PrevType: item, name: text, reward: item): 
+	loop all items in {_p}'s inventory:
+		if name of loop-item is "%{_name}%":
+			set {_n} to loop-item
+			exit loop
+	if {_p} has 1 of {_n}:
+		if {_p} has {_amount} of {Tier3BlueGem}:
+			wait 1 tick
+			remove {_amount} of {Tier3BlueGem} from {_p}'s inventory
+			remove 1 of {_n} from {_p}'s inventory
+			BoundAGemAnim(1)
+			close {_p}'s inventory
+			wait 2 seconds
+			send "" to {_p}
+			send "&6[&c-&6] &7x1 %{_name}%" to {_p}
+			send "&6[&c-&6] &7x%{_amount}% T3 Blue Gem" to {_p}
+			send "&6[&a+&6] &7x1 %name of {_reward}%" to {_p}
+			send "" to {_p}
+			give {_p} 1 of unbreakable {_reward}
+			play sound "entity.player.levelup" at pitch 2 to {_p}
+			stop
+		else:
+			message "&8[&c✖&8] &7You don't have enough resources!" to {_p}
+			play sound "block.note_block.pling" at pitch 0 to {_p}
+			close {_p}'s inventory
+			stop
+	else:
+		message "&8[&c✖&8] &7You don't have enough resources!" to {_p}
+		play sound "block.note_block.pling" at pitch 0 to {_p}
+		close {_p}'s inventory
+		stop
+		
+function BoundAGemAnim(useless: number):
+	draw 120 of flame at location(34.5, 121, 9.5, world "world_the_end") ~ vector(0, 0, 0) with offset vector(0.5, 1, 0.5) with extra 0
+	loop all players in radius 8 around location(34.5, 121, 9.5, world "world_the_end"):
+		play sound "block.anvil.place" at pitch 0 to loop-player
+	wait 0.8 second
+	draw 120 of flame at location(34.5, 121, 9.5, world "world_the_end") ~ vector(0, 0, 0) with offset vector(0.5, 1, 0.5) with extra 0
+	loop all players in radius 8 around location(34.5, 121, 9.5, world "world_the_end"):
+		play sound "block.anvil.place" at pitch 0 to loop-player
+	wait 0.8 second
+	draw 120 of flame at location(34.5, 121, 9.5, world "world_the_end") ~ vector(0, 0, 0) with offset vector(0.5, 1, 0.5) with extra 0
+	loop all players in radius 8 around location(34.5, 121, 9.5, world "world_the_end"):
+		play sound "block.anvil.place" at pitch 0 to loop-player
+	
+on right click on evoker:
+	evoker has scoreboard tag "gembounder":
+		GemBounderShop(player)
+	
+	
+command GemBounderShop:
+	permission: sk.dev
+	trigger:
+		GemBounderShop(player)
+		
+command /scythefix [<offline player>]:
+	permission: sk.dev
+	trigger:
+		set {MechanicalScytheLevel::%arg-1's uuid%} to 1
+		message "Set &b{MechanicalScytheLevel::&6%arg-1's name%'s uuid&b} &fto 1" to player

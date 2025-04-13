@@ -1,0 +1,177 @@
+
+# UNDEAD SWORD ---------------------------------------------------------------------------
+# UNDEAD SWORD ---------------------------------------------------------------------------
+# UNDEAD SWORD ---------------------------------------------------------------------------
+# UNDEAD SWORD ---------------------------------------------------------------------------
+
+
+# UPGRADE 1: TRIPLE SHOT, SLOWER SHOOT SPEED, COST: 2X OF TIER 3 RED GEMS
+on right click:
+	if name of player's tool = "&8Undead Sword &8[&c💎💎&7💎💎&8]":
+		#{pvptoggle.%player's uuid%.pvptoggle} is not the player
+		if difference between now and {UndeadSwordRclick.%player's uuid%.UndeadSwordRclick} is less than 2 minutes:
+			message "&8[&c✖&8] &cUndead Sword is on cooldown! &8(%difference between {UndeadSwordRclick.%player's uuid%.UndeadSwordRclick} and (2 minutes before now)%)" to player
+			stop
+		else:
+			"%region at player%" contains "arena" or "arena2" or "main":
+				loop 25 times:
+					make player shoot wither skull at speed 1
+					push last spawned wither skull forward at speed 10
+					make player shoot wither skull at speed 1
+					push last shot projectile right at speed 0.4
+					make player shoot wither skull at speed 1
+					push last shot projectile left at speed 0.4
+					wait 7 ticks
+					loop all players in radius 5 of player:
+						play sound "minecraft:entity.wither.shoot" to loop-player
+					set {UndeadSwordRclick.%player's uuid%.UndeadSwordRclick} to now
+			else:
+				message "&8[&c✖&8] &7You must be in the box to do that!" to player
+				
+				
+# UPGRADE 2: BACK TO DEFAULT SPEED, COST: 2X OF TIER 3 RED GEMS		
+on right click with diamond sword:
+	if name of event-item is "&8Undead Sword &8[&c💎💎💎💎&8]":
+		{pvptoggle.%player's uuid%.pvptoggle} is not the player
+		if difference between now and {UndeadSwordRclick.%player's uuid%.UndeadSwordRclick} is less than 2 minutes:
+			message "&8[&c✖&8] &cUndead Sword is on cooldown! &8(%difference between {UndeadSwordRclick.%player's uuid%.UndeadSwordRclick} and (2 minutes before now)%)" to player
+			stop
+		else:
+			"%region at player%" contains "arena" or "arena2" or "main":
+				loop 25 times:
+					make player shoot wither skull at speed 1
+					push last spawned wither skull forward at speed 10
+					make player shoot wither skull at speed 1
+					push last shot projectile right at speed 0.4
+					make player shoot wither skull at speed 1
+					push last shot projectile left at speed 0.4
+					wait 3 ticks
+					loop all players in radius 5 of player:
+						play sound "minecraft:entity.wither.shoot" to loop-player
+					set {UndeadSwordRclick.%player's uuid%.UndeadSwordRclick} to now
+			else:
+				message "&8[&c✖&8] &7You must be in the box to do that!" to player
+				
+# UNDEAD SWORD ---------------------------------------------------------------------------
+# UNDEAD SWORD ---------------------------------------------------------------------------
+# UNDEAD SWORD ---------------------------------------------------------------------------
+# UNDEAD SWORD ---------------------------------------------------------------------------
+
+
+# WATER STAFF ---------------------------------------------------------------------------
+# WATER STAFF ---------------------------------------------------------------------------
+# WATER STAFF ---------------------------------------------------------------------------
+# WATER STAFF ---------------------------------------------------------------------------
+
+# UPGRADE 1: HOTTER WATER INCREASED DAMAGE, COST: 1x Tier 3 Red Gem
+on right click:
+	name of player's tool contains "&9Water Staff &8| &bHotter Water &8[&c💎":
+		{pvptoggle.%player's uuid%.pvptoggle} is not the player
+		if difference between now and {WaterStaffHotterWatter.%player's uuid%.WaterStaffHotterWatter} is less than 90 seconds:
+			cancel event
+			message "&8[&c✖&8] &cHotter Water is on cooldown! &8(%difference between {WaterStaffHotterWatter.%player's uuid%.WaterStaffHotterWatter} and (90 seconds before now)%)" to player
+		else:
+			show 40 campfire signal smoke with speed 0.1 at player in radius of 0.5
+			play sound "block.fire.extinguish" at pitch 0 to player
+			set {WaterStaffHotterWatter.%player's uuid%.WaterStaffHotterWatter} to now
+			loop all players in radius 8 around player:
+				loop-player is not the player
+				play sound "block.fire.extinguish" at pitch 0 to loop-player
+				make player damage loop-player by 300
+				show 20 campfire signal smoke with speed 0.1 at loop-player in radius of 0.2
+				message "&b%player% used &9Hotter Watter &bon you!" to loop-player
+		
+# UPGRADE 2: MORE WAVES + INCREASED DAMAGE, COST: 1x Tier 3 Red Gem		
+on right click:
+	name of player's tool contains "&9Water Staff &8| &bWave &8[&c💎💎":
+		{pvptoggle.%player's uuid%.pvptoggle} is not the player
+		if difference between now and {WaterWave.%player's uuid%.WaterStaffWave} is less than 45 seconds:
+			cancel event
+			message "&8[&c✖&8] &cWave is on cooldown! &8(%difference between {WaterWave.%player's uuid%.WaterStaffWave} and (45 seconds before now)%)" to player
+		else:
+			set {WaterWave.%player's uuid%.WaterStaffWave} to now
+			set {_waveabilcol2} to 255
+			set {_wavehieght} to 0.1
+			set {_r} to 0.3
+			play sound "entity.player.splash.high_speed" at pitch 1 to player
+			set {_loc} to location at player
+			loop 20 times:
+				WaveCircle(location {_wavehieght} above {_loc}, {_r}, rgb(0, {_waveabilcol2}, 229), 1)
+	#			draw 1 dust using dustOption(rgb({_waveabilcol1}, {_waveabilcol2}, {_waveabilcol3}), 1) at circle((location at and {_wavehieght} above {_loc}), {_r}, 0.4, 0, 0)
+				set {_r} to {_r} * 1.23
+				subtract 12 from {_waveabilcol2}
+				set {_wavehieght} to {_wavehieght} * 1.23
+				wait 1 tick
+				loop all players in radius {_r} around location {_wavehieght} above player where [input is not the player]:
+					loop-player does not have permission "op"
+					loop-player does not have scoreboard tag "NPC"
+					region at loop-player is "main" parsed as region
+					push loop-player upwards at speed 3
+					push loop-player backwards at speed 1
+					damage loop-player by 10
+					play sound "entity.player.splash.high_speed" at pitch 1 to loop-player
+					message "&bYou got hit by %player%'s waves!" to loop-player
+					
+
+on left click:
+	name of player's tool is "&9Water Staff &8| &bWater Shield &8[&c💎💎💎💎💎&8]":
+		set name of player's tool to "&9Water Staff &8| &bWater Hook &8[&c💎💎💎💎💎&8]"
+		stop
+	name of player's tool is "&9Water Staff &8| &bWater Hook &8[&c💎💎💎💎💎&8]":
+		set name of player's tool to "&9Water Staff &8| &bHotter Water &8[&c💎💎💎💎💎&8]"
+		stop
+	name of player's tool is "&9Water Staff &8| &bHotter Water &8[&c💎💎💎💎💎&8]":
+		set name of player's tool to "&9Water Staff &8| &bWave &8[&c💎💎💎💎💎&8]"
+		stop
+	name of player's tool is "&9Water Staff &8| &bWave &8[&c💎💎💎💎💎&8]":
+		set name of player's tool to "&9Water Staff &8| &bWater Shield &8[&c💎💎💎💎💎&8]"
+		stop
+		
+on left click:
+	name of player's tool is "&9Water Staff &8| &bWater Shield &8[&c💎💎&7💎💎💎&8]":
+		set name of player's tool to "&9Water Staff &8| &bWater Hook &8[&c💎💎&7💎💎💎&8]"
+		stop
+	name of player's tool is "&9Water Staff &8| &bWater Hook &8[&c💎💎&7💎💎💎&8]":
+		set name of player's tool to "&9Water Staff &8| &bHotter Water &8[&c💎💎&7💎💎💎&8]"
+		stop
+	name of player's tool is "&9Water Staff &8| &bHotter Water &8[&c💎💎&7💎💎💎&8]":
+		set name of player's tool to "&9Water Staff &8| &bWave &8[&c💎💎&7💎💎💎&8]"
+		stop
+	name of player's tool is "&9Water Staff &8| &bWave &8[&c💎💎&7💎💎💎&8]":
+		set name of player's tool to "&9Water Staff &8| &bWater Shield &8[&c💎💎&7💎💎💎&8]"
+		stop
+					
+					
+					
+# UPGRADE 2: INVINCIBILITY, COST: 3x Tier 3 Red Gems		
+					
+on right click:
+	name of player's tool is "&9Water Staff &8| &bWater Shield &8[&c💎💎💎💎💎&8]":
+		if difference between now and {WATERSHIELDNEW.%player's uuid%.WATERSHIELDNEW.lastUsed} is less than 90 seconds:
+			cancel event
+			message "&8[&c✖&8] &cWater Shield is on cooldown! &8(%difference between {WATERSHIELDNEW.%player's uuid%.WATERSHIELDNEW.lastUsed} and (90 seconds before now)%)" to player
+		else:
+			set {WATERSHIELDNEW.%player's uuid%.WATERSHIELDNEW.lastUsed} to now
+			set {WaterShield.%player's uuid%.WaterShield} to true
+			set {WaterShieldMaxed.%player's uuid%.WaterShieldMaxed} to true
+			play sound "block.beacon.activate" at pitch 2 to player
+			loop 100 times:
+				set {_pitch} to -1 * player's pitch + 90
+				set {_yaw} to player's yaw
+				set {_offset} to spherical vector with radius 1.5, yaw player's yaw, pitch player's pitch
+				set {_loc} to player's head's location ~ {_offset}
+			#
+				show water bubble at circle(({_loc}), 0.75, 10, {_yaw}, {_pitch})
+			#
+				show water bubble at regularPolygon(({_loc}), 2, 6, 0.25, {_yaw}, {_yaw}, {_pitch})
+				show water bubble at regularPolygon(({_loc}), 2, 6, 0.25, 60 + {_yaw}, {_yaw}, {_pitch})
+				show water bubble at regularPolygon(({_loc}), 1.5, 3, 0.1, 60 + {_yaw}, {_yaw}, {_pitch})
+				wait 5 tick
+			delete {WaterShield.%player's uuid%.WaterShield}
+			delete {WaterShieldMaxed.%player's uuid%.WaterShieldMaxed}
+			
+			
+# WATER STAFF ---------------------------------------------------------------------------
+# WATER STAFF ---------------------------------------------------------------------------
+# WATER STAFF ---------------------------------------------------------------------------
+# WATER STAFF ---------------------------------------------------------------------------

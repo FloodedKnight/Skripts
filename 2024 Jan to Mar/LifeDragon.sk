@@ -1,0 +1,43 @@
+function LifeDragonSpawn(useless: number):
+	message "" to all players
+	message "&5&l» A dragon is spawning..." to all players
+	message "" to all players
+	wait 3 seconds
+	play sound "entity.ender_dragon.ambient" at volume 999 at pitch 2 to all players
+	loop all players in radius 30 around location(0, 155, 0, world "world_the_end"):
+		push loop-player up at speed 30
+		push loop-player backwards at speed 30
+	spawn ender dragon at location(0.5, 180, 0.5, world "world_the_end") with nbt from "{DragonPhase:4,PersistenceRequired:1b}"
+	set {_w} to last spawned ender dragon
+	set name of {_w} to "&a&lLife Dragon"
+	set max health of {_w} to 87500
+	set health of {_w} to 87500
+	set {LifeDragonBossBar} to bossbar with id "LifeDragonBossBar" with title "&a&lLife Dragon &r&7- &r&c%{_w}'s health%" with style solid bar
+	add all players to {LifeDragonBossBar}
+			
+			
+	wait 15 seconds
+	
+	
+	loop 500 times:
+		if {_w} is alive:
+			set {_randomAbil} to random integer between 1 and 4
+			wait 1 tick
+			if {_randomAbil} is 1:
+				DragonHeal({_w})
+			if {_randomAbil} is 2:
+				DragonLightning({_w})
+			if {_randomAbil} is 3:
+				DragonLaunch({_w})
+			if {_randomAbil} is 4:
+				DragonMinions({_w})
+			wait 25 seconds
+		else:
+			stop
+			
+on damage:
+	victim is an ender dragon:
+		name of victim is "&a&lLife Dragon":
+			set {_w} to (victim's health / victim's max health) * 100
+			set bar progress of {LifeDragonBossBar} to {_w}
+			set bar title of {LifeDragonBossBar} to "&a&lLife Dragon &r&7- &r&c%victim's health%"
