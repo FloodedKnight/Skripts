@@ -1,0 +1,561 @@
+function IndigoDialogue(t: text, p: player):
+	set {_b} to colored "§x§5§4§5§A§F§8%smallFont({_t})%"
+	play sound "entity.parrot.ambient" at pitch 0 to {_p}
+	message "" to {_p}
+	message " &7[§x§6§4§0§0§F§F§lɪ§x§5§6§0§7§F§B§lɴ§x§4§8§0§F§F§7§lᴅ§x§3§A§1§6§F§4§lɪ§x§2§C§1§E§F§0§lɢ§x§1§E§2§5§E§C§lᴏ&7] §x§5§4§5§A§F§8%{_b}%" to {_p}
+	message "" to {_p}
+
+function dyeshop(p: player):
+	open chest inventory with 3 rows named smallFont("&0dyes") to {_p}
+	wait 1 tick
+	set slot 0 of {_p}'s current inventory to black dye named "§x§2§0§2§0§2§0Black Dye" with lore "&7Cost: 64 Compressed Coal"
+	set slot 3 of {_p}'s current inventory to white dye named "&fWhite Dye" with lore "&7Cost: 64 Compressed Iron"
+	set slot 2 of {_p}'s current inventory to light gray dye named "§x§b§e§b§9§b§9Light Gray Dye" with lore "&7Cost: 4 Command Blocks"
+	set slot 1 of {_p}'s current inventory to gray dye named "§x§6§2§6§0§6§0Gray Dye" with lore "&7Cost: 64 Compressed Stone"
+	set slot 4 of {_p}'s current inventory to brown dye named "§x§6§2§3§f§0§aBrown Dye" with lore "&7Cost: 64 Compressed Wood"
+	set slot 5 of {_p}'s current inventory to orange dye named "&6Orange Dye" with lore "&7Cost: 64 Golden Apples"
+	set slot 6 of {_p}'s current inventory to yellow dye named "&eYellow Dye" with lore "&7Cost: 64 Compressed Gold"
+	set slot 7 of {_p}'s current inventory to lime dye named "&aLime Dye" with lore "&7Cost: 64 Compressed Emeralds"
+	set slot 8 of {_p}'s current inventory to green dye named "&2Green Dye" with lore "&7Cost: 64 Compressed Emeralds"
+	set slot 9 of {_p}'s current inventory to cyan dye named "&3Cyan Dye" with lore "&7Cost: 1 Blood"
+	set slot 10 of {_p}'s current inventory to light blue dye named "§x§5§f§f§5§f§fLight Blue Dye" with lore "&7Cost: 64 Compressed Diamonds"
+	set slot 11 of {_p}'s current inventory to blue dye named "&1Blue Dye" with lore "&7Cost: 64 Compressed Lapis"
+	set slot 12 of {_p}'s current inventory to purple dye named "§x§9§e§0§0§f§fPurple Dye" with lore "&7Cost: 64 Compressed Obsidian"
+	set slot 13 of {_p}'s current inventory to magenta dye named "§x§d§0§0§0§a§fMagenta Dye" with lore "&7Cost: 16 Compressed Netherite"
+	set slot 14 of {_p}'s current inventory to pink dye named "&dPink Dye" with lore "&7Cost: 64 Compressed Redstone"
+	set slot 15, 16, and 17 of {_p}'s current inventory to black stained glass pane named " "
+	set slot 18, 19, 20, 21, 23, 24, 25, 26, and 27 of {_p}'s current inventory to barrier named "&cClose Shop"
+	set slot 22 of {_p}'s current inventory to arrow named "&eContinue to Discs"
+	
+	
+	
+	
+	
+	
+function discshop(p: player):
+#	open chest inventory with 3 rows named "&6Discs" to {_p}
+	set metadata tag "Maestro" of {_p} to chest inventory with 3 rows named smallFont("&0discs")
+	set slot 0 of metadata tag "Maestro" of {_p} to music disc 13 named "&eDisc 13" with lore "&7Cost: 16 Compressed Coal"
+	set slot 3 of metadata tag "Maestro" of {_p} to music disc cat named "&aCat" with lore "&7Cost: 16 Compressed Lapis"
+	set slot 2 of metadata tag "Maestro" of {_p} to music disc blocks named "&cBlocks" with lore "&7Cost: 16 Compressed Wood"
+	set slot 1 of metadata tag "Maestro" of {_p} to music disc chirp named "&4Chirp" with lore "&7Cost: 16 Compressed Redstone"
+	set slot 4 of metadata tag "Maestro" of {_p} to music disc far named "§x§a§b§f§b§0§0Far" with lore "&7Cost: 16 Compressed Emeralds"
+	set slot 5 of metadata tag "Maestro" of {_p} to music disc mall named "§x§b§a§4§f§f§bMall" with lore "&7Cost: 16 Compressed Obsidian"
+	set slot 6 of metadata tag "Maestro" of {_p} to music disc mellohi named "§x§d§a§b§1§f§bMellohi" with lore "&7Cost: 16 Compressed Obsidian"
+	set slot 7 of metadata tag "Maestro" of {_p} to music disc stal named "§x§2§0§2§0§2§0Stal" with lore "&7Cost: 16 Compressed Gold"
+	set slot 8 of metadata tag "Maestro" of {_p} to music disc strad named "&fStrad" with lore "&7Cost: 16 Compressed Iron"
+	set slot 9 of metadata tag "Maestro" of {_p} to music disc 11 named "§x§2§0§2§0§2§0Disc 11" with lore "&7Cost: 16 Compressed Coal"
+	set slot 10 of metadata tag "Maestro" of {_p} to music disc ward named "§x§0§3§a§7§0§0Ward" with lore "&7Cost: 16 Compressed Diamonds"
+	set slot 11 of metadata tag "Maestro" of {_p} to music disc wait named "&bWait" with lore "&7Cost: 4 Compressed Netherite"
+	set slot 12 of metadata tag "Maestro" of {_p} to music disc otherside named "&bOther&aside" with lore "&7Cost: 12 Compressed Stone"
+	set slot 13 of metadata tag "Maestro" of {_p} to {DiscRelic} named "§x§f§b§b§1§5§aRelic" with lore "&7Cost: 4 Compressed Wood"
+	set slot 14 of metadata tag "Maestro" of {_p} to {RandumboxJukeBox} with lore "&7Cost: 64 Compressed Netherite"
+	set slot 15, 16, and 17 of metadata tag "Maestro" of {_p} to black stained glass pane named " "
+	set slot 18, 19, 20, 21, 23, 24, 25, 26, and 27 of metadata tag "Maestro" of {_p} to barrier named "&cClose Shop"
+	set slot 22 of metadata tag "Maestro" of {_p} to arrow named "&eReturn to Dyes"
+	open (metadata tag "Maestro" of {_p}) to {_p}	
+		
+		
+on right click on parrot:
+	if parrot has scoreboard tag "Indigo":
+		if {Quests::%player's uuid%::Indigo} is 5:
+			dyeshop(player)
+		
+function getCost(p: player, i: itemtype, n: integer) :: boolean:
+	if {_p} has {_n} of {_i}:
+		remove {_n} of {_i} from {_p}'s inventory
+		return true
+	else:
+		return false
+
+function getCompressedCost(p: player, i: itemtype, n: integer) :: boolean:
+	set {_it} to {_i} with hide enchants item flag
+	enchant {_it} with soul speed 
+	if {_p} has {_n} of {_it}:
+		remove {_n} of {_it} from {_p}'s inventory
+		return true
+	else:
+		return false
+
+on inventory click:
+	if name of event-inventory is smallFont("&0dyes") or smallFont("&0discs") or smallFont("&0bonus Ores") or "&6Randumbox Playlist" or "&6Randumbox Playlist | 2x Speed":
+		cancel event
+		event-slot is not an arrow:
+			play sound "ui.button.click" at pitch 2 to player
+
+on inventory click:
+	if name of event-inventory is smallFont("&0discs"):
+		if event-slot is 22:
+			dyeshop(player)
+			play sound "item.book.page_turn" at pitch 1 to player
+		if event-slot is 0:
+			if getCompressedCost(player, block of coal named "&8&lCompressed Coal", 16) = true:
+				give player 1 of music disc 13
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x16 Compressed Coal"
+				send "&6[&a+&6] &7Disc 13"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player 
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 1:
+			if getCompressedCost(player, block of redstone named "&x&E&F&4&7&3&A&lCompressed Redstone", 16) = true:
+				give player 1 of music disc chirp
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x16 Compressed Redstone"
+				send "&6[&a+&6] &7Disc Chirp"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player 
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 2:
+			if getCompressedCost(player, oak log named "&x&C&3&9&E&5&5&lCompressed Wood", 16) = true:
+				give player 1 of music disc blocks
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x16 Compressed Logs"
+				send "&6[&a+&6] &7Disc Blocks"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player 
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 3:
+			if getCompressedCost(player, block of lapis named "&9&lCompressed Lapis", 16) = true:
+				give player 1 of music disc cat
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x16 Compressed Lapis"
+				send "&6[&a+&6] &7Disc Cat"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player 
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 4:
+			if getCompressedCost(player, block of emerald named "&x&5&A&E&2&4&C&lCompressed Emeralds", 16) = true:
+				give player 1 of music disc far
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x16 Compressed Emeralds"
+				send "&6[&a+&6] &7Disc Far"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player 
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 5:
+			if getCompressedCost(player, crying obsidian named "&x&9&8&6&3&E&7&lCompressed Obsidian", 16) = true:
+				give player 1 of music disc mall
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x16 Compressed Obsidian"
+				send "&6[&a+&6] &7Disc Mall"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player 
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 6:
+			if getCompressedCost(player, crying obsidian named "&x&9&8&6&3&E&7&lCompressed Obsidian", 16) = true:
+				give player 1 of music disc mellohi
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x16 Compressed Obsidian"
+				send "&6[&a+&6] &7Disc Mellohi"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player 
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 7:
+			if getCompressedCost(player, block of gold named "&x&F&F&C&8&3&7&lCompressed Gold", 16) = true:
+				give player 1 of music disc stal
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x16 Compressed Gold"
+				send "&6[&a+&6] &7Disc Stal"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player 
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 8:
+			if getCompressedCost(player, block of iron named "&x&E&9&E&0&C&E&lCompressed Iron", 16) = true:
+				give player 1 of music disc strad
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x16 Compressed Iron"
+				send "&6[&a+&6] &7Disc Strad"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player 
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 9:
+			if getCompressedCost(player, block of coal named "&8&lCompressed Coal", 16) = true:
+				give player 1 of music disc 11
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x16 Compressed Coal"
+				send "&6[&a+&6] &7Disc 11"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player 
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 10:
+			if getCompressedCost(player, block of diamond named "&b&lCompressed Diamonds", 16) = true:
+				give player 1 of music disc ward
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x16 Compressed Diamonds"
+				send "&6[&a+&6] &7Disc Ward"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player 
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 11:
+			if getCompressedCost(player, block of netherite named "&x&5&7&3&7&8&7&lCompressed Netherite", 4) = true:
+				give player 1 of music disc wait
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x4 Compressed Netherite"
+				send "&6[&a+&6] &7Disc Wait"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 12:
+			if getCompressedCost(player, stone named "&7&lCompressed Stone", 12) = true:
+				give player 1 of music disc otherside
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x12 Compressed Stone"
+				send "&6[&a+&6] &7Disc Otherside"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 13:
+			if getCompressedCost(player, oak log named "&x&C&3&9&E&5&5&lCompressed Wood", 4) = true:
+				give player 1 of {DiscRelic}
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x4 Compressed Logs"
+				send "&6[&a+&6] &7Disc Relic"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player 
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 14:
+			if getCompressedCost(player, netherite block named "&x&5&7&3&7&8&7&lCompressed Netherite", 64) = true:
+				give player 1 of {RandumboxJukeBox}
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x64 Compressed Netherite"
+				send "&6[&a+&6] &7Randumbox Jukebox"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player 
+				play sound "block.note_block.pling" at pitch 0 to player
+		if name of event-slot is "&cClose Shop":
+			close player's inventory
+
+
+on inventory click:
+	if name of event-inventory is smallFont("&0dyes"):
+		if event-slot is 0:
+			if getCompressedCost(player, block of coal named "&8&lCompressed Coal", 64) = true:
+				give player 1 of black dye
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x64 Compressed Coal"
+				send "&6[&a+&6] &7Black Dye"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 1:
+			if getCompressedCost(player, stone named "&7&lCompressed Stone", 64) = true:
+				give player 1 of gray dye
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x64 Compressed Stone"
+				send "&6[&a+&6] &7Gray Dye"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player 
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 3:
+			if getCompressedCost(player, block of iron named "&x&E&9&E&0&C&E&lCompressed Iron", 64) = true:
+				give player 1 of white dye
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x64 Compressed Iron"
+				send "&6[&a+&6] &7White Dye"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 4:
+			if getCompressedCost(player, oak log named "&x&B&7&9&8&6&7&lCompressed Wood", 64) = true:
+				give player 1 of brown dye
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x64 Compressed Logs"
+				send "&6[&a+&6] &7Brown Dye"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 6:
+			if getCompressedCost(player, block of gold named "&x&F&F&C&8&3&7&lCompressed Gold", 64) = true:
+				give player 1 of yellow dye
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x64 Compressed Gold"
+				send "&6[&a+&6] &7Yellow Dye"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 7:
+			if getCompressedCost(player, block of emerald named "&x&5&A&E&2&4&C&lCompressed Emeralds", 64) = true:
+				give player 1 of lime dye
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x64 Compressed Emeralds"
+				send "&6[&a+&6] &7Lime Dye"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 10:
+			if getCompressedCost(player, block of diamond named "&b&lCompressed Diamonds", 64) = true:
+				give player 1 of light blue dye
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x64 Compressed DIamonds"
+				send "&6[&a+&6] &7Light Blue Dye"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 11:
+			if getCompressedCost(player, block of lapis named "&9&lCompressed Lapis", 64) = true:
+				give player 1 of blue dye
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x64 Compressed Lapis"
+				send "&6[&a+&6] &7Blue Dye"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 12:
+			if getCompressedCost(player, crying obsidian named "&x&9&8&6&3&E&7&lCompressed Obsidian", 64) = true:
+				give player 1 of purple dye
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x64 Compressed Obsidian"
+				send "&6[&a+&6] &7Purple Dye"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 13:
+			if getCompressedCost(player, block of netherite named "&x&5&7&3&7&8&7&lCompressed Netherite", 16) = true:
+				give player 1 of magenta dye
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x16 Compressed Netherite"
+				send "&6[&a+&6] &7Magenta Dye"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 14:
+			if getCompressedCost(player, block of redstone named "&x&E&F&4&7&3&A&lCompressed Redstone", 64) = true:
+				give player 1 of pink dye
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x64 Compressed Redstone"
+				send "&6[&a+&6] &7Pink Dye"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 9:
+			if player has 1 of redstone dust named "&cBlood" in inventory:
+				remove 1 of redstone named "&cBlood" from player's inventory
+				give player 1 of cyan dye
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x1 Blood"
+				send "&6[&a+&6] &7Cyan Dye"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 2:
+			if player has 4 command blocks in inventory:
+				remove 4 command blocks from player's inventory
+				give player 1 of light gray dye
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x4 Command Blocks"
+				send "&6[&a+&6] &7Light Dye"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 5:
+			if player has 64 of golden apple in inventory:
+				remove 64 of golden apple from player's inventory
+				give player 1 of orange dye
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x64 Golden Apples"
+				send "&6[&a+&6] &7Brown Dye"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 8:
+			if getCompressedCost(player, block of emerald named "&x&5&A&E&2&4&C&lCompressed Emeralds", 64) = true:
+				give player 1 of green dye
+				play sound "entity.player.levelup" at pitch 2 to player
+				send "&6[&c-&6] &7x64 Compressed Emeralds"
+				send "&6[&a+&6] &7Green Dye"
+			else:
+				send "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+		if event-slot is 22:
+			discshop(player)
+			play sound "item.book.page_turn" at pitch 1 to player
+		if name of event-slot is "&cClose Shop":
+			close player's inventory
+
+
+on right click on parrot:
+	if {Quest::%player's uuid%::Cooldown} is true:
+		stop
+	if parrot has scoreboard tag "Indigo":
+		if {Quests::%player's uuid%::Indigo} is not set:
+			set {Quest::%player's uuid%::Cooldown} to true
+			
+			IndigoDialogue("What's up, %player%!", player)
+			
+			wait 2 seconds
+			
+			IndigoDialogue("If you couldn't tell, I absolutely LOVE colors and music!", player)
+			
+			wait 2 second
+			IndigoDialogue("I also like to collect stuff!", player)
+			wait 2 second
+
+			IndigoDialogue("If you want, I can sell you discs and dyes...", player)
+			
+			
+			wait 2 second
+			
+			IndigoDialogue("But, I want to finish my collection first...", player)
+			
+			wait 2 seconds
+			
+			IndigoDialogue("And I'm gonna need your help.", player)
+						
+			
+			wait 2 seconds
+			message " &8&m •&8&m                                                        &r&8&m• " to player
+			message " &6&lACCEPT QUEST? &r&a<tooltip:&aAccept Quest>&a&l<cmd:/indigoacceptquest>[ACCEPT]<reset> &8|| &r&c<tooltip:&cDecline Quest>&c&l<cmd:/jamesdeclinequest>[DECLINE]<reset>" to player
+			message " &cDifficulty: &8[&c&l||&7&l|||&r&8]" to player
+			message " &8&m •&8&m                                                        &r&8&m• " to player
+			
+			delete {Quest::%player's uuid%::Cooldown}
+#	
+		if {Quests::%player's uuid%::Indigo} is 1:
+			if player has 2 of redstone dust named "&cBlood" in inventory:
+				if player's held item is a redstone dust:
+					wait 1 tick
+					remove 2 of redstone dust named "&cBlood" from player's inventory
+					set {Quest::%player's uuid%::Cooldown} to true
+					
+					IndigoDialogue("Neat! We can check off Blood from the list now!", player)
+					
+					
+					wait 2 seconds
+					
+					
+					IndigoDialogue("Next on the checklist is 16 Compressed Netherite.", player)
+					
+					wait 2 seconds
+					IndigoDialogue("Not too bad, right?", player)
+					wait 2 seconds
+					delete {Quest::%player's uuid%::Cooldown}
+					set {Quests::%player's uuid%::Indigo} to 2
+					stop
+				else:
+					set {Quest::%player's uuid%::Cooldown} to true
+					
+					IndigoDialogue("I want 2 &cBlood &9for my collection", player)
+					
+					
+					wait 2 seconds
+					delete {Quest::%player's uuid%::Cooldown}
+			else:
+				set {Quest::%player's uuid%::Cooldown} to true
+				
+				IndigoDialogue("I want 2 &cBlood &9for my collection", player)
+				
+				wait 2 seconds
+				delete {Quest::%player's uuid%::Cooldown}
+		if {Quests::%player's uuid%::Indigo} is 2:
+			if player has 16 of netherite blocks named "&x&5&7&3&7&8&7&lCompressed Netherite" in inventory:
+				if player's held item is a netherite block:
+					wait 1 tick
+					remove 16 of netherite blocks named "&x&5&7&3&7&8&7&lCompressed Netherite" from player's inventory
+					set {Quest::%player's uuid%::Cooldown} to true
+					
+					IndigoDialogue("Nice work! Let's see whats next on the list...", player)
+					
+					
+					wait 2 seconds
+					
+					IndigoDialogue("Ah yes, a delectable source of power.", player)
+					
+					wait 2 seconds
+					IndigoDialogue("The Notch Apple. Well, 16 of them.", player)
+					wait 2 seconds
+					delete {Quest::%player's uuid%::Cooldown}
+					set {Quests::%player's uuid%::Indigo} to 3
+					stop
+				else:
+					set {Quest::%player's uuid%::Cooldown} to true
+					
+					IndigoDialogue("I need 16 Compressed Netherite for my collection!", player)
+					
+					wait 2 seconds
+					IndigoDialogue("I guess your going to have to play the waiting game. Sorry!", player)
+					wait 2 seconds
+					delete {Quest::%player's uuid%::Cooldown}
+			else:
+				set {Quest::%player's uuid%::Cooldown} to true
+				
+				IndigoDialogue("I need 16 Compressed Netherite for my collection!", player)
+					
+				wait 2 seconds
+				IndigoDialogue("I guess your going to have to play the waiting game. Sorry!", player)
+				wait 2 seconds
+				
+				
+				delete {Quest::%player's uuid%::Cooldown}
+		if {Quests::%player's uuid%::Indigo} is 3:
+			if player has 16 enchanted golden apple in inventory:
+				if player's held item is an enchanted golden apple:
+					remove 16 enchanted golden apple from player's inventory
+					set {Quest::%player's uuid%::Cooldown} to true
+					
+	
+					IndigoDialogue("Wow! These look even better than I expected!", player)
+					
+					
+					wait 2 seconds
+					IndigoDialogue("Now, the last last item on my checklist...", player)
+					
+					
+					
+					wait 2 seconds
+					IndigoDialogue("Is the Impostor Head!", player)
+					wait 2 seconds
+					delete {Quest::%player's uuid%::Cooldown}
+					set {Quests::%player's uuid%::Indigo} to 4
+					stop
+				else:
+					set {Quest::%player's uuid%::Cooldown} to true
+					
+					IndigoDialogue("I want 16 Notch Apples for my collection!", player)
+					
+					
+					wait 2 seconds
+					delete {Quest::%player's uuid%::Cooldown}
+			else:
+				set {Quest::%player's uuid%::Cooldown} to true
+				
+				IndigoDialogue("I want 16 Notch Apples for my collection!", player)
+				
+				
+				wait 2 seconds
+				delete {Quest::%player's uuid%::Cooldown}
+		if {Quests::%player's uuid%::Indigo} is 4:
+			if name of player's held item is "&x&F&B&0&8&0&8Impostor Head":
+				remove 1 of player's held item from player's inventory
+				set {Quest::%player's uuid%::Cooldown} to true
+				
+				IndigoDialogue("No way! My collection is finally complete!", player)
+				
+				
+				wait 2 seconds
+				IndigoDialogue("Thank you, %player%!", player)
+				
+				IndigoDialogue("As promised, I can sell discs and dyes to you!", player)
+				
+				
+				wait 2 seconds
+				IndigoDialogue("All you need to do is interact with me!", player)
+				wait 2 seconds
+				delete {Quest::%player's uuid%::Cooldown}
+				set {Quests::%player's uuid%::Indigo} to 5
+				loop 3 times:
+					launch trailing flickering star colored purple, yellow, blue, green, orange and red fading to orange at player with duration 10
+					wait 10 tick
+					play sound "entity.firework_rocket.twinkle" to player
+				
+				message "§x§6§4§0§0§F§F✦ §x§6§3§0§7§F§E§lɪ§x§6§2§0§B§F§E§lɴ§x§6§1§0§E§F§E§lᴅ§x§6§1§1§2§F§E§lɪ§x§6§0§1§6§F§D§lɢ§x§6§0§1§9§F§D§lᴏ§x§5§F§1§D§F§D§l'§x§5§E§2§0§F§C§ls §x§5§D§2§8§F§C§lǫ§x§5§C§2§B§F§C§lᴜ§x§5§C§2§F§F§B§lᴇ§x§5§B§3§2§F§B§ls§x§5§A§3§6§F§B§lᴛ §x§5§9§3§D§F§A§lᴄ§x§5§8§4§1§F§A§lᴏ§x§5§8§4§4§F§A§lᴍ§x§5§7§4§8§F§9§lᴘ§x§5§7§4§C§F§9§lʟ§x§5§6§4§F§F§9§lᴇ§x§5§5§5§3§F§9§lᴛ§x§5§5§5§6§F§8§lᴇ§x§5§4§5§A§F§8§lᴅ" to player
+				
+				stop
+			else:
+				set {Quest::%player's uuid%::Cooldown} to true
+				
+				IndigoDialogue("For the final item on my checklist, I need an Impostor Head!", player)
+				
+				
+				wait 2 seconds
+				delete {Quest::%player's uuid%::Cooldown}
