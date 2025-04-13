@@ -1,0 +1,26 @@
+on damage:
+	victim is a player:
+		attacker is a player:
+			if damage > 5:
+				set {Randumcombat::%attacker's uuid%} to now
+				set {Randumcombat::%victim's uuid%} to now
+				while 1 = 1:
+					set {_timeAttacker} to difference between {Randumcombat::%attacker's uuid%} and now
+					if {_timeAttacker} < 5 seconds:
+						send action bar "&cYour in combat for &b%difference between {Randumcombat::%attacker's uuid%} and (5 seconds before now)%" to attacker
+					else:
+						exit loop
+					set {_timeVictim} to difference between {Randumcombat::%victim's uuid%} and now
+					if {_timeVictim} < 5 seconds:
+						send action bar "&cYour in combat for &b%difference between {Randumcombat::%victim's uuid%} and (5 seconds before now)%" to victim
+					else:
+						exit loop
+					wait 1 tick
+
+on command:
+	command is "spawn":
+		if {Randumcombat::%player's uuid%} is set:
+			set {_time} to difference between {Randumcombat::%player's uuid%} and now
+			if {_time} < 5 seconds:
+				send action bar "&8[&c✖&8] &7You are currenly in combat, please wait." to player
+				cancel event

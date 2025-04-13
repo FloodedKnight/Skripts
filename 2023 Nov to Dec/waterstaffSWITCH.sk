@@ -1,0 +1,13 @@
+on left click:
+	name of player's tool is "&9Water Staff &8| &bWater Shield &8[&7💎💎💎💎💎&8]":
+		set name of player's tool to "&9Water Staff &8| &bWater Hook &8[&7💎💎💎💎💎&8]"
+		stop
+	name of player's tool is "&9Water Staff &8| &bWater Hook &8[&7💎💎💎💎💎&8]":
+		set name of player's tool to "&9Water Staff &8| &bHotter Water &8[&7💎💎💎💎💎&8]"
+		stop
+	name of player's tool is "&9Water Staff &8| &bHotter Water &8[&7💎💎💎💎💎&8]":
+		set name of player's tool to "&9Water Staff &8| &bWave &8[&7💎💎💎💎💎&8]"
+		stop
+	name of player's tool is "&9Water Staff &8| &bWave &8[&7💎💎💎💎💎&8]":
+		set name of player's tool to "&9Water Staff &8| &bWater Shield &8[&7💎💎💎💎💎&8]"
+		stop

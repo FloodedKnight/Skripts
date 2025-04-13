@@ -1,0 +1,77 @@
+on right click:
+	name of player's tool is "&bOxy&cgen":
+		unformatted name of player's helmet is "Oxygen Tank":
+			remove 1 of player's held item from player's inventory
+			message "&8[&x&0&8&D&8&F&B🫧&8] &x&0&8&D&8&F&BFilled your oxygen tank!" to player
+			play sound "block.piston.extend" at pitch 2 to player
+			set {OxygenFill::%player's uuid%} to 5 minutes after now
+			set line 1 of lore of player's helmet to "&aFilled"
+			set {_s} to 300
+			while unformatted name of player's helmet is "Oxygen Tank":
+
+							
+				send action bar "&8[&x&0&8&D&8&F&B🫧&8] &x&0&8&D&8&F&B%difference between {OxygenFill::%player's uuid%} and now ? "&8[&c🫧&8] &cOxygen ran out"%"
+				if difference between {OxygenFill::%player's uuid%} and now is not set:
+					exit loop
+				if difference between {OxygenFill::%player's uuid%} and now < 1 second:
+					exit loop
+				wait 1 tick
+			delete {OxygenFill::%player's uuid%}
+			message "&8[&c🫧&8] &cYour oxygen tank depleted of oxygen!" to player
+			play sound "entity.enderman.teleport" at pitch 0 to player
+			unformatted name of player's helmet is "Oxygen Tank":
+				set line 1 of lore of player's helmet to "&cEmpty!"
+			stop
+	
+		else:
+			message "&c&8[&c✖&8] &7You must be wearing the oxygen tank to do that!" to player
+			play sound "entity.enderman.teleport" at pitch 0 to player
+			stop
+				
+	
+on damage:
+	damage cause is drowning:
+		if {OxygenFill::%victim's uuid%} is set:
+			cancel event
+			stop
+		else:
+			"%region at victim%" contains "aqua":
+				kill victim
+				message "&c&8[&c✖&8] &7You don't have &bOxy&cgen, &7talk to Scuba!" to victim
+
+				if {Quests::%victim's uuid%::Scuba} is not set:
+					wait 2 seconds
+					ScubaDialogue("Hmmm... %victim's name%. Seems like you need an Oxygen Tank.", victim)
+					wait 2 seconds
+					ScubaDialogue("Come see me in the Forest of Magic.", victim)
+					wait 2 seconds
+					message " &a&lQUEST STARTED" to victim
+					message smallFont("&f Find Scuba") to victim
+					play sound "block.note_block.pling" at pitch 2 to victim
+					set {Quests::%victim's uuid%::Scuba} to 1
+					stop
+			
+				
+on right click:
+	unformatted name of player's tool is "Oxygen Tank":
+		wait 1 tick
+		if player's helmet is not air:
+			send "&c&8[&c✖&8] &7You have something on your head!" to player
+			play sound "entity.enderman.teleport" at pitch 0 to player
+			stop
+		else:
+			if {OxygenFill::%player's uuid%} is not set:
+				set line 1 of lore of player's tool to "&cEmpty!"
+				send "&8[&a✔&8] &7Equipped Oxygen Tank" to player
+				play sound "entity.item.pickup" at pitch 0 to player
+				set player's helmet to player's tool 
+				remove player's tool from player's inventory
+			else:
+				send "&8[&a✔&8] &7Equipped Oxygen Tank" to player
+				play sound "entity.item.pickup" at pitch 0 to player
+				set player's helmet to player's tool 
+				remove player's tool from player's inventory
+				
+on place:
+	unformatted name of player's item contains "Oxygen Tank":
+		cancel event

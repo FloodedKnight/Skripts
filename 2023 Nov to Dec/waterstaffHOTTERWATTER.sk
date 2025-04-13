@@ -1,0 +1,17 @@
+on right click:
+	name of player's tool contains "&9Water Staff &8| &bHotter Water":
+		{pvptoggle.%player's uuid%.pvptoggle} is not the player
+		if difference between now and {WaterStaffHotterWatter.%player's uuid%.WaterStaffHotterWatter} is less than 90 seconds:
+			cancel event
+			message "&8[&c✖&8] &cHotter Water is on cooldown! &8(%difference between {WaterStaffHotterWatter.%player's uuid%.WaterStaffHotterWatter} and (90 seconds before now)%)" to player
+		else:
+			show 40 campfire signal smoke with speed 0.1 at player in radius of 0.5
+			play sound "block.fire.extinguish" at pitch 0 to player
+			set {WaterStaffHotterWatter.%player's uuid%.WaterStaffHotterWatter} to now
+			loop all players in radius 8 around player:
+				loop-player is not the player
+				play sound "block.fire.extinguish" at pitch 0 to loop-player
+				make player damage loop-player by 200
+				show 20 campfire signal smoke with speed 0.1 at loop-player in radius of 0.2
+				message "&b%player% used &9Hotter Watter &bon you!" to loop-player
+			

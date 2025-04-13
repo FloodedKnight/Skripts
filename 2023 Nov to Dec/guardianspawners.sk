@@ -1,0 +1,23 @@
+command addloc:
+	permission: sk.dev
+	trigger:
+		add location at player to {GuardianSpawningLocs::*}
+	
+#every 60 seconds:
+#	loop {GuardianSpawningLocs::*}:
+#		spawn 1 guardian at loop-value
+#		wait 1 tick
+##		set {_w} to last spawned guardian
+#		set max health of {_w} to 50
+#		set health of {_w} to 50
+#		set {_w}'s attack damage attribute to 75
+#		set name of {_w} to "&1Guardian"
+#		set {Guardians::%{_w}%} to {_w}
+	#	wait 1 tick
+
+every 150 seconds:
+	loop all monsters where [input is a guardian]:
+		set {_x} to loop-monster's name
+		set {_x} to unformatted {_x}
+		if {_x} does not contain "TECH":
+			kill loop-monster

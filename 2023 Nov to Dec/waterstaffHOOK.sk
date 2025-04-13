@@ -1,0 +1,16 @@
+on right click:
+	name of player's tool contains "&9Water Staff &8| &bWater Hook":
+		if difference between now and {WaterHook.%player's uuid%.WaterHook.lastUsed} is less than 5 seconds:
+			cancel event
+			stop
+		else:
+			set {_target} to player's target
+			"%region at {_target}%" does not contain "spawn"
+			{_target} does not have permission "op"
+			{_target} does not have scoreboard tag "NPC"
+			set {_v} to vector from {_target} to player
+			set {WaterHook.%player's uuid%.WaterHook.lastUsed} to now
+			push player's target {_v} at speed 2
+			push player's target upwards at speed 0.6
+			show blue dust at line({_target}, player, 0.1)
+			

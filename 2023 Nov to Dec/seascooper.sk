@@ -1,0 +1,34 @@
+on mine of sea lantern:
+	"%region at event-block%" contains "sealanternmine":
+		if name of player's held item is "&bSea Scooper &8[&9T1&8]":
+			clear drops
+			drop sea lantern
+			stop
+		if name of player's held item is "&bSea Scooper &8[&9T2&8]" or "&bSea Scooper &8[&9T3&8]":
+			clear drops
+			give player 1 sea lantern
+			stop
+		if name of player's held item is "&bSea Scooper &8[&9T4&8]":
+			clear drops
+			give player 1 sea lantern
+			chance of 50%:
+				give player 1 sea lantern
+			chance of 0.1%:
+				give player 1 quartz of soul speed 1 named "§x§2§F§F§6§9§ES§x§3§0§F§5§A§6e§x§3§1§F§5§A§Ea §x§3§3§F§3§B§EC§x§3§4§F§3§C§7r§x§3§4§F§2§C§Fy§x§3§5§F§1§D§7s§x§3§6§F§0§D§Ft§x§3§7§F§0§E§7a§x§3§8§E§F§E§Fl" with hide enchants item flag
+				message "&6&lRARE DROP! §x§2§F§F§6§9§ES§x§3§0§F§5§A§6e§x§3§1§F§5§A§Ea §x§3§3§F§3§B§EC§x§3§4§F§3§C§7r§x§3§4§F§2§C§Fy§x§3§5§F§1§D§7s§x§3§6§F§0§D§Ft§x§3§7§F§0§E§7a§x§3§8§E§F§E§Fl &d(0.1%%)" to player
+				raredropSFX(player)
+			stop
+		else:
+			message "&8[&c✖&8] &7You need to use a Sea Scooper to break that!" to player
+			cancel event
+		
+on mine:
+	if name of player's tool contains "Sea Scooper":
+		"%region at event-block%" contains "main":
+			cancel event
+			message "&8[&c✖&8] &7You can only break sea lanterns with that!" to player
+			
+on damage:
+	if attacker has potion haste:
+		remove haste from attacker
+		stop

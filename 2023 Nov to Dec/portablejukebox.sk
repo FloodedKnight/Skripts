@@ -1,0 +1,250 @@
+function portablejukebox(p: player):
+	open chest inventory with 3 rows named "&6Randumbox Playlist" to {_p}
+	wait 1 tick
+	set slot 0 of {_p}'s current inventory to music disc 13 named "&eDisc 13" with lore "&aPlay song"
+	set slot 3 of {_p}'s current inventory to music disc cat named "&aCat" with lore "&aPlay song"
+	set slot 2 of {_p}'s current inventory to music disc blocks named "&cBlocks" with lore "&aPlay song"
+	set slot 1 of {_p}'s current inventory to music disc chirp named "&4Chirp" with lore "&aPlay song"
+	set slot 4 of {_p}'s current inventory to music disc far named "§x§a§b§f§b§0§0Far" with lore "&aPlay song"
+	set slot 5 of {_p}'s current inventory to music disc mall named "§x§b§a§4§f§f§bMall" with lore "&aPlay song"
+	set slot 6 of {_p}'s current inventory to music disc mellohi named "§x§d§a§b§1§f§bMellohi" with lore "&aPlay song"
+	set slot 7 of {_p}'s current inventory to music disc stal named "§x§2§0§2§0§2§0Stal" with lore "&aPlay song"
+	set slot 8 of {_p}'s current inventory to music disc strad named "&fStrad" with lore "&aPlay song"
+	set slot 9 of {_p}'s current inventory to music disc 11 named "§x§2§0§2§0§2§0Disc 11" with lore "&aPlay song"
+	set slot 10 of {_p}'s current inventory to music disc ward named "§x§0§3§a§7§0§0Ward" with lore "&aPlay song"
+	set slot 11 of {_p}'s current inventory to music disc wait named "&bWait" with lore "&aPlay song"
+	set slot 12 of {_p}'s current inventory to music disc otherside named "&bOther&aside" with lore "&aPlay song"
+	set slot 13 of {_p}'s current inventory to {DiscRelic} named "§x§f§b§b§1§5§aRelic" with lore "&aPlay song"
+	set slot 14 of {_p}'s current inventory to music disc pigstep named "§x§9§5§0§0§0§0Pig§x§f§f§c§7§0§0step" with lore "&aPlay song"
+	set slot 15 of {_p}'s current inventory to barrier named "&cStop Music"
+	set slot 22, 16, 17, 18, 19, 20, 21, 23, 24, and 25 of {_p}'s current inventory to black stained glass pane named "&cClose Jukebox"
+	set slot 26 of {_p}'s current inventory to light blue dye named "&b2x Speed"
+	
+function speedportablejukebox(p: player):
+	open chest inventory with 3 rows named "&6Randumbox Playlist | 2x Speed" to {_p}
+	wait 1 tick
+	set slot 0 of {_p}'s current inventory to music disc 13 named "&eDisc 13" with lore "&aPlay song"
+	set slot 3 of {_p}'s current inventory to music disc cat named "&aCat" with lore "&aPlay song"
+	set slot 2 of {_p}'s current inventory to music disc blocks named "&cBlocks" with lore "&aPlay song"
+	set slot 1 of {_p}'s current inventory to music disc chirp named "&4Chirp" with lore "&aPlay song"
+	set slot 4 of {_p}'s current inventory to music disc far named "§x§a§b§f§b§0§0Far" with lore "&aPlay song"
+	set slot 5 of {_p}'s current inventory to music disc mall named "§x§b§a§4§f§f§bMall" with lore "&aPlay song"
+	set slot 6 of {_p}'s current inventory to music disc mellohi named "§x§d§a§b§1§f§bMellohi" with lore "&aPlay song"
+	set slot 7 of {_p}'s current inventory to music disc stal named "§x§2§0§2§0§2§0Stal" with lore "&aPlay song"
+	set slot 8 of {_p}'s current inventory to music disc strad named "&fStrad" with lore "&aPlay song"
+	set slot 9 of {_p}'s current inventory to music disc 11 named "§x§2§0§2§0§2§0Disc 11" with lore "&aPlay song"
+	set slot 10 of {_p}'s current inventory to music disc ward named "§x§0§3§a§7§0§0Ward" with lore "&aPlay song"
+	set slot 11 of {_p}'s current inventory to music disc wait named "&bWait" with lore "&aPlay song"
+	set slot 12 of {_p}'s current inventory to music disc otherside named "&bOther&aside" with lore "&aPlay song"
+	set slot 13 of {_p}'s current inventory to {DiscRelic} named "§x§f§b§b§1§5§aRelic" with lore "&aPlay song"
+	set slot 14 of {_p}'s current inventory to music disc pigstep named "§x§9§5§0§0§0§0Pig§x§f§f§c§7§0§0step" with lore "&aPlay song"
+	set slot 15 of {_p}'s current inventory to barrier named "&cStop Music"
+	set slot 22, 16, 17, 18, 19, 20, 21, 23, 24, and 25 of {_p}'s current inventory to black stained glass pane named "&cClose Jukebox"
+	set slot 26 of {_p}'s current inventory to orange dye named "&61x speed"
+	
+on right click:
+	name of player's tool is "§x§e§7§0§0§f§bR§x§e§8§0§b§e§aa§x§e§a§1§6§d§an§x§e§b§2§1§c§9d§x§e§d§2§d§b§8u§x§e§e§3§8§a§7m§x§f§0§4§3§9§7b§x§f§1§4§e§8§6o§x§f§3§5§9§7§5x §x§f§4§6§4§6§4J§x§f§6§6§f§5§4u§x§f§7§7§a§4§3k§x§f§9§8§6§3§2e§x§f§a§9§1§2§1b§x§f§c§9§c§1§1o§x§f§d§a§7§0§0x":
+		cancel event
+		portablejukebox(player)
+			
+		
+on inventory click:
+	if name of event-inventory is "&6Randumbox Playlist":
+		if event-slot is 22 or 16 or 17 or 18 or 19 or 20 or 21 or 23 or 24 or 25:
+			play sound "ui.button.click" at pitch 2 to player
+		if event-slot is not 15:
+			if {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} is true:
+				message "&cClick &oStop Music &r&cbefore playing another song!"
+				stop
+		if event-slot is 0:
+			execute console command "/playsound music_disc.13 master %player's name% ~ ~ ~ 999 1"
+			send "&aRandumbox Jukebox &8| &aStarted playing &eDisc 13 &aat &6Speed 1"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 1:
+			execute console command "/playsound music_disc.chirp master %player's name% ~ ~ ~ 999 1"
+			send "&aRandumbox Jukebox &8| &aStarted playing &4Chirp &aat &6Speed 1"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 2:
+			execute console command "/playsound music_disc.blocks master %player's name% ~ ~ ~ 999 1"
+			send "&aRandumbox Jukebox &8| &aStarted playing &cBlocks &aat &6Speed 1"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 3:
+			execute console command "/playsound music_disc.cat master %player's name% ~ ~ ~ 999 1"
+			send "&aRandumbox Jukebox &8| &aStarted playing &aCat &aat &6Speed 1"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 4:
+			execute console command "/playsound music_disc.far master %player's name% ~ ~ ~ 999 1"
+			send "&aRandumbox Jukebox &8| &aStarted playing §x§a§b§f§b§0§0Far &aat &6Speed 1"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 5:
+			execute console command "/playsound music_disc.mall master %player's name% ~ ~ ~ 999 1"
+			send "&aRandumbox Jukebox &8| &aStarted playing §x§b§a§4§f§f§bMall &aat &6Speed 1"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 6:
+			execute console command "/playsound music_disc.mellohi master %player's name% ~ ~ ~ 999 1"
+			send "&aRandumbox Jukebox &8| &aStarted playing §x§d§a§b§1§f§bMellohi &aat &6Speed 1"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 7:
+			execute console command "/playsound music_disc.stal master %player's name% ~ ~ ~ 999 1"
+			send "&aRandumbox Jukebox &8| &aStarted playing §x§2§0§2§0§2§0Stal &aat &6Speed 1"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 8:
+			execute console command "/playsound music_disc.strad master %player's name% ~ ~ ~ 999 1"
+			send "&aRandumbox Jukebox &8| &aStarted playing &fStrad &aat &6Speed 1"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 9:
+			execute console command "/playsound music_disc.11 master %player's name% ~ ~ ~ 999 1"
+			send "&aRandumbox Jukebox &8| &aStarted playing §x§2§0§2§0§2§0Disc 11"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 10:
+			execute console command "/playsound music_disc.ward master %player's name% ~ ~ ~ 999 1"
+			send "&aRandumbox Jukebox &8| &aStarted playing §x§0§3§a§7§0§0Ward &aat &6Speed 1"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 11:
+			execute console command "/playsound music_disc.wait master %player's name% ~ ~ ~ 999 1"
+			send "&aRandumbox Jukebox &8| &aStarted playing &bWait &aat &6Speed 1"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 12:
+			execute console command "/playsound music_disc.otherside master %player's name% ~ ~ ~ 999 1"
+			send "&aRandumbox Jukebox &8| &aStarted playing &bOther&aside &aat &6Speed 1"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 13:
+			execute console command "/playsound music_disc.relic master %player's name% ~ ~ ~ 999 1"
+			send "&aRandumbox Jukebox &8| &aStarted playing §x§f§b§b§1§5§aRelic &aat &6Speed 1"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 14:
+			execute console command "/playsound music_disc.pigstep master %player's name% ~ ~ ~ 999 1"
+			send "&aRandumbox Jukebox &8| &aStarted playing §x§9§5§0§0§0§0Pig§x§f§f§c§7§0§0step &aat &6Speed 1"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 15:
+			if {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} is true:
+				execute console command "/stopsound %player%"
+				send "&aRandumbox Jukebox &8| &cStopped music"
+				play sound "block.note_block.pling" at pitch 0 to player
+				delete {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke}
+				stop
+			else:
+				send "&aRandumbox Jukebox &8| &cYou're not playing any music currently!"
+				play sound "block.note_block.pling" at pitch 0 to player
+				stop
+		if event-slot is 26:
+			wait 2 ticks
+			speedportablejukebox(player)
+			play sound "ui.button.click" at pitch 2 to player
+			stop
+
+
+on inventory click:
+	if name of event-inventory is "&6Randumbox Playlist | 2x Speed":
+		if event-slot is 22 or 16 or 17 or 18 or 19 or 20 or 21 or 23 or 24 or 25:
+			play sound "ui.button.click" at pitch 2 to player
+		if event-slot is not 15:
+			if {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} is true:
+				message "&cClick &oStop Music &r&cbefore playing another song!"
+				stop
+		if event-slot is 0:
+			execute console command "/playsound music_disc.13 master %player's name% ~ ~ ~ 999 2"
+			send "&aRandumbox Jukebox &8| &aStarted playing &eDisc 13 &aat &bSpeed 2"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 1:
+			execute console command "/playsound music_disc.chirp master %player's name% ~ ~ ~ 999 2"
+			send "&aRandumbox Jukebox &8| &aStarted playing &4Chirp &aat &bSpeed 2"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 2:
+			execute console command "/playsound music_disc.blocks master %player's name% ~ ~ ~ 999 2"
+			send "&aRandumbox Jukebox &8| &aStarted playing &cBlocks &aat &bSpeed 2"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 3:
+			execute console command "/playsound music_disc.cat master %player's name% ~ ~ ~ 999 2"
+			send "&aRandumbox Jukebox &8| &aStarted playing &aCat"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 4:
+			execute console command "/playsound music_disc.far master %player's name% ~ ~ ~ 999 2"
+			send "&aRandumbox Jukebox &8| &aStarted playing §x§a§b§f§b§0§0Far &aat &bSpeed 2"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 5:
+			execute console command "/playsound music_disc.mall master %player's name% ~ ~ ~ 999 2"
+			send "&aRandumbox Jukebox &8| &aStarted playing §x§b§a§4§f§f§bMall &aat &bSpeed 2"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 6:
+			execute console command "/playsound music_disc.mellohi master %player's name% ~ ~ ~ 999 2"
+			send "&aRandumbox Jukebox &8| &aStarted playing §x§d§a§b§1§f§bMellohi &aat &bSpeed 2"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 7:
+			execute console command "/playsound music_disc.stal master %player's name% ~ ~ ~ 999 2"
+			send "&aRandumbox Jukebox &8| &aStarted playing §x§2§0§2§0§2§0Stal &aat &bSpeed 2"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 8:
+			execute console command "/playsound music_disc.strad master %player's name% ~ ~ ~ 999 2"
+			send "&aRandumbox Jukebox &8| &aStarted playing &fStrad &aat &bSpeed 2"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 9:
+			execute console command "/playsound music_disc.11 master %player's name% ~ ~ ~ 999 2"
+			send "&aRandumbox Jukebox &8| &aStarted playing §x§2§0§2§0§2§0Disc 11 &aat &bSpeed 2"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 10:
+			execute console command "/playsound music_disc.ward master %player's name% ~ ~ ~ 999 2"
+			send "&aRandumbox Jukebox &8| &aStarted playing §x§0§3§a§7§0§0Ward &aat &bSpeed 2"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 11:
+			execute console command "/playsound music_disc.wait master %player's name% ~ ~ ~ 999 2"
+			send "&aRandumbox Jukebox &8| &aStarted playing &bWait &aat &bSpeed 2"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 12:
+			execute console command "/playsound music_disc.otherside master %player's name% ~ ~ ~ 999 2"
+			send "&aRandumbox Jukebox &8| &aStarted playing &bOther&aside &aat &bSpeed 2"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 13:
+			execute console command "/playsound music_disc.relic master %player's name% ~ ~ ~ 999 2"
+			send "&aRandumbox Jukebox &8| &aStarted playing §x§f§b§b§1§5§aRelic &aat &bSpeed 2"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 14:
+			execute console command "/playsound music_disc.pigstep master %player's name% ~ ~ ~ 999 2"
+			send "&aRandumbox Jukebox &8| &aStarted playing §x§9§5§0§0§0§0Pig§x§f§f§c§7§0§0step &aat &bSpeed 2"
+			set {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} to true
+			stop
+		if event-slot is 15:
+			if {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke} is true:
+				execute console command "/stopsound %player%"
+				send "&aRandumbox Jukebox &8| &cStopped music"
+				play sound "block.note_block.pling" at pitch 0 to player
+				delete {MusicOnPortJuke.%player's uuid%.MusicOnPortJuke}
+				stop
+			else:
+				send "&aRandumbox Jukebox &8| &cYou're not playing any music currently!"
+				play sound "block.note_block.pling" at pitch 0 to player
+				stop
+		if event-slot is 26:
+			wait 2 ticks
+			portablejukebox(player)
+			play sound "ui.button.click" at pitch 2 to player
+			stop

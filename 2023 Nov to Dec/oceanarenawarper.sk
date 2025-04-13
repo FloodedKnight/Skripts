@@ -1,0 +1,458 @@
+on right click on villager:
+	villager has scoreboard tag "oceanArenaWarper":
+		cancel event
+# light gray concrete	
+# {PoseidonSpawnEgg}
+		set {_clickToOpen} to mini message from "<gradient:#FFE259:#FFA751>[!] Click to select"
+		set {_PoseidonBuyEgg} to {PoseidonSpawnEgg}
+		set lore of {_PoseidonBuyEgg} to "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- 1x Sea crystal"), smallFont("§x§E§2§6§E§6§E- 1x aquaman head"), smallFont("§x§E§2§6§E§6§E- 1x mega fish"), smallFont("§x§E§2§6§E§6§E- 2x trident fragments"), smallFont("§x§E§2§6§E§6§E- 16x compressed sea lanterns")
+
+		
+		set {_MegaGuardianBuy} to elder guardian spawn egg of soul speed 1 named "&bMega-Guardian Spawn Egg" with hide enchants item flag
+		set lore of {_MegaGuardianBuy} to "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- 15x guardian fish"),  smallFont("§x§E§2§6§E§6§E- 1x trident fragment")
+
+		
+		set {_KrakenEggBuy} to glow squid spawn egg of soul speed 1 named "§x§F§F§5§3§0§0Kraken Spawn Egg" with hide enchants item flag
+		set lore of {_KrakenEggBuy} to "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- 16x compressed sea lanterns"),  smallFont("§x§E§2§6§E§6§E- 1x trident fragment"), smallFont("§x§E§2§6§E§6§E- 1x mega fish"), smallFont("§x§E§2§6§E§6§E- 2x sea crystal")
+		
+		set {_AquamanEgg} to frog spawn egg of soul speed 1 named "&2Aquaman Spawn Egg" with hide enchants item flag
+		set lore of {_AquamanEgg} to "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- 16x compressed sea lanterns"),  smallFont("§x§E§2§6§E§6§E- 1x trident fragment"), smallFont("§x§E§2§6§E§6§E- 1x mega fish")
+
+		
+		if {OceanArenas.%player's uuid%.OceanArenas} is not set:
+			open chest inventory with 6 rows named "&bOcean Arena Warper | 1" to player
+			wait 1 tick
+			set slot (integers between 0 and 53) of player's current inventory to black stained glass pane named "&a"
+			set slot 12, 14, and 15 of player's current inventory to gray concrete named "&cLocked" with lore "&7Unlocked the previous arena to buy this!"
+			set slot 11 of player's current inventory to light gray concrete named "&cLocked" with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- 20x guardian fish")
+			set slot 41 of player's current inventory to {_KrakenEggBuy}
+			set slot 42 of player's current inventory to {_PoseidonBuyEgg}
+			set slot 39 of player's current inventory to {_AquamanEgg}
+			set slot 38 of player's current inventory to {_MegaGuardianBuy}
+
+
+		if {OceanArenas.%player's uuid%.OceanArenas} is 1:
+			open chest inventory with 6 rows named "&bOcean Arena Warper | 2" to player
+			wait 1 tick
+			set slot (integers between 0 and 53) of player's current inventory to black stained glass pane named "&a"
+			set slot 14, and 15 of player's current inventory to gray concrete named "&cLocked" with lore "&7Unlocked the previous arena to buy this!"
+			set slot 11 of player's current inventory to light blue concrete named "&6Depth 1" with lore {_clickToOpen}
+			set slot 12 of player's current inventory to light gray concrete named "&cLocked" with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- 2x mega fish")
+			set slot 42 of player's current inventory to {_PoseidonBuyEgg}
+			set slot 41 of player's current inventory to {_KrakenEggBuy}
+			set slot 39 of player's current inventory to {_AquamanEgg}
+			set slot 38 of player's current inventory to {_MegaGuardianBuy}
+#		
+#
+		if {OceanArenas.%player's uuid%.OceanArenas} is 2:
+			open chest inventory with 6 rows named "&bOcean Arena Warper | 3" to player
+			wait 1 tick
+			set slot (integers between 0 and 53) of player's current inventory to black stained glass pane named "&a"
+			set slot 15 of player's current inventory to gray concrete named "&cLocked" with lore "&7Unlocked the previous arena to buy this!"
+			set slot 11 of player's current inventory to light blue concrete named "&6Depth 1" with lore {_clickToOpen}
+			set slot 12 of player's current inventory to cyan concrete named "&6Depth 2" with lore {_clickToOpen}
+			set slot 14 of player's current inventory to light gray concrete named "&cLocked" with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- 1x aquaman head")
+			set slot 41 of player's current inventory to {_KrakenEggBuy}
+			set slot 39 of player's current inventory to {_AquamanEgg}
+			set slot 42 of player's current inventory to {_PoseidonBuyEgg}
+			set slot 38 of player's current inventory to {_MegaGuardianBuy}
+#
+#
+		if {OceanArenas.%player's uuid%.OceanArenas} is 3:
+			open chest inventory with 6 rows named "&bOcean Arena Warper | 4" to player
+			wait 1 tick
+			set slot (integers between 0 and 53) of player's current inventory to black stained glass pane named "&a"
+			set slot 15 of player's current inventory to light gray concrete named "&cLocked" with lore "&cᴘʀɪᴄᴇ:", smallFont("§x§E§2§6§E§6§E- 1x kraken tentacle")
+			set slot 11 of player's current inventory to light blue concrete named "&6Depth 1" with lore {_clickToOpen}
+			set slot 12 of player's current inventory to cyan concrete named "&6Depth 2" with lore {_clickToOpen}
+			set slot 14 of player's current inventory to blue concrete named "&6Depth 3" with lore {_clickToOpen}
+			set slot 41 of player's current inventory to {_KrakenEggBuy}
+			set slot 42 of player's current inventory to {_PoseidonBuyEgg}
+			set slot 39 of player's current inventory to {_AquamanEgg}
+			set slot 38 of player's current inventory to {_MegaGuardianBuy}
+#
+#
+		if {OceanArenas.%player's uuid%.OceanArenas} is 4:
+			open chest inventory with 6 rows named "&bOcean Arena Warper | Complete" to player
+			wait 1 tick
+			set slot (integers between 0 and 53) of player's current inventory to black stained glass pane named "&a"
+			set slot 15 of player's current inventory to black concrete named "&6Depth 4" with lore {_clickToOpen}
+			set slot 11 of player's current inventory to light blue concrete named "&6Depth 1" with lore {_clickToOpen}
+			set slot 12 of player's current inventory to cyan concrete named "&6Depth 2" with lore {_clickToOpen}
+			set slot 14 of player's current inventory to blue concrete named "&6Depth 3" with lore {_clickToOpen}
+			set slot 41 of player's current inventory to {_KrakenEggBuy}
+			set slot 42 of player's current inventory to {_PoseidonBuyEgg}
+			set slot 39 of player's current inventory to {_AquamanEgg}
+			set slot 38 of player's current inventory to {_MegaGuardianBuy}
+			set slot 0 of player's current inventory to {OceanAreanWarperInfoButton}
+
+on inventory click:
+	if name of event-inventory is "&bOcean Arena Warper | 1" or "&bOcean Arena Warper | 2" or "&bOcean Arena Warper | 3" or "&bOcean Arena Warper | 4" or "&bOcean Arena Warper | Complete":
+		cancel event
+		wait 1 tick
+
+on inventory click:
+	if name of event-inventory contains "&bOcean Arena Warper":
+#
+		if event-slot is 0:
+			wait 1 tick
+			play sound "ui.button.click" at pitch 2 to player
+			
+#
+		if event-slot is 38:
+			wait 1 tick
+			if player has 15 of cod named "&3Guardian Fish":
+				if player has 1 of disc fragment named "&9Trident Fragment":
+					wait 1 tick
+					remove 15 of cod named "&3Guardian Fish" from player's inventory
+					remove 1 of disc fragment named "&9Trident Fragment" from player's inventory
+					give player 1 of elder guardian spawn egg of soul speed 1 named "&bMega-Fish Spawn Egg" with lore "&a&lUNCOMMON BOSS" with hide enchants item flag
+					play sound "entity.player.levelup" at pitch 2 to player
+					close player's inventory
+					send "&6[&c-&6] &7x1 Trident Fragment"
+					send "&6[&c-&6] &7x15 Guardian Fish"
+					send "&6[&a+&6] &7x1 Mega-Guardian Spawn"
+					stop
+				else:
+					message "&8[&c✖&8] &7You don't have enough resources!" to player
+					play sound "block.note_block.pling" at pitch 0 to player
+					close player's inventory
+					stop
+			else:
+				message "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+				close player's inventory
+				stop
+#
+		if event-slot is 39:
+			wait 1 tick
+			if player has 16 of {ZirconSeaLantern}:
+				if player has 1 of disc fragment named "&9Trident Fragment":
+					if player has 1 of tropical fish named "&bMega-Fish":
+						wait 1 tick
+						remove 1 of disc fragments named "&9Trident Fragment" from player's inventory
+						remove 1 of tropical fish named "&bMega-Fish" from player's inventory
+						remove 16 of {ZirconSeaLantern} from player's inventory
+						give player 1 of frog spawn egg of soul speed 1 named "&2Aquaman Spawn Egg" with lore "&9&lRARE BOSS" with hide enchants item flag
+						play sound "entity.player.levelup" at pitch 2 to player
+						close player's inventory
+						send "&6[&c-&6] &7x1 Trident Fragment"
+						send "&6[&c-&6] &7x16 Compressed Sea Lanterns"
+						send "&6[&c-&6] &7x1 Mega-Fish"
+						send "&6[&a+&6] &7x1 Aquaman Spawn"
+						stop
+					else:
+						message "&8[&c✖&8] &7You don't have enough resources!" to player
+						play sound "block.note_block.pling" at pitch 0 to player
+						close player's inventory
+						stop
+				else:
+					message "&8[&c✖&8] &7You don't have enough resources!" to player
+					play sound "block.note_block.pling" at pitch 0 to player
+					close player's inventory
+					stop
+			else:
+				message "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+				close player's inventory
+				stop
+#
+		if event-slot is 41:
+			wait 1 tick
+			if player has 2 of quartz named "§x§2§F§F§6§9§ES§x§3§0§F§5§A§6e§x§3§1§F§5§A§Ea §x§3§3§F§3§B§EC§x§3§4§F§3§C§7r§x§3§4§F§2§C§Fy§x§3§5§F§1§D§7s§x§3§6§F§0§D§Ft§x§3§7§F§0§E§7a§x§3§8§E§F§E§Fl":
+				if all:
+					player has 1 of disc fragment named "&9Trident Fragment"
+					player has 1 of tropical fish named "&bMega-Fish"
+					player has 16 of {ZirconSeaLantern}
+				then:
+					wait 1 tick
+					remove 2 of quartz named "§x§2§F§F§6§9§ES§x§3§0§F§5§A§6e§x§3§1§F§5§A§Ea §x§3§3§F§3§B§EC§x§3§4§F§3§C§7r§x§3§4§F§2§C§Fy§x§3§5§F§1§D§7s§x§3§6§F§0§D§Ft§x§3§7§F§0§E§7a§x§3§8§E§F§E§Fl" from player's inventory
+					remove 1 of tropical fish named "&bMega-Fish" from player's inventory
+					remove 1 of disc fragment named "&9Trident Fragment" from player's inventory
+					remove 16 of {ZirconSeaLantern} from player's inventory
+					give player 1 of glow squid spawn egg of soul speed 1 named "§x§f§b§5§a§0§0Kraken Spawn Egg" with lore "&5&lEPIC BOSS" with hide enchants item flag
+					play sound "entity.player.levelup" at pitch 2 to player
+					close player's inventory
+					send "&6[&c-&6] &7x1 Trident Fragment"
+					send "&6[&c-&6] &7x2 Sea Crystal"
+					send "&6[&a+&6] &7x1 Kraken Spawn"
+					stop
+				else:
+					message "&8[&c✖&8] &7You don't have enough resources!" to player
+					play sound "block.note_block.pling" at pitch 0 to player
+					close player's inventory
+					stop
+			else:
+				message "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+				close player's inventory
+				stop
+#
+		if event-slot is 42:
+			wait 1 tick
+			if player has 1 of quartz named "§x§2§F§F§6§9§ES§x§3§0§F§5§A§6e§x§3§1§F§5§A§Ea §x§3§3§F§3§B§EC§x§3§4§F§3§C§7r§x§3§4§F§2§C§Fy§x§3§5§F§1§D§7s§x§3§6§F§0§D§Ft§x§3§7§F§0§E§7a§x§3§8§E§F§E§Fl":
+				if player has 2 of disc fragment named "&9Trident Fragment":
+					if player has 1 of tropical fish named "&bMega-Fish":
+						if player has 1 of {AquamanHeadSkriptFix}:
+							if player has 32 of {ZirconSeaLantern}:
+#						
+#						
+								wait 1 tick
+								remove 1 of quartz named "§x§2§F§F§6§9§ES§x§3§0§F§5§A§6e§x§3§1§F§5§A§Ea §x§3§3§F§3§B§EC§x§3§4§F§3§C§7r§x§3§4§F§2§C§Fy§x§3§5§F§1§D§7s§x§3§6§F§0§D§Ft§x§3§7§F§0§E§7a§x§3§8§E§F§E§Fl" from player's inventory
+								remove 2 of disc fragment named "&9Trident Fragment" from player's inventory
+								remove 1 of tropical fish named "&bMega-Fish" from player's inventory
+								remove 32 of {ZirconSeaLantern} from player's inventory
+								remove 1 of {AquamanHeadSkriptFix} from player's inventory
+								give player 1 of {PoseidonSpawnEgg}
+								play sound "entity.player.levelup" at pitch 2 to player
+								close player's inventory
+								send "&6[&c-&6] &7x2 Trident Fragment"
+								send "&6[&c-&6] &7x1 Sea Crystal"
+								send "&6[&c-&6] &7x32 Compressed Sea Lanterns"
+								send "&6[&c-&6] &7x1 Aquaman Head"
+								send "&6[&a+&6] &7x1 Poseidon Spawn"
+								stop
+							else:
+								message "&8[&c✖&8] &7You don't have enough resources!" to player
+								play sound "block.note_block.pling" at pitch 0 to player
+								close player's inventory
+								stop
+						else:
+							message "&8[&c✖&8] &7You don't have enough resources!" to player
+							play sound "block.note_block.pling" at pitch 0 to player
+							close player's inventory
+							stop
+					else:
+						message "&8[&c✖&8] &7You don't have enough resources!" to player
+						play sound "block.note_block.pling" at pitch 0 to player
+						close player's inventory
+						stop
+				else:
+					message "&8[&c✖&8] &7You don't have enough resources!" to player
+					play sound "block.note_block.pling" at pitch 0 to player
+					close player's inventory
+					stop
+			else:
+				message "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+				close player's inventory
+				stop
+
+
+on inventory click:
+	if name of event-inventory is "&bOcean Arena Warper | 1":
+		if event-slot is a black stained glass pane named "&a":
+			wait 1 tick
+			play sound "ui.button.click" at pitch 2 to player
+		if event-slot is a blue dye:
+			wait 1 tick
+			play sound "ui.button.click" at pitch 2 to player
+		if event-slot is 11:
+			wait 1 tick
+			if player has 20 of cod named "&3Guardian Fish":
+				wait 1 tick
+				remove 20 of cod named "&3Guardian Fish" from player's inventory
+				set {OceanArenas.%player's uuid%.OceanArenas} to 1
+				send "&6[&c-&6] &7x20 Guardian Fish"
+				send "&6[&a+&6] &7Depth 1"
+				play sound "entity.player.levelup" at pitch 1 to player
+				close player's inventory
+				stop
+			else:
+				message "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+				close player's inventory
+				stop
+		if event-slot is 12 or 14 or 15:
+			wait 1 tick
+			message "&8[&c✖&8] &7You must unlock the previous arena!" to player
+			play sound "block.note_block.pling" at pitch 0 to player
+			close player's inventory
+			stop
+
+on inventory click:
+	if name of event-inventory is "&bOcean Arena Warper | 2":
+		if event-slot is a black stained glass pane named "&a":
+			wait 1 tick
+			play sound "ui.button.click" at pitch 2 to player
+		if event-slot is a blue dye:
+			wait 1 tick
+			play sound "ui.button.click" at pitch 2 to player
+		if event-slot is 11:
+			wait 1 tick
+			message "&6Welcome to &bDepth 1. &6Use /spawn to return to spawn." to player
+			teleport player to location(-78, 8, 173, world "world", 0, 0)
+			apply potion of night vision 2 to player for 100 minutes
+			play sound "entity.enderman.teleport" at pitch 2 to player
+			close player's inventory
+			stop
+		if event-slot is 12:
+			wait 1 tick
+			if player has 2 of tropical fish named "&bMega-Fish":
+				wait 1 tick
+				remove 2 of tropical fish named "&bMega-Fish" from player's inventory
+				set {OceanArenas.%player's uuid%.OceanArenas} to 2
+				send "&6[&c-&6] &7x2 Mega Fish"
+				send "&6[&a+&6] &7Depth 2"
+				play sound "entity.player.levelup" at pitch 1 to player
+				close player's inventory
+				stop
+			else:
+				message "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+				close player's inventory
+				stop
+		if event-slot is 14 or 15:
+			wait 1 tick
+			message "&cYou must unlock the previous arena!" to player
+			play sound "block.note_block.pling" at pitch 0 to player
+			close player's inventory
+			stop
+
+
+on inventory click:
+	if name of event-inventory is "&bOcean Arena Warper | 3":
+		if event-slot is a black stained glass pane named "&a":
+			wait 1 tick
+			play sound "ui.button.click" at pitch 2 to player
+		if event-slot is a blue dye:
+			wait 1 tick
+			play sound "ui.button.click" at pitch 2 to player
+		if event-slot is 11:
+			wait 1 tick
+			message "&6Welcome to &bDepth 1. &6Use /spawn to return to spawn." to player
+			teleport player to location(-78, 8, 173, world "world", 0, 0)
+			apply potion of night vision 2 to player for 100 minutes
+			close player's inventory
+			play sound "entity.enderman.teleport" at pitch 2 to player
+			stop
+		if event-slot is 12:
+			wait 1 tick
+			message "&6Welcome to &bDepth 2. &6Use /spawn to return to spawn." to player
+			teleport player to location(-152, 7, 171, world "world", 0, 0)
+			apply potion of night vision 2 to player for 100 minutes
+			close player's inventory
+			play sound "entity.enderman.teleport" at pitch 2 to player
+			stop
+		if event-slot is 14:
+			wait 1 tick
+			if player has 1 of {AquamanHeadSkriptFix}:
+				wait 1 tick
+				remove 1 of {AquamanHeadSkriptFix} from player's inventory
+				set {OceanArenas.%player's uuid%.OceanArenas} to 3
+				send "&6[&c-&6] &7x1 Aquaman Head"
+				send "&6[&a+&6] &7Depth 3"
+				close player's inventory
+				play sound "entity.player.levelup" at pitch 1 to player
+				stop
+			else:
+				message "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+				close player's inventory
+				stop
+		if event-slot is 15:
+			wait 1 tick
+			message "&8[&c✖&8] &7You must unlock the previous arena!" to player
+			play sound "block.note_block.pling" at pitch 0 to player
+			close player's inventory
+			stop
+
+on inventory click:
+	if name of event-inventory is "&bOcean Arena Warper | 4":
+		if event-slot is a black stained glass pane named "&a":
+			wait 1 tick
+			play sound "ui.button.click" at pitch 2 to player
+		if event-slot is a blue dye:
+			wait 1 tick
+			play sound "ui.button.click" at pitch 2 to player
+		if event-slot is 11:
+			wait 1 tick
+			message "&6Welcome to &bDepth 1. &6Use /spawn to return to spawn." to player
+			teleport player to location(-78, 8, 173, world "world", 0, 0)
+			close player's inventory
+			apply potion of night vision 2 to player for 100 minutes
+			play sound "entity.enderman.teleport" at pitch 2 to player
+			stop
+		if event-slot is 12:
+			wait 1 tick
+			message "&6Welcome to &bDepth 2. &6Use /spawn to return to spawn." to player
+			teleport player to location(-152, 7, 171, world "world", 0, 0)
+			close player's inventory
+			apply potion of night vision 2 to player for 100 minutes
+			play sound "entity.enderman.teleport" at pitch 2 to player
+			stop
+		if event-slot is 14:
+			wait 1 tick
+			message "&6Welcome to &bDepth 3. &6Use /spawn to return to spawn." to player
+			teleport player to location(-224, 5, 170, world "world", 0, 0)
+			close player's inventory
+			apply potion of night vision 2 to player for 100 minutes
+			play sound "entity.enderman.teleport" at pitch 2 to player
+			stop
+		if event-slot is 15:
+			wait 1 tick
+			if player has 1 of twisting vine named "&6Kraken Tentacle":
+				wait 1 tick
+				remove 1 of twisting vine named "&6Kraken Tentacle" from player's inventory
+				set {OceanArenas.%player's uuid%.OceanArenas} to 4
+				send "&6[&c-&6] &7x1 Kraken Tentacle"
+				send "&6[&a+&6] &7Depth 4"
+				play sound "entity.player.levelup" at pitch 1 to player
+				close player's inventory
+				stop
+			else:
+				message "&8[&c✖&8] &7You don't have enough resources!" to player
+				play sound "block.note_block.pling" at pitch 0 to player
+				close player's inventory
+				stop
+				
+on inventory click:
+	if name of event-inventory is "&bOcean Arena Warper | Complete":
+		if event-slot is a black stained glass pane named "&a":
+			wait 1 tick
+			play sound "ui.button.click" at pitch 2 to player
+		if event-slot is a blue dye:
+			wait 1 tick
+			play sound "ui.button.click" at pitch 2 to player
+		if event-slot is 11:
+			wait 1 tick
+			message "&6Welcome to &bDepth 1. &6Use /spawn to return to spawn." to player
+			teleport player to location(-78, 8, 173, world "world", 0, 0)
+			apply potion of night vision 2 to player for 100 minutes
+			close player's inventory
+			play sound "entity.enderman.teleport" at pitch 2 to player
+			stop
+		if event-slot is 12:
+			wait 1 tick
+			message "&6Welcome to &bDepth 2. &6Use /spawn to return to spawn." to player
+			teleport player to location(-152, 7, 171, world "world", 0, 0)
+			apply potion of night vision 2 to player for 100 minutes
+			close player's inventory
+			play sound "entity.enderman.teleport" at pitch 2 to player
+			stop
+		if event-slot is 14:
+			wait 1 tick
+			message "&6Welcome to &bDepth 3. &6Use /spawn to return to spawn." to player
+			teleport player to location(-224, 5, 170, world "world", 0, 0)
+			apply potion of night vision 2 to player for 100 minutes
+			close player's inventory
+			play sound "entity.enderman.teleport" at pitch 2 to player
+			stop
+		if event-slot is 15:
+			wait 1 tick
+			message "&6Welcome to &bDepth 4. &6Use /spawn to return to spawn." to player
+			teleport player to location(-294, 8, 175, world "world", 0, 0)
+			close player's inventory
+			play sound "entity.enderman.teleport" at pitch 2 to player
+			apply night vision 2 to player for 100 minutes 
+			stop
+			
+command /setoceanarenawarper [<text>]:
+	permission: sk.dev
+	trigger:
+		if arg-1 is "0":
+			delete {OceanArenas.%player's uuid%.OceanArenas}
+			stop
+		else:
+			set {_oceanwarperset} to arg-1 parsed as a number
+			set {OceanArenas.%player's uuid%.OceanArenas} to {_oceanwarperset}

@@ -1,0 +1,39 @@
+function WaveCircle(l: location, r: number, t1: color, t2: num):
+	loop 360 times:
+		set {_v} to cylindrical vector radius {_r}, yaw loop-value, height 0
+		draw 1 of dust using dustOption({_t1}, {_t2}) at {_l} ~ {_v} with extra 0.4
+
+on right click:
+	"%region at player%" does not contain "spawn"
+	name of player's tool is "&9Water Staff &8| &bWave &8[&7💎💎💎💎💎&8]":
+		{pvptoggle.%player's uuid%.pvptoggle} is not the player
+		if difference between now and {WaterWave.%player's uuid%.WaterStaffWave} is less than 45 seconds:
+			cancel event
+			message "&8[&c✖&8] &cWave is on cooldown! &8(%difference between {WaterWave.%player's uuid%.WaterStaffWave} and (45 seconds before now)%)" to player
+		else:
+			set {WaterWave.%player's uuid%.WaterStaffWave} to now
+			set {_waveabilcol2} to 255
+			set {_wavehieght} to 0.1
+			set {_r} to 0.3
+			play sound "entity.player.splash.high_speed" at pitch 1 to player
+			set {_loc} to location at player
+			loop 15 times:
+				WaveCircle(location {_wavehieght} above {_loc}, {_r}, rgb(0, {_waveabilcol2}, 229), 1)
+	#			draw 1 dust using dustOption(rgb({_waveabilcol1}, {_waveabilcol2}, {_waveabilcol3}), 1) at circle((location at and {_wavehieght} above {_loc}), {_r}, 0.4, 0, 0)
+				set {_r} to {_r} * 1.23
+				subtract 12 from {_waveabilcol2}
+				set {_wavehieght} to {_wavehieght} * 1.23
+				wait 1 tick
+				loop all players in radius {_r} around location {_wavehieght} above player where [input is not the player]:
+					loop-player does not have permission "op"
+					loop-player does not have scoreboard tag "NPC"
+					region at loop-player is "main" parsed as region
+					{pvptoggle.%loop-player's uuid%.pvptoggle} is not the loop-player
+					push loop-player upwards at speed 3
+					push loop-player backwards at speed 1
+					damage loop-player by 3
+					play sound "entity.player.splash.high_speed" at pitch 1 to loop-player
+					add loop-player to {_list::*}
+					if {_list::*} does not contain loop-player:
+						message "&bYou got hit by %player%'s waves!" to loop-player
+				
