@@ -1,0 +1,24 @@
+on right click:
+	name of player's tool = "&9Aspect of The End":
+		item cooldown of tool for player = 0 seconds
+		set item cooldown of player's tool for player to 0.3 seconds
+		set {_distance} to 0
+		play sound "entity.enderman.teleport" at pitch 1 to player
+		set {_loc} to location 1 in front of player's eyes
+		set {_block} to block at {_loc}
+		while {_block} is air:
+			if {_distance} > 8:
+				teleport player to {_loc}
+				draw 100 of dust using dustOption(rgb(195, 52, 235), 1) at player ~ vector(0, 0, 0) with offset vector(0.5, 1, 0.5)
+				stop
+			set {_loc} to location {_distance} in front of player's eyes
+			set {_block} to block at {_loc}
+			set {_blockloc} to location ({_distance} - 1) in front of player's eyes
+			if {_block} is not air:
+				teleport player to {_blockloc}
+				draw 100 of dust using dustOption(rgb(195, 52, 235), 1) at player ~ vector(0, 0, 0) with offset vector(0.5, 1, 0.5)
+				message "&8[&c✖&8] &cThere is a block infront of you!" to player
+				stop
+			add 1 to {_distance}
+		
+		

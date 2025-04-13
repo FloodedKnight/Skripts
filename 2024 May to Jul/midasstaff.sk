@@ -1,0 +1,25 @@
+function MidasStaffSound(p: player):
+	loop 5 times:
+		loop all players in radius 10 around {_p}:
+			play sound "block.grass.break" at pitch 0.5 to loop-player
+		wait 3 ticks
+		
+
+function MidasStaffGold(n: number, p: player):
+	set {_distance} to 1
+	set {_loc} to location in front of and {_n} left of {_p}'s eyes
+	MidasStaffSound({_p})
+	loop 10 times:
+		loop all entities in radius 5 around {_loc} where [input is not {_p}]:
+			make {_p} damage loop-entity by 90
+		spawn falling gold block at location {_distance} in front of {_loc} with nbt from "{DropItem:0}"
+		add 1 to {_distance}
+		wait 3 ticks
+		
+on right click:
+	name of player's tool = "&6Midas Staff":
+		item cooldown of tool for player = 0 seconds
+		set item cooldown of player's tool for player to 1.5 seconds
+		MidasStaffGold(0, player)
+		MidasStaffGold(1, player)
+		MidasStaffGold(-1, player)

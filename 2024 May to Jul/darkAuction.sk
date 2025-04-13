@@ -1,0 +1,476 @@
+define new bot named "RSC":
+	token: "Push protection saved me"
+	intents: default intents
+	policy: all
+	auto reconnect: true
+	compression: none
+
+on inventory close:
+	name of event-inventory = smallFont("&0robert's shop"):
+		remove 1 of black stained glass pane from player's inventory
+
+function RobertTalks(text: text, p: player):
+	message "" to {_p}
+	set {_b} to colored smallFont({_text})
+	message formatted " &7[&x&F&F&D&2&0&0&lʀ&x&F&9&C&5&0&0&lᴏ&x&F&4&B&8&0&0&lʙ&x&E&E&A&B&0&0&lᴇ&x&E&9&9&E&0&0&lʀ&x&E&3&9&1&0&0&lᴛ&7] %{_b}%" to {_p}
+	message "" to {_p}
+	play sound "entity.villager.ambient" at volume 999 at pitch 0.5 to {_p}
+
+on right click on entity:
+	entity has scoreboard tag "robert"
+	play sound "entity.villager.ambient" at volume 999 at pitch 0.5 to player
+	set {_clickToOpen} to mini message from "<gradient:##FFE259:##FFA751>[!] Click to select"
+	cancel event
+	{RobertCooldown::%player's uuid%} is not set
+	if {RobertTalked::%player's uuid%} is not set:
+		set {RobertCooldown::%player's uuid%} to true
+		RobertTalks("&eI haven't seen you around here before, &e%player%.", player)
+		wait 3 seconds
+		RobertTalks("&eWell, how about I tell you a little about myself?", player)
+		wait 3 seconds
+		# check for cooldown later
+		RobertTalks("&eI can let you create an auction for the online players to see!", player)
+		wait 3 seconds
+		RobertTalks("&eThey will bid on it in the currency of &6ʀᴀɴᴅᴜᴍʙɪᴛѕ.", player)
+		wait 3 seconds
+		RobertTalks("&6ʀᴀɴᴅᴜᴍʙɪᴛѕ &eare a universal currency, which you can buy from me!", player)
+		wait 3 seconds
+		RobertTalks("&eNow, to host an auction you will need to pay a fee.", player)
+		wait 3 seconds
+		RobertTalks("&eBut don't worry it's nothing too much!", player)
+		wait 3 seconds
+		RobertTalks("&eMake sure to come back to me later if you ever think about hosting an auction!", player)
+		wait 1 second
+		delete {RobertCooldown::%player's uuid%}
+		set {RobertTalked::%player's uuid%} to true
+		stop
+	if {RobertTalked::%player's uuid%} is true:
+		open chest inventory with 3 rows named smallFont("&0robert's shop") to player
+		set slot (integers between 0 and 26) of player's current inventory to black stained glass pane named "&a"
+		if {AuctionHouse::Active} is not true:
+			set slot 12 of player's current inventory to golden carrot with name smallFont("&6host an auction") with lore {_clickToOpen}
+		else:
+			set slot 12 of player's current inventory to golden carrot with name smallFont("&6join ongoing auction") with lore {_clickToOpen}
+		set slot 14 of player's current inventory to candle of soul speed 1 with name smallFont("&6randumbits") with lore {_clickToOpen} with hide enchants item flag
+
+on inventory click:
+	name of event-inventory = smallFont("&0robert's shop"):
+		cancel event
+		play sound "ui.button.click" at pitch 1 to player
+		name of event-slot is smallFont("&6host an auction"):
+			close player's inventory
+			if difference between now and {GlobalAuctionCooldown} is less than 45 minutes:
+				message "&8[&c✖&8] &7The global Dark Auction cooldown is &e%roundTimespan(difference between {GlobalAuctionCooldown} and (45 minutes before now))%!" to player
+			else:
+				AuctionHouseCreating(player)
+		name of event-slot is smallFont("&6join ongoing auction"):
+			teleport player to location(-114.5, 14.2, 45.5, world "world")
+			play sound "entity.enderman.teleport" at pitch 2 to player
+		event-slot is 14:
+			close player's inventory
+			play sound "entity.villager.ambient" at volume 999 at pitch 0.5 to player
+			make player execute command "/shopkeeper remote 210"
+
+function AuctionHouseCreating(p: player):
+	open chest inventory with 6 rows named "&0ᴀᴜᴄᴛɪᴏɴ | ᴄʀᴇᴀᴛɪɴɢ" to {_p}
+	set slot (integers between 0 and 53) of {_p}'s current inventory to black stained glass pane named "&a"
+	wait 3 ticks
+	set slot 22 of {_p}'s current inventory to light gray stained glass pane named "&eSelect Item to Auction" with lore "&8▌ &fClick an item in", "&8▌ &fyour inventory to auction!"
+	set slot 31 of {_p}'s current inventory to oak hanging sign named "&eSet Price" with lore "&8▌ &fClick to set a price", "&8▌ &fCurrency: &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+
+
+on inventory click:
+	if name of event-inventory is "&0ᴀᴜᴄᴛɪᴏɴ | ᴄʀᴇᴀᴛɪɴɢ":
+		cancel event
+		play sound "ui.button.click" at pitch 1 to player
+		if slot 22 of player's current inventory is a light gray stained glass pane:
+			if all:
+				event-slot is not black stained glass pane
+				event-slot is not light gray stained glass pane
+				event-slot is not oak hanging sign
+				event-slot is not arrow
+				event-slot is not air
+				unformatted name of event-slot is not "Poseidon's Trident"
+				unformatted name of event-slot is not "Kraken Trident"
+				unformatted name of event-slot is not "Aquaman's Trident"
+				unformatted name of event-slot is not "Fishy Trident"
+			then:
+				set slot 22 of player's current inventory to 1 of event-slot
+				remove 1 of event-slot from player's inventory
+		else:
+			if event-slot is 22:
+				if player doesn't have enough space for 1 of {_slot22}:
+					close player's inventory
+					drop 1 of {_slot22} at location 1 above the player
+				else:
+					give player 1 of event-slot
+					set slot 22 of player's current inventory to light gray stained glass pane named "&eSelect Item to Auction" with lore "&8▌ &fClick an item in", "&8▌ &fyour inventory to auction!"
+					set slot 31 of player's current inventory to oak hanging sign named "&eSet Price" with lore "&8▌ &fClick to set a price", "&8▌ &fCurrency: &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+		if event-slot is 31:
+			if slot 22 of player's current inventory is not a light gray stained glass pane:
+				set {AuctionHouse::%player's uuid%::itemSale} to slot 22 of player's current inventory
+				close player's inventory
+				set {AuctionHouse::%player's uuid%::Creation} to true
+				send ""
+				send " &6&lSET STARTING BID"
+				send smallFont(" &fType a number in chat to set your auction starting bid. &6(ʀᴀɴᴅᴜᴍʙɪᴛѕ)")
+				send ""
+
+on inventory close:
+	"%name of event-inventory%" = "&0ᴀᴜᴄᴛɪᴏɴ | ᴄʀᴇᴀᴛɪɴɢ":
+		slot 22 of event-inventory is not light gray stained glass pane:
+			set {_slot22} to slot 22 of event-inventory
+			if player doesn't have enough space for 1 of {_slot22}:
+				drop 1 of {_slot22} at location 1 above the player
+			else:
+				give player 1 of {_slot22}
+				
+on chat:
+	if {AuctionHouse::%player's uuid%::Creation} is true:
+		cancel event
+		set {_price} to message parsed as number
+		if {_price} is an integer:		
+			delete {AuctionHouse::%player's uuid%::Creation}
+			open chest inventory with 6 rows named "&0ᴀᴜᴄᴛɪᴏɴ | ꜰɪɴᴀʟ ѕᴛᴇᴘ" to player
+			set slot (integers between 0 and 53) of player's current inventory to black stained glass pane named "&a"
+			set slot 22 of player's current inventory to {AuctionHouse::%player's uuid%::itemSale} with lore "&8▌ &c&lSTARTING BID:", "&8▌ &fx%{_price}% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+			set {_fee} to (floor({_price} / 10) + 1)
+			set slot 31 of player's current inventory to gold nugget named "&6&lCONFIRM AUCTION:" with lore "&8▌ &fConfirm your auction by", "&8▌ &fpaying the fee of:", "&8▌ &fx%{_fee}% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+			set slot 49 of player's current inventory to barrier named "&c&lCANCEL AUCTION"
+		else:
+			send "&8[&c✖&8] &7Please enter an integer value!"
+			
+on inventory click:
+	name of event-inventory = "&0ᴀᴜᴄᴛɪᴏɴ | ꜰɪɴᴀʟ ѕᴛᴇᴘ":
+		cancel event
+		play sound "ui.button.click" at pitch 1 to player
+		if {AuctionHouse::itemSale} is set:
+			send "&8[&c✖&8] &7Someone has started an auction!" to player
+			stop
+		event-slot is 31:
+			event-slot is a gold nugget:
+				set {_fee} to line 3 of lore of event-slot
+				set {_fee::*} to {_fee} split at " "
+				set {_fee} to unformatted 2nd element of {_fee::*}
+				replace all "x" in {_fee} with ""
+				set {_fee} to "%{_fee}%" parsed as integer
+				
+				if player has {_fee} of {RandumBits}:
+					remove {_fee} of {RandumBits} from player's inventory
+					remove 1 of {AuctionHouse::%player's uuid%::itemSale} from player's inventory
+					set {AuctionHouse::itemSale} to {AuctionHouse::%player's uuid%::itemSale}
+					set {_StartingBid} to line 2 of lore of slot 22 of player's current inventory
+					set {_StartingBid::*} to {_StartingBid} split at " "
+					set {_StartingBid} to unformatted 2nd element of {_StartingBid::*}
+					set {AuctionHouse::StartingBid} to {_StartingBid} parsed as integer
+					delete {AuctionHouse::%player's uuid%::itemSale}
+					set {_slot22} to slot 22 of player's current inventory
+					set {_slot22} to line 2 of lore of {_slot22}
+					set {_price::*} to {_slot22} split at " "
+					set {_slot22} to unformatted 2nd element of {_price::*}
+					replace all "x" in {_slot22} with ""
+					close player's inventory
+					set {_holoCreation} to raw name of {AuctionHouse::itemSale}
+					set {_holoCreation::*} to {_holoCreation} split at ":"
+					set {_holoCreation} to last element of {_holoCreation::*}
+					set {_lore::*} to lore of {AuctionHouse::itemSale}
+					set {_lore} to last element of {_lore::*}
+					set {_pingRole} to 1261793071171899513
+					if any:
+						{_lore} contains "&c&lSPECIAL"
+						{_lore} contains "&c&lEVENT"
+					then:
+						set {AuctionHouse::Rarity} to "NotMythic"
+						make embed:
+							set title of embed to "AUCTION STARTED"
+							set embed color of embed to rgb(235, 64, 52)
+							set description of embed to "%nl%An auction has been started by: %nl% %player% %nl%%nl%Rarity: **SPECIAL/EVENT**%nl%%nl% Item: %unformatted name of {AuctionHouse::itemSale}%%nl%**STARTING BID: %{_slot22}%**"
+							post last embed in channel with id "1257759868010627133"
+							
+					if {_lore} contains "&6&lLEGENDARY":
+						set {AuctionHouse::Rarity} to "NotMythic"
+						make embed:
+							set title of embed to "AUCTION STARTED"
+							set embed color of embed to rgb(235, 148, 19)
+							set description of embed to "%nl%An auction has been started by: %nl% %player% %nl%%nl%Rarity: **LEGENDARY**%nl%%nl% Item: %unformatted name of {AuctionHouse::itemSale}%%nl%**STARTING BID: %{_slot22}%**"
+							post last embed in channel with id "1257759868010627133"
+							
+					if {_lore} contains "&5&lEPIC":
+						set {AuctionHouse::Rarity} to "NotMythic"
+						make embed:
+							set title of embed to "AUCTION STARTED"
+							set embed color of embed to rgb(132, 21, 191)
+							set description of embed to "%nl%An auction has been started by: %nl% %player% %nl%%nl%Rarity: **EPIC**%nl%%nl% Item: %unformatted name of {AuctionHouse::itemSale}%%nl%**STARTING BID: %{_slot22}%**"
+							post last embed in channel with id "1257759868010627133"
+					if {_lore} contains "&9&lRARE":
+						set {AuctionHouse::Rarity} to "NotMythic"
+						make embed:
+							set title of embed to "AUCTION STARTED"
+							set embed color of embed to rgb(13, 91, 186)
+							set description of embed to "%nl%An auction has been started by: %nl% %player% %nl%%nl%Rarity: **RARE**%nl%%nl% Item: %unformatted name of {AuctionHouse::itemSale}%%nl%**STARTING BID: %{_slot22}%**"
+							post last embed in channel with id "1257759868010627133"
+					if {_lore} contains "&a&lUNCOMMON":
+						set {AuctionHouse::Rarity} to "NotMythic"
+						make embed:
+							set title of embed to "AUCTION STARTED"
+							set embed color of embed to rgb(70, 235, 114)
+							set description of embed to "%nl%An auction has been started by: %nl% %player% %nl%%nl%Rarity: **UNCOMMON**%nl%%nl% Item: %unformatted name of {AuctionHouse::itemSale}%%nl%**STARTING BID: %{_slot22}%**"
+							post last embed in channel with id "1257759868010627133"
+					if {_lore} contains "&f&lCOMMON":
+						set {AuctionHouse::Rarity} to "NotMythic"
+						make embed:
+							set title of embed to "AUCTION STARTED"
+							set embed color of embed to rgb(255, 255, 255)
+							set description of embed to "%nl%An auction has been started by: %nl% %player% %nl%%nl%Rarity: **COMMON**%nl%%nl% Item: %unformatted name of {AuctionHouse::itemSale}%%nl%**STARTING BID: %{_slot22}%**"
+							post last embed in channel with id "1257759868010627133"
+					if {_lore} contains "&d&lMYTHIC":
+						set {AuctionHouse::Rarity} to "Mythic"
+						make embed:
+							set title of embed to "AUCTION STARTED"
+							set embed color of embed to rgb(245, 108, 231)		
+							set description of embed to "%nl%An auction has been started by: %nl% %player% %nl%%nl%Rarity: **MYTHIC**%nl%%nl% Item: %unformatted name of {AuctionHouse::itemSale}%%nl%**STARTING BID: %{_slot22}%**%nl%%nl%<@&%{_pingRole}%> "
+							
+							post last embed in channel with id "1257759868010627133"
+					if all:
+						{_lore} does not contain "&d&lMYTHIC"
+						{_lore} does not contain "&c&lSPECIAL"
+						{_lore} does not contain "&c&lEVENT"
+						{_lore} does not contain "&6&lLEGENDARY"
+						{_lore} does not contain "&5&lEPIC"
+						{_lore} does not contain "&9&lRARE"
+						{_lore} does not contain "&a&lUNCOMMMON"
+						{_lore} does not contain "&f&lCOMMON"
+					then:
+						set {AuctionHouse::Rarity} to "NotMythic"
+						make embed:
+							set title of embed to "AUCTION STARTED"
+							set embed color of embed to rgb(255, 255, 255)
+							if "%unformatted name of {AuctionHouse::itemSale}%" != "<none>":
+								set description of embed to "%nl%An auction has been started by: %nl% %player% %nl%%nl%Rarity: **UNKNOWN**%nl%%nl% Item: %unformatted name of {AuctionHouse::itemSale}%%nl%**STARTING BID: %{_slot22}%**"
+							else:
+								set description of embed to "%nl%An auction has been started by: %nl% %player% %nl%%nl%Rarity: **UNKNOWN**%nl%%nl% Item: %translate component of {AuctionHouse::itemSale}%%nl%**STARTING BID: %{_slot22}%**"
+							post last embed in channel with id "1257759868010627133"
+					execute console command "/holo create auction -l:world:-114.5:15.55:49.5 #ICON: %{_holoCreation} in uppercase%"
+					broadcast " &8&m •&8&m                                                        &r&8&m• " 
+					broadcast " &6&lAUCTION STARTED"
+					if "%name of {AuctionHouse::itemSale}%" = "<none>":
+						broadcast formatted smallFont(" &f%player% has started an auction!")
+						broadcast formatted smallFont(" &eitem: &f%translate component of {AuctionHouse::itemSale}%") 
+					else:
+						broadcast formatted smallFont(" &f%player% has started an auction!")
+						broadcast formatted smallFont(" &eitem: &n%name of {AuctionHouse::itemSale}%") 
+						
+				
+					set {_textSmFont} to formatted smallFont("&6x%{_slot22}% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ")
+					broadcast formatted smallFont(" &c&lSTARTING BID: %{_textSmFont}%")
+					broadcast "&a<tooltip:&6Join the auction!>&6&l<cmd:/joindarkauction> [&6ᴄʟɪᴄᴋ ᴛᴏ ᴊᴏɪɴ&6&l]<reset>"	
+					broadcast " &8&m •&8&m                                                        &r&8&m• "
+					set {AuctionHouse::StartingBid} to {_slot22} parsed as integer
+					set {AuctionHouse::Host} to player
+					AuctionStarting(1)
+				else:
+					close player's inventory
+					message "&8[&c✖&8] &7You don't have enough &6ʀᴀɴᴅᴜᴍʙɪᴛѕ &7to pay the fee!" to player
+		event-slot is 49:
+			close player's inventory
+			send ""
+			send " &c&lCANCELLED AUCTION"
+			send smallFont(" &fYou cancelled your auction.")
+			send ""
+			delete {AuctionHouse::%player's uuid%::itemSale}
+
+function AuctionGuiBiddingPages(PageNumber: integer):
+	set {AuctionHouse::BidTracker} to chest inventory with 6 rows named smallFont("&0bidding | %{_PageNumber}%")
+	set slot (integers between 0 and 53) of {AuctionHouse::BidTracker} to black stained glass pane named "&a"
+	set slot 4 of {AuctionHouse::BidTracker} to {AuctionHouse::itemSale}
+		
+	set slot 18 of {AuctionHouse::BidTracker} to red stained glass pane named "&eBid: %(-24 + (25 * {_PageNumber}) + {AuctionHouse::StartingBid})% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+	set slot 27 of {AuctionHouse::BidTracker} to red stained glass pane named "&eBid: %(-23 + (25 * {_PageNumber}) + {AuctionHouse::StartingBid})% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+	set slot 36 of {AuctionHouse::BidTracker} to red stained glass pane named "&eBid: %(-22 + (25 * {_PageNumber}) + {AuctionHouse::StartingBid})% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+	set slot 45 of {AuctionHouse::BidTracker} to red stained glass pane named "&eBid: %(-21 + (25 * {_PageNumber}) + {AuctionHouse::StartingBid})% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+	set slot 46 of {AuctionHouse::BidTracker} to red stained glass pane named "&eBid: %(-20 + (25 * {_PageNumber}) + {AuctionHouse::StartingBid})% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+	set slot 47 of {AuctionHouse::BidTracker} to red stained glass pane named "&eBid: %(-19 + (25 * {_PageNumber}) + {AuctionHouse::StartingBid})% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+	set slot 38 of {AuctionHouse::BidTracker} to red stained glass pane named "&eBid: %(-18 + (25 * {_PageNumber}) + {AuctionHouse::StartingBid})% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+	set slot 29 of {AuctionHouse::BidTracker} to red stained glass pane named "&eBid: %(-17 + (25 * {_PageNumber}) + {AuctionHouse::StartingBid})% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+	set slot 20 of {AuctionHouse::BidTracker} to red stained glass pane named "&eBid: %(-16 + (25 * {_PageNumber}) + {AuctionHouse::StartingBid})% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+	set slot 21 of {AuctionHouse::BidTracker} to red stained glass pane named "&eBid: %(-15 + (25 * {_PageNumber}) + {AuctionHouse::StartingBid})% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+	set slot 22 of {AuctionHouse::BidTracker} to red stained glass pane named "&eBid: %(-14 + (25 * {_PageNumber}) + {AuctionHouse::StartingBid})% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+	set slot 31 of {AuctionHouse::BidTracker} to red stained glass pane named "&eBid: %(-13 + (25 * {_PageNumber}) + {AuctionHouse::StartingBid})% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+	set slot 40 of {AuctionHouse::BidTracker} to red stained glass pane named "&eBid: %(-12 + (25 * {_PageNumber}) + {AuctionHouse::StartingBid})% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+	set slot 49 of {AuctionHouse::BidTracker} to red stained glass pane named "&eBid: %(-11 + (25 * {_PageNumber}) + {AuctionHouse::StartingBid})% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+	set slot 50 of {AuctionHouse::BidTracker} to red stained glass pane named "&eBid: %(-10 + (25 * {_PageNumber}) + {AuctionHouse::StartingBid})% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+	set slot 51 of {AuctionHouse::BidTracker} to red stained glass pane named "&eBid: %(-9 + (25 * {_PageNumber}) + {AuctionHouse::StartingBid})% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+	set slot 42 of {AuctionHouse::BidTracker} to red stained glass pane named "&eBid: %(-8 + (25 * {_PageNumber}) + {AuctionHouse::StartingBid})% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+	set slot 33 of {AuctionHouse::BidTracker} to red stained glass pane named "&eBid: %(-7 + (25 * {_PageNumber}) + {AuctionHouse::StartingBid})% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+	set slot 24 of {AuctionHouse::BidTracker} to red stained glass pane named "&eBid: %(-6 + (25 * {_PageNumber}) + {AuctionHouse::StartingBid})% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+	set slot 25 of {AuctionHouse::BidTracker} to red stained glass pane named "&eBid: %(-5 + (25 * {_PageNumber}) + {AuctionHouse::StartingBid})% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+	set slot 26 of {AuctionHouse::BidTracker} to red stained glass pane named "&eBid: %(-4 + (25 * {_PageNumber}) + {AuctionHouse::StartingBid})% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+	set slot 35 of {AuctionHouse::BidTracker} to red stained glass pane named "&eBid: %(-3 + (25 * {_PageNumber}) + {AuctionHouse::StartingBid})% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+	set slot 44 of {AuctionHouse::BidTracker} to red stained glass pane named "&eBid: %(-2 + (25 * {_PageNumber}) + {AuctionHouse::StartingBid})% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+	set slot 53 of {AuctionHouse::BidTracker} to red stained glass pane named "&eBid: %(-1 + (25 * {_PageNumber}) + {AuctionHouse::StartingBid})% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ"
+
+function AuctionStarting(page: integer):
+	if {AuctionHouse::Rarity} = "Mythic":
+		set {_time} to 150
+	else:
+		set {_time} to 60
+	
+	loop all entities in radius 3 of location(-114.5, 20.5, 56.5, world "world", 181, 0) where [input is a text display]:
+		kill loop-entity
+	spawn text display at location(-114.5, 20.5, 56.5, world "world", 181, 0)
+	set {_w} to last spawned text display
+	set display text of {_w} to "&f&lAUCTION STARTING IN"
+	set display text shadowed of {_w} to false
+	set display billboard of {_w} to fixed
+	set display scale of {_w} to vector(4, 4, 4)
+	set display text background color of {_w} to bukkitColor(0, 0, 0, 0)
+		
+	spawn text display at location(-114.5, 19.5, 56.5, world "world", 181, 0)
+	set {_w} to last spawned text display
+	set display text of {_w} to "&f&l%{_time}% SECONDS"
+	set display text shadowed of {_w} to false
+	set display billboard of {_w} to fixed
+	set display scale of {_w} to vector(4, 4, 4)
+	set display text background color of {_w} to bukkitColor(0, 0, 0, 0)
+	set {AuctionHouse::StartingSoon} to true
+	set {AuctionHouse::Active} to true
+	wait 5 seconds
+	play sound "music_disc.stal" at volume 15 at pitch 1 at location(-114.5, 14.2, 45.5, world "world")
+	loop {_time} times:
+		set {_time} to {_time} - 1
+		if {_time} is 1:
+			set display text of {_w} to "&f&l%{_time}% SECOND"
+		else:
+			set display text of {_w} to "&f&l%{_time}% SECONDS"
+		wait 1 second
+	if {AuctionHouse::Rarity} = "Mythic":
+		stop all sounds for all players
+		loop all players in radius 15 of location(-114, 15, 49, world "world"):
+			play sound "music_disc.precipice" at pitch 1 to loop-player
+	else:
+		stop all sounds for all players
+		loop all players in radius 15 of location(-114, 15, 49, world "world"):
+			play sound "music_disc.stal" at volume 15 at pitch 1 to loop-player
+	loop all entities in radius 3 of location(-114.5, 20.5, 56.5, world "world", 181, 0) where [input is a text display]:
+		kill loop-entity
+	AuctionGuiBiddingPages(1)
+	spawn text display at location(-114.5, 19.5, 56.5, world "world", 181, 0)
+	set {_w} to last spawned text display
+	set display text of {_w} to "&f&lTIME LEFT TO BID: 20 SECONDS", "&6&lTOP BID: &e&n55 RANDUMBITS"  #❔
+	set display text shadowed of {_w} to false
+	set display billboard of {_w} to fixed
+	set display scale of {_w} to vector(3, 3, 3)
+	set display text background color of {_w} to bukkitColor(0, 0, 0, 0)
+	set {AuctionHouse::Timer} to 60
+	while {AuctionHouse::Active} is true:
+		if {AuctionHouse::Timer} > 10:
+			set display text of {_w} to "&f&lTIME LEFT TO BID: %{AuctionHouse::Timer}% SECONDS", "&6&lTOP BID: &e&n%{AuctionHouse::HighestBid} ? 0% RANDUMBITS"
+		if {AuctionHouse::Timer} <= 10:
+			loop all players in radius 10 of location(-114.5, 14.2, 45.5, world "world"):
+				play sound "ui.button.click" at pitch 1 to loop-player
+			if mod({AuctionHouse::Timer}, 2) isn't 0:
+				set display text of {_w} to "&c&lTIME LEFT TO BID: %{AuctionHouse::Timer}% SECONDS", "&6&lTOP BID: &e&n%{AuctionHouse::HighestBid} ? 0% RANDUMBITS"
+			else:
+				set display text of {_w} to "&f&lTIME LEFT TO BID: %{AuctionHouse::Timer}% SECONDS", "&6&lTOP BID: &e&n%{AuctionHouse::HighestBid} ? 0% RANDUMBITS"
+		subtract 1 from {AuctionHouse::Timer}
+		if {AuctionHouse::Timer} = -1:
+			give 1 of {AuctionHouse::itemSale} to {AuctionHouse::TopBidder}
+			if {AuctionHouse::TopBidder} is not set:
+				give 1 of {AuctionHouse::itemSale} to {AuctionHouse::Host}
+			set display text of {_w} to "&f&lSOLD TO %{AuctionHouse::TopBidder} ? "NO ONE :("%", "&6&lFOR: &e&n%{AuctionHouse::HighestBid} ? 0% RANDUMBITS"
+			execute console command "/holo del auction"
+			
+
+			stop all sounds for all players
+			loop {AuctionHouse::TheBids::*}:
+				set {_refund::*} to loop-value split at " "
+				set {_pVal} to 1st element of {_refund::*} parsed as player
+				set {_numVal} to 2nd element of {_refund::*} parsed as integer
+				if {_pVal} != {AuctionHouse::TopBidder}:
+					give {_numVal} of {RandumBits} to {_pVal}
+				delete {_refund::*}
+			if {AuctionHouse::HighestBid} >= 50:
+				if {AuctionHouse::TopBidder} != {AuctionHouse::Host}:
+					if {Achievement::%{AuctionHouse::TopBidder}'s uuid%::BetterCallSaul} is not true:
+						set {Achievement::%{AuctionHouse::TopBidder}'s uuid%::BetterCallSaul} to true
+						broadcast "&8[&5◆&8] &d%{AuctionHouse::TopBidder}% completed the achievement: &5Better Call Saul"
+						play sound "entity.player.levelup" at pitch 0 to all players
+			give {AuctionHouse::Host} {AuctionHouse::HighestBid} of {RandumBits}
+			delete {AuctionHouse::*}
+			
+			exit loop
+			
+			stop
+		wait 1 second
+		
+	
+on right click on interaction:
+	if interaction has scoreboard tag "auctionInteraction":
+		if {AuctionHouse::Active} is true:
+			open {AuctionHouse::BidTracker} to player
+		if {AuctionHouse::StartingSoon} is true:
+			send action bar "&c%smallFont("the auction is starting soon!")%"
+		else:
+			send action bar "&c%smallFont("the auction has ended!")%"
+
+on inventory click:
+	name of event-inventory contains smallFont("&0bidding"):
+		cancel event
+	event-inventory = {AuctionHouse::BidTracker}:
+		cancel event
+		if difference between now and {AuctionHouse::BiddingCooldown::%player's uuid%} is less than 2 second:
+			stop
+		event-slot is a red stained glass pane:
+			set {AuctionHouse::BiddingCooldown::%player's uuid%} to now
+			set {_BidTracker} to unformatted name of event-slot
+			set {_BidTracker::*} to {_BidTracker} split at " "
+			set {_BidTracker} to 2nd element of {_BidTracker::*}
+			set {_BidTracker} to "%{_BidTracker}%" parsed as integer
+			if player has ({_BidTracker} - ({AuctionHouse::PreviousBid::%player's uuid%} ? 0)) of {RandumBits}:
+				set event-slot to player's skull named "&bHighest Bidder (%{_BidTracker}%):" with lore smallFont("&6player")
+				set {AuctionHouse::HighestBid} to {_BidTracker}
+				set {AuctionHouse::TopBidder} to player
+				set {AuctionHouse::Timer} to 20
+				set {_remove} to ({AuctionHouse::HighestBid} - ({AuctionHouse::PreviousBid::%player's uuid%} ? 0))
+				set {AuctionHouse::PreviousBid::%player's uuid%} to {AuctionHouse::HighestBid}
+				loop {AuctionHouse::TheBids::*}:
+					loop-value contains "%player's name%"
+					remove loop-value from  {AuctionHouse::TheBids::*}
+				add "%player's name% %{AuctionHouse::HighestBid}%" to {AuctionHouse::TheBids::*}
+				remove {_remove} of {RandumBits} from player's inventory
+				set {_slots::*} to (integers between 0 and 53)
+				loop all players in radius 10 of location(-114.5, 14.2, 45.5, world "world"):
+					message "&7» &b%player% just bid &6%{AuctionHouse::HighestBid}% &6ʀᴀɴᴅᴜᴍʙɪᴛѕ" to loop-player
+					play sound "block.note_block.pling" at pitch 2 to loop-player
+				loop {_slots::*}:
+					if slot (loop-value) of {AuctionHouse::BidTracker} is a red stained glass pane:
+						set {_BidTracker} to unformatted name of slot (loop-value) of {AuctionHouse::BidTracker}
+						set {_BidTracker::*} to {_BidTracker} split at " "
+						set {_BidTracker} to 2nd element of {_BidTracker::*}
+						set {_BidTracker} to "%{_BidTracker}%" parsed as integer
+						if {_BidTracker} < {AuctionHouse::HighestBid}:
+							set slot (loop-value) of {AuctionHouse::BidTracker} to lime stained glass pane named "&a%smallFont("&aAlready Bid On")%"
+				
+				loop all players:
+					name of loop-player's current inventory contains smallFont("&0bidding")
+					open {AuctionHouse::BidTracker} to loop-player
+			else:
+				play sound "block.note_block.pling" at volume 999 at pitch 0 to player
+			if slot 53 of player's current inventory is a player head:
+				set {_nextPage} to unformatted name of event-inventory
+				set {_nextPage::*} to {_nextPage} split at " "
+				set {_nextPage} to last element of {_nextPage::*}
+				set {_nextPage} to "%{_nextPage}%" parsed as integer
+				add 1 to {_nextPage}
+				AuctionGuiBiddingPages({_nextPage})
+				wait 2 second
+				loop all players:
+					name of loop-player's current inventory contains smallFont("&0bidding")
+					open {AuctionHouse::BidTracker} to loop-player
+		else:	
+			play sound "ui.button.click" at pitch 1 to player
+
+command /joindarkauction:
+	trigger:
+		play sound "entity.enderman.teleport" at pitch 2 to player
+		teleport player to location(-114.5, 14.2, 45.5, world "world")

@@ -1,0 +1,283 @@
+# ------------------------ CONFIG CONFIG CONFIG CONFIG CONFIG ----------------------
+
+
+options:
+	entity: wither skeleton
+	name: "§x§6§A§1§C§D§E§lOBSIDIAN GOLEM"  # made uuid of boss to ID
+	
+	health: 150
+	attack_damage: 30
+	movement_speed: 0.25
+	
+	helmet: player head with nbt from "{""minecraft:profile"":{properties:[{name:""textures"",value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQyZjljM2Y3YWNiN2VlNTYyZmE1NWNiZTU0ZTFkY2M2MzgzMTRkMjVjMzk4NTU0ZWNkMzcyMGQ3ZWUyYiJ9fX0=""}]}}"
+
+	chestplate: air
+	leggings: air
+	boots: air
+	
+	mainItem: netherite sword of unbreaking 100
+	offHand: air
+	
+	leaderboard_color: "<##00EAFF>"
+	leaderboard_topname: "&c&l"
+	bossbar_color: purple
+	bossbar_style: solid_bar
+	bossbar_radius: 20
+
+#------------------------------------ END OF CONFIG----------------------------------
+	
+
+function server_SpawnObsidianGolem(p: player):
+	spawn {@entity} at {_p}:
+	
+		add nbt from "{CustomNameVisble:1b}" to nbt of entity
+	
+		set max health of entity to {@health}
+		set health of entity to {@health}
+		set entity's attack damage attribute to {@attack_damage}
+		set entity's movement speed attribute to  {@movement_speed}
+		set name of entity to "%{@name}% &c%health of entity%❤"
+		
+
+		
+		set {_chest} to unbreakable leather chestplate
+		set {_legs} to unbreakable leather leggings
+		set {_boots} to unbreakable leather boots
+		dye {_chest} black
+		dye {_legs} black
+		dye {_boots} black
+		set entity's helmet to {@helmet}
+		set entity's chestplate to {_chest}
+		set entity's leggings to {_legs}
+		set entity's boots to {_boots}
+		
+		set entity's held item to {@mainItem}
+		set the off hand item of entity to {@offHand}
+		
+		set {_e} to the entity
+	set {_u} to uuid int array as string from {_e}
+	set {mob::%{_u}%} to {_p}
+	set {_bar} to bossbar with id "%{_e}'s uuid%" with title "%{@name}% &c%health of {_e}%❤" with color {@bossbar_color} with style {@bossbar_style} with progress 100
+	if {Settings::%{_p}'s uuid%::Bossbars} is true:
+		add {_p} to {_bar}
+	loop 150 times:
+		delete boss bar with id "%{_e}'s uuid%" if {_e} is not alive
+		exit loop if {_e} is not alive
+		loop all players in radius {@bossbar_radius} around {_e}:
+			if {Settings::%loop-player's uuid%::Bossbars} is true:
+				add loop-player to {_bar}
+		set bossbar progress of {_bar} to ((health of {_e})/(max health of {_e}))*100
+		set bar title of {_bar} to "%{@name}% &c%health of {_e}%❤"
+		
+		set {_ability} to random integer between 1 and 3
+		
+		#ABILITIES HERE
+		if {_ability} is 1:
+			StoneSkin({_e})
+		if {_ability} is 2:
+			MoltenCore({_e})
+		if {_ability} is 3:
+			ObsidianSmash({_e})
+		
+		wait 8 seconds
+	kill {_e}
+
+on damage of {@entity}:
+	if name of victim contains {@name}:
+		if damage cause is fall:
+			cancel event
+			stop
+		wait 1 tick
+		set {_bar} to bossbar with id "%victim's uuid%"
+		set name of victim to "%{@name}% &c%health of victim%❤"
+		set bar title of {_bar} to "%{@name}% &c%health of victim%❤"
+		set bossbar progress of {_bar} to ((health of victim)/(max health of victim))*100
+
+on death of {@entity}:
+	name of victim contains {@name}
+	delete boss bar with id "%victim's uuid%"
+	clear drops
+	set {_u} to uuid int array as string from victim
+	
+	chance of 5.5%:
+		give {mob::%{_u}%} wither skeleton skull
+		
+	if {mob::%{_u}%} is connected:
+		give {mob::%{_u}%} 1 of ominous trial key of soul speed 1 named "&x&6&A&1&C&D&EObisidian Golem Skull Key" with lore "&f&lCOMMON KEY" with hide enchants item flag
+	else if {mob::%{_u}%} is not connected:
+		give {mob::%{_u}%} 1 of ominous trial key of soul speed 1 named "&x&6&A&1&C&D&EObisidian Golem Skull Key" with lore "&f&lCOMMON KEY" with hide enchants item flag
+	
+		
+	add 20 to {EXP::%{mob::%{_u}%}'s uuid%::TotalCombat}
+	add 20 to {EXP::%{mob::%{_u}%}'s uuid%::ResetCombat}
+	if {Settings::%{mob::%{_u}%}'s uuid%::ExpDisplayAsPercent} is true:
+		send action bar "&6&l+20 XP &8|| &r&b%({EXP::%{mob::%{_u}%}'s uuid%::ResetCombat})/(floor(25 * (1.3 ^ ({EXP::%{mob::%{_u}%}'s uuid%::CombatLevel} - 1)))) * 100%%% &8|| &r&6Combat" to {mob::%{_u}%}
+	else:
+		send action bar "&6&l+20 XP &8|| &r&b%formatNumber({EXP::%{mob::%{_u}%}'s uuid%::ResetCombat})%&7/&2%formatNumber(floor(150 * (1.3 ^ ({EXP::%{mob::%{_u}%}'s uuid%::CombatLevel} - 1))))% &8|| &r&6Combat" to {mob::%{_u}%}
+		play sound "entity.experience_orb.pickup" at pitch 2 to {mob::%{_u}%}
+		CombatLevelUp({mob::%{_u}%})
+		
+	set {Collections::%{mob::%{_u}%}'s uuid%::ObsidianGolem} to ({Collections::%{mob::%{_u}%}'s uuid%::ObsidianGolem} + 1)
+	wait 1 tick
+	if {Collections::%{mob::%{_u}%}'s uuid%::ObsidianGolem} = 1:
+		play sound "entity.player.levelup" to {mob::%{_u}%}
+		send "" to {mob::%{_u}%}
+		send " &6&lCOLLECTION UNLOCKED" to {mob::%{_u}%}
+		send smallFont(" &x&6&A&1&C&D&EObisidian Golem") to {mob::%{_u}%}
+		send "" to {mob::%{_u}%}
+	if {Collections::%{mob::%{_u}%}'s uuid%::ObsidianGolem} = 5:
+		CollectionLevelUp("&x&6&A&1&C&D&EObisidian Golem", 2, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::ObsidianGolem} = 15:
+		CollectionLevelUp("&x&6&A&1&C&D&EObisidian Golem", 3, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::ObsidianGolem} = 25:
+		CollectionLevelUp("&x&6&A&1&C&D&EObisidian Golem", 4, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::ObsidianGolem} = 50:
+		CollectionLevelUp("&x&6&A&1&C&D&EObisidian Golem", 5, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::ObsidianGolem} = 100:
+		CollectionLevelUp("&x&6&A&1&C&D&EObisidian Golem", 6, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::ObsidianGolem} = 200:
+		CollectionLevelUp("&x&6&A&1&C&D&EObisidian Golem", 7, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::ObsidianGolem} = 300:
+		CollectionLevelUp("&x&6&A&1&C&D&EObisidian Golem", 8, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::ObsidianGolem} = 400:
+		CollectionLevelUp("&x&6&A&1&C&D&EObisidian Golem", 9, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::ObsidianGolem} = 500:
+		CollectionLevelUp("&x&6&A&1&C&D&EObisidian Golem", 10, {mob::%{_u}%})
+	delete {mob::%{_u}%}
+	
+	
+on right click:
+	if name of player's held item = hexfix("&#6A1CDEObisidian Golem Spawn Egg"):
+		"%region at player%" contains "arena":
+			if player's target block is not within 4.5 blocks of player:
+				item cooldown of player's tool for player < 0.05 seconds
+				set item cooldown of player's tool for player to 1 second
+				remove 1 of endermite spawn egg named hexfix("&#6A1CDEObisidian Golem Spawn Egg") from player's inventory
+				server_SpawnObsidianGolem(player)
+			else:
+				message "&8[&c✖&8] &7Please right click in the air." to player
+				cancel event
+		else:
+			message "&8[&c✖&8] &7You must be in an arena to spawn this." to player
+			cancel event
+	
+		
+function StoneSkin(e: entity):
+	loop all players in radius 20 of {_e}:
+		send action bar "§x§6§A§1§C§D§E§lOBSIDIAN GOLEM &7» §x§E§F§4§7§3§AStone Skin" to loop-player
+		play sound "item.armor.equip_wolf" at pitch 1 to loop-player
+		if {Settings::%loop-player's uuid%::BossAbilitiesInChat} is true:
+			send "§x§6§A§1§C§D§E§lOBSIDIAN GOLEM &7» §x§E§F§4§7§3§AStone Skin" to loop-player
+	apply resistance 3 to {_e} for 10 seconds
+	set {_e}'s chestplate to iron chestplate
+	set {_e}'s leggings to iron leggings
+	set {_e}'s boots to iron boots
+	wait 10 seconds
+	set {_chest} to unbreakable leather chestplate
+	set {_legs} to unbreakable leather leggings
+	set {_boots} to unbreakable leather boots
+	dye {_chest} black
+	dye {_legs} black
+	dye {_boots} black
+	set {_e}'s chestplate to {_chest}
+	set {_e}'s leggings to {_legs}
+	set {_e}'s boots to {_boots}
+	loop all players in radius 20 of {_e}:
+		play sound "item.armor.equip_leather" at pitch 1 to loop-player
+		
+function ObsidianSmash(e: entity):
+	loop all players in radius 20 of {_e}:
+		send action bar "§x§6§A§1§C§D§E§lOBSIDIAN GOLEM &7» §x§E§F§4§7§3§AObsidian Smash" to loop-player
+		play sound "entity.warden.sonic_charge" at pitch 1 to loop-player
+		if {Settings::%loop-player's uuid%::BossAbilitiesInChat} is true:
+			send "§x§6§A§1§C§D§E§lOBSIDIAN GOLEM &7» §x§E§F§4§7§3§AObsidian Smash" to loop-player
+	set {_loc} to location at {_e}
+	push {_e} up at speed 2
+	wait 10 ticks
+	push {_e} down at speed 4
+	while block beneath {_e} is air:
+		if {_e} is alive:
+			wait 1 tick
+		else:
+			exit loop
+	loop all players in radius 20 of {_e}:
+		play sound "entity.warden.sonic_boom" at pitch 1 to loop-player
+	loop 10 times:
+		loop all blocks in radius (loop-number) around {_loc}:
+			if all:
+				(distance between loop-block and {_loc}) >= ((loop-number) - 1)
+				(loop-block's y-coord = y-coord of block below {_loc})
+			then:
+				spawn ("falling obsidian" parsed as an entitytype) at loop-block with nbt from "{DropItem:0}"
+		loop all players in radius loop-number around {_loc} where [input is not {_e}]:
+			if {_damaged::*} does not contain loop-entity:
+				make {_e} damage loop-entity by 5
+				add loop-entity to {_damaged::*}
+		wait 1 ticks
+		
+function MoltenCore(e: entity):
+	loop all players in radius 20 of {_e}:
+		send action bar "§x§6§A§1§C§D§E§lOBSIDIAN GOLEM &7» §x§E§F§4§7§3§AMolten Core" to loop-player
+		if {Settings::%loop-player's uuid%::BossAbilitiesInChat} is true:
+			send "§x§6§A§1§C§D§E§lOBSIDIAN GOLEM &7» §x§E§F§4§7§3§AMolten Core" to loop-player
+		play sound "entity.blaze.shoot" at pitch 1 to loop-player
+		ignite loop-player for 3 seconds
+	set {FireSword::%{_e}'s uuid%} to true
+	SolidAura(orange, 10, {_e})
+	loop 3 times:
+		spawn magma cube at {_e} with nbt from "{Size:2}"
+		set {_w} to last spawned magma cube
+		set max health of {_w} to 30
+		set health of {_w} to 30
+		set {_w}'s attack damage attribute to 15
+		set name of {_w} to "§x§D§E§5§9§1§C&lᴍᴏʟᴛᴇɴ ᴄᴜʙᴇѕ"
+		add {_w} to {_KillList::*}
+		wait 1 tick
+	wait 15 seconds
+	loop {_KillList::*}:
+		delete entity within loop-value
+		
+on death:
+	name of victim is "§x§D§E§5§9§1§C&lᴍᴏʟᴛᴇɴ ᴄᴜʙᴇѕ":
+		clear drops
+		attacker is a player:
+			add 10 to {EXP::%attacker's uuid%::TotalCombat}
+			add 10 to {EXP::%attacker's uuid%::ResetCombat}
+			if {Settings::%attacker's uuid%::ExpDisplayAsPercent} is true:
+				send action bar "&6&l+10 XP &8|| &r&b%({EXP::%attacker's uuid%::ResetCombat})/(floor(25 * (1.3 ^ ({EXP::%attacker's uuid%::CombatLevel} - 1)))) * 100%%% &8|| &r&6Combat" to attacker
+			else:
+				send action bar "&6&l+10 XP &8|| &r&b%formatNumber({EXP::%attacker's uuid%::ResetCombat})%&7/&2%formatNumber(floor(150 * (1.3 ^ ({EXP::%attacker's uuid%::CombatLevel} - 1))))% &8|| &r&6Combat" to attacker
+			play sound "entity.experience_orb.pickup" at pitch 2 to attacker
+			CombatLevelUp(attacker)
+			set {Collections::%attacker's uuid%::MoltenCubes} to ({Collections::%attacker's uuid%::MoltenCubes} + 1)
+			wait 1 tick
+			if {Collections::%attacker's uuid%::MoltenCubes} = 1:
+				play sound "entity.player.levelup" to attacker
+				send "" to attacker
+				send " &6&lCOLLECTION UNLOCKED" to attacker
+				send smallFont(" §x§D§E§5§9§1§Cᴍᴏʟᴛᴇɴ ᴄᴜʙᴇѕ") to attacker
+				send "" to attacker
+			if {Collections::%attacker's uuid%::MoltenCubes} = 5:
+				CollectionLevelUp("§x§D§E§5§9§1§Cᴍᴏʟᴛᴇɴ ᴄᴜʙᴇѕ", 2, attacker)
+			if {Collections::%attacker's uuid%::MoltenCubes} = 25:
+				CollectionLevelUp("§x§D§E§5§9§1§Cᴍᴏʟᴛᴇɴ ᴄᴜʙᴇѕ", 3, attacker)
+			if {Collections::%attacker's uuid%::MoltenCubes} = 75:
+				CollectionLevelUp("§x§D§E§5§9§1§Cᴍᴏʟᴛᴇɴ ᴄᴜʙᴇѕ", 4, attacker)
+			if {Collections::%attacker's uuid%::MoltenCubes} = 100:
+				CollectionLevelUp("§x§D§E§5§9§1§Cᴍᴏʟᴛᴇɴ ᴄᴜʙᴇѕ", 5, attacker)
+			if {Collections::%attacker's uuid%::MoltenCubes} = 200:
+				CollectionLevelUp("§x§D§E§5§9§1§Cᴍᴏʟᴛᴇɴ ᴄᴜʙᴇѕ", 6, attacker)
+			if {Collections::%attacker's uuid%::MoltenCubes} = 300:
+				CollectionLevelUp("§x§D§E§5§9§1§Cᴍᴏʟᴛᴇɴ ᴄᴜʙᴇѕ", 7, attacker)
+			if {Collections::%attacker's uuid%::MoltenCubes} = 500:
+				CollectionLevelUp("§x§D§E§5§9§1§Cᴍᴏʟᴛᴇɴ ᴄᴜʙᴇѕ", 8, attacker)
+			if {Collections::%attacker's uuid%::MoltenCubes} = 750:
+				CollectionLevelUp("§x§D§E§5§9§1§Cᴍᴏʟᴛᴇɴ ᴄᴜʙᴇѕ", 9, attacker)
+			if {Collections::%attacker's uuid%::MoltenCubes} = 1000:
+				CollectionLevelUp("§x§D§E§5§9§1§Cᴍᴏʟᴛᴇɴ ᴄᴜʙᴇѕ", 10, attacker)
+		
+		
+every 2 minutes:
+	loop all magma cubes:
+		name of loop-value is "§x§D§E§5§9§1§C&lᴍᴏʟᴛᴇɴ ᴄᴜʙᴇѕ":
+			delete entity within loop-value

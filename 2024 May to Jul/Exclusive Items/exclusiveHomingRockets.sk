@@ -1,0 +1,7 @@
+on right click:
+	name of player's tool is "&x&F&B&7&E&0&8Homing Missiles":
+		item cooldown of player's tool for player < 0.01 seconds
+		set item cooldown of player's tool for player to 0.5 second
+		loop all players in radius 5 of player:
+			play sound "block.piston.contract" at pitch 1.5 to loop-player
+		HomingRockets(player)

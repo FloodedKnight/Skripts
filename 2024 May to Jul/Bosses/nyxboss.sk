@@ -1,0 +1,250 @@
+# ------------------------ CONFIG CONFIG CONFIG CONFIG CONFIG ----------------------
+
+
+options:
+	entity: stray
+	name: "&8&lNYX"  # made uuid of boss to ID
+	
+	health: 4000
+	attack_damage: 300
+	movement_speed: 0.4
+	
+	helmet: coal block
+	chestplate: netherite chestplate
+	leggings: netherite leggings
+	boots: netherite boots
+	
+	mainItem: diamond sword of aqua affinity 1
+	offHand: air
+	
+	leaderboard_color: "<##00EAFF>"
+	leaderboard_topname: "&c&l"
+	bossbar_color: white
+	bossbar_style: solid_bar
+	bossbar_radius: 20
+
+#------------------------------------ END OF CONFIG----------------------------------
+	
+
+function server_SpawnNYX(p: player):
+	play sound "entity.wither.ambient" at pitch 0 to all players where ["%region at input%" contains "arena"]
+	if "%region at {_p}%" contains "arena1":
+		set {_locParticles} to location(394.5, 4.1, -41.5, world "world", 0, 0)
+	if "%region at {_p}%" contains "arena2":
+		set {_locParticles} to location(663.5, 4.1, -37.5, world "world", 0, 0)
+	loop 100 times:
+		draw 30 of dust using dustTransition(black, gray, 10) at {_locParticles} with offset vector(1, 1, 1)
+		wait 1 tick
+	spawn {@entity} at {_locParticles}:
+	
+		add nbt from "{CustomNameVisble:1b}" to nbt of entity
+	
+		set max health of entity to {@health}
+		set health of entity to {@health}
+		set entity's attack damage attribute to {@attack_damage}
+		set entity's movement speed attribute to  {@movement_speed}
+		set name of entity to "%{@name}% &c%health of entity%❤"
+		
+		
+		
+		set entity's helmet to {@helmet}
+		set entity's chestplate to {@chestplate}
+		set entity's leggings to {@leggings}
+		set entity's boots to {@boots}
+		
+		set entity's held item to {@mainItem}
+		set the off hand item of entity to {@offHand}
+		
+		set {_e} to the entity
+	set {_u} to uuid int array as string from {_e}
+	set {mob::%{_u}%} to {_p}
+	set {_bar} to bossbar with id "%{_e}'s uuid%" with title "%{@name}% &c%health of {_e}%❤" with color {@bossbar_color} with style {@bossbar_style} with progress 100
+	if {Settings::%{_p}'s uuid%::Bossbars} is true:
+		add {_p} to {_bar}
+		
+	loop 150 times:
+		delete boss bar with id "%{_e}'s uuid%" if {_e} is not alive
+		exit loop if {_e} is not alive
+		if {_e}'s health < 1:
+			kill {_e}
+		loop all players in radius {@bossbar_radius} around {_e}:
+			if {Settings::%loop-player's uuid%::Bossbars} is true:
+				add loop-player to {_bar}
+		set bossbar progress of {_bar} to ((health of {_e})/(max health of {_e}))*100
+		set bar title of {_bar} to "%{@name}% &c%health of {_e}%❤"
+		
+		set {_ability} to random integer between 1 and 3
+		
+		#ABILITIES HERE
+		if {_ability} is 1:
+			NyxCrystals({_e})
+		if {_ability} is 2:
+			NyxUltimateMinion({_e})
+		if {_ability} is 3:
+			NyxWitherBlast({_e})
+		
+		wait 12 seconds
+	kill {_e}
+
+on damage of {@entity}:
+	if name of victim contains {@name}:
+		wait 1 tick
+		set {_bar} to bossbar with id "%victim's uuid%"
+		set name of victim to "%{@name}% &c%health of victim%❤"
+		set bar title of {_bar} to "%{@name}% &c%health of victim%❤"
+		set bossbar progress of {_bar} to ((health of victim)/(max health of victim))*100
+
+on death of {@entity}:
+	name of victim contains {@name}
+	delete boss bar with id "%victim's uuid%"
+	clear drops
+	set {_u} to uuid int array as string from victim
+		
+	if {mob::%{_u}%} is connected:
+		give {mob::%{_u}%} 1 of gold ingot of soul speed 1 named smallFont("&8token of the undead") with lore "&6&lLEGENDARY TOKEN" with hide enchants item flag
+
+		
+	add 5000 to {EXP::%{mob::%{_u}%}'s uuid%::TotalCombat}
+	add 5000 to {EXP::%{mob::%{_u}%}'s uuid%::ResetCombat}
+	if {Settings::%{mob::%{_u}%}'s uuid%::ExpDisplayAsPercent} is true:
+		send action bar "&6&l+5000 XP &r&8|| &r&b%({EXP::%{mob::%{_u}%}'s uuid%::ResetCombat})/(floor(25 * (1.3 ^ ({EXP::%{mob::%{_u}%}'s uuid%::CombatLevel} - 1)))) * 100%%% &8|| &r&6Combat" to {mob::%{_u}%}
+	else:
+		send action bar "&6&l5000 XP &8|| &r&b%formatNumber({EXP::%{mob::%{_u}%}'s uuid%::ResetCombat})%&7/&2%formatNumber(floor(150 * (1.3 ^ ({EXP::%{mob::%{_u}%}'s uuid%::CombatLevel} - 1))))% &8|| &r&6Combat" to {mob::%{_u}%}
+		play sound "entity.experience_orb.pickup" at pitch 2 to {mob::%{_u}%}
+		CombatLevelUp({mob::%{_u}%})
+		
+	delete {mob::%{_u}%}
+	
+	
+on right click:
+	if name of player's held item = "&8Lord of the Undead Spawn Egg":
+		"%region at player%" contains "arena1":
+			if player's target block is not within 4.5 blocks of player:
+				item cooldown of player's tool for player < 0.05 seconds
+				set item cooldown of player's tool for player to 1 second
+				remove 1 of structure block named "&8Lord of the Undead Spawn Egg" from player's inventory
+				server_SpawnNYX(player)
+			else:
+				message "&8[&c✖&8] &7Please right click in the air." to player
+				cancel event
+		else:
+			message "&8[&c✖&8] &7You must be in the &cColosseum Arena &7to spawn this." to player
+			cancel event
+			
+
+	
+function NyxCrystals(e: entity):
+	loop all players in radius 20 of {_e}:
+		send action bar "&8&lNYX &7» &x&E&F&4&7&3&AHealing Crystals" to loop-player
+		play sound "block.respawn_anchor.charge" at pitch 0.8 to loop-player
+		if {Settings::%loop-player's uuid%::BossAbilitiesInChat} is true:
+			send "&8&lNYX &7» &x&E&F&4&7&3&AHealing Crystals" to loop-player
+	set {_loc1} to location 8 in front of {_e}
+	set {_loc2} to location 8 behind {_e}
+	set {_loc3} to location 8 to the left of {_e}
+	set {_loc4} to location 8 to the right of {_e}
+	
+	if "%region at {_loc1}%" contains "arena1":
+		spawn end crystal at {_loc1}
+		set {_ec1} to last spawned end crystal
+	if "%region at {_loc2}%" contains "arena1":
+		spawn end crystal at {_loc2}
+		set {_ec2} to last spawned end crystal
+	if "%region at {_loc3}%" contains "arena1":
+		spawn end crystal at {_loc3}
+		set {_ec3} to last spawned end crystal
+	if "%region at {_loc4}%" contains "arena1":
+		spawn end crystal at {_loc4}
+		set {_ec4} to last spawned end crystal
+	while 1 = 1:
+		if all:
+			{_e}'s health > 100
+			{_ec1} exists
+		then:
+			draw 1 of dust using dustOption(red, 2) at line({_ec4}, {_e}, 0.1)
+			heal {_e} by 5
+		if all:
+			{_e}'s health > 100
+			{_ec2} exists
+		then:
+			draw 1 of dust using dustOption(red, 2) at line({_ec4}, {_e}, 0.1)
+			heal {_e} by 5
+		if all:
+			{_e}'s health > 100
+			{_ec3} exists
+		then:
+			draw 1 of dust using dustOption(red, 2) at line({_ec4}, {_e}, 0.1)
+			heal {_e} by 5
+		if all:
+			{_e}'s health > 100
+			{_ec4} exists
+		then:
+			draw 1 of dust using dustOption(red, 2) at line({_ec4}, {_e}, 0.1)
+			heal {_e} by 5
+		draw 20 of heart at location 1 above {_e} with offset vector(0.75, 1, 0.75)
+		if all:
+			{_ec1} is not alive
+			{_ec2} is not alive
+			{_ec3} is not alive
+			{_ec4} is not alive
+		then:
+			exit loop
+		if loop-counter > 15:
+			delete entity within {_ec1}
+			delete entity within {_ec2}
+			delete entity within {_ec3}
+			delete entity within {_ec4}
+			exit loop
+		wait 1 seconds
+
+function NyxUltimateMinion(e: entity):
+	loop all players in radius 20 of {_e}:
+		send action bar "&8&lNYX &7» &x&E&F&4&7&3&AUltimate Minion" to loop-player
+		play sound "entity.warden.emerge" at pitch 1 to loop-player
+		if {Settings::%loop-player's uuid%::BossAbilitiesInChat} is true:
+			send "&8&lNYX &7» &x&E&F&4&7&3&AUltimate Minion" to loop-player
+	set {_loc} to location at {_e}
+	loop 106 times:
+		draw 15 of block particle using dirt at {_loc} with offset vector(0.5, 2, 0.5)
+		draw 15 of block particle using green terracotta at {_loc} with offset vector(0.5, 2, 0.5)
+		wait 1 tick
+	loop 2 times:
+		spawn zombie at {_loc}:
+	
+			set entity's helmet to {@helmet}
+			set max health of entity to 800
+			set health of entity to 800
+			set entity's scale attribute to 2
+			set entity's attack damage attribute to 100
+			set entity's movement speed attribute to 0.4
+			set name of entity to smallFont("&8Nyx's Ultimate Minion")
+			add the entity to {_x::*}
+	wait 30 seconds
+	loop {_x::*}:
+		delete entity within loop-value
+	
+function NyxWitherBlast(e: entity):
+	loop all players in radius 20 of {_e}:
+		send action bar "&8&lNYX &7» &x&E&F&4&7&3&AWither Blast" to loop-player
+		play sound "entity.warden.emerge" at volume 999 at pitch 1 to loop-player
+		if {Settings::%loop-player's uuid%::BossAbilitiesInChat} is true:
+			send "&8&lNYX &7» &x&E&F&4&7&3&AWither Blast" to loop-player
+	loop 25 times:
+		make {_e} shoot wither skull at speed 1
+		push last spawned wither skull forward at speed 10
+		make {_e} shoot wither skull at speed 1
+		push last shot projectile right at speed 0.4
+		make {_e} shoot wither skull at speed 1
+		push last shot projectile left at speed 0.4
+		wait 3 ticks
+	
+on target:
+	name of event-entity is smallFont("&8Nyx's Ultimate Minion"):
+		set event-entity's target to nearest player
+		if target is a monster:
+			cancel the event
+			stop
+	
+on death of zombie:
+	name of victim is smallFont("&8Nyx's Ultimate Minion"):
+		clear drops

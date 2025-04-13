@@ -1,0 +1,104 @@
+on respawn:
+	make player execute command "/heal"
+	
+on spawn:
+	if spawn reason is spawn egg:
+		if player does not have permission "op":
+			cancel event
+	
+on right click on spawn egg:
+	cancel event
+
+on damage:
+	victim is a monster
+	wait 1 tick
+	remove slowness from victim
+
+on death:
+	victim is a player:
+		if 1 = 1: # didnt want to fix indentation
+			
+			set death message to ""
+			if name of attacker is not set:
+				set {_t} to unformatted translate component from attacker
+				send "§x§C§B§2§D§3§E☠ &7%victim% &7was hunted by %{_t}%" to all players where [{Settings::%input's uuid%::BossDeathMSGs} is true]
+				stop
+			if name of attacker contains "§x§5§F§E§2§6§C§lDREAM":
+				send "§x§C§B§2§D§3§E☠ &7%victim% &7was hunted by §x§5§F§E§2§6§C§lDREAM" to all players where [{Settings::%input's uuid%::BossDeathMSGs} is true]
+			if name of attacker contains "§x§D§0§0§0§0§0§lIMPOSTOR":
+				send "§x§C§B§2§D§3§E☠ &7%victim% &7was stabbed by the §x§D§0§0§0§0§0§lIMPOSTOR" to all players where [{Settings::%input's uuid%::BossDeathMSGs} is true]
+			if name of attacker contains "§x§D§4§D§B§4§4§lTECH":
+				send "§x§C§B§2§D§3§E☠ &7%victim% &7was hacked by §x§D§4§D§B§4§4§lTECH" or "§x§C§B§2§D§3§E☠ &f%victim% &7was electrocuted by §x§D§4§D§B§4§4§lTECH" to all players where [{Settings::%input's uuid%::BossDeathMSGs} is true]
+			if name of attacker contains "§x§F§F§4§3§4§3§lBLOOD ORPHAN":
+				send "§x§C§B§2§D§3§E☠ &7%victim% &7was slain by the §x§F§F§4§3§4§3§lBLOOD ORPHAN" to all players where [{Settings::%input's uuid%::BossDeathMSGs} is true]
+			if name of attacker contains "§x§F§B§9§8§4§C§lCOMMAND BLOCK MASTER":
+				send "§x§C§B§2§D§3§E☠ &7%victim% &7was struck down by the §x§F§B§9§8§4§C§lCOMMAND BLOCK MASTER" to all players where [{Settings::%input's uuid%::BossDeathMSGs} is true]
+			if name of attacker contains "§x§6§A§1§C§D§E§lOBSIDIAN GOLEM":
+				send "§x§C§B§2§D§3§E☠ &7%victim% &7was slain by the §x§6§A§1§C§D§E§lOBSIDIAN GOLEM" to all players where [{Settings::%input's uuid%::BossDeathMSGs} is true]
+			if name of attacker contains "§x§4§4§C§D§D§B§lWITHER KING":
+				send "§x§C§B§2§D§3§E☠ &7%victim% &7was destroyed by the §x§4§4§C§D§D§B§lWITHER KING" or "§x§C§B§2§D§3§E☠ &f%victim% &7was obliterated by the §x§4§4§C§D§D§B§lWITHER KING" to all players where [{Settings::%input's uuid%::BossDeathMSGs} is true]
+			if name of attacker is "§x§D§E§5§9§1§C&lᴍᴏʟᴛᴇɴ ᴄᴜʙᴇѕ":
+				send "§x§C§B§2§D§3§E☠ &7%victim% &7was burnt by §x§D§E§5§9§1§C&lᴍᴏʟᴛᴇɴ ᴄᴜʙᴇѕ" to all players where [{Settings::%input's uuid%::BossDeathMSGs} is true]
+			if name of attacker is "§x§D§4§D§B§4§4§lᴛᴇᴄʜ ʜᴏʟᴏɢʀᴀᴍѕ":
+				send "§x§C§B§2§D§3§E☠ &7%victim% &7was confuzzled by §x§D§4§D§B§4§4§lᴛᴇᴄʜ ʜᴏʟᴏɢʀᴀᴍѕ" to all players where [{Settings::%input's uuid%::BossDeathMSGs} is true]
+			if name of attacker is "§x§4§4§C§D§D§B&l%smallFont("Wither King Minion")%":
+				send "§x§C§B§2§D§3§E☠ &7%victim% &7was destroyed by §x§4§4§C§D§D§B&l%smallFont("Wither King Minion")%" to all players where [{Settings::%input's uuid%::BossDeathMSGs} is true]
+			if name of attacker contains "&4&lFRISK":
+				send "§x§C§B§2§D§3§E☠ &7%victim% &7was turned to dust by &4&lFRISK" to all players where [{Settings::%input's uuid%::BossDeathMSGs} is true]
+			if name of attacker contains "&b&lSANS":
+				send "§x§C§B§2§D§3§E☠ &7%victim% &7was annihilated &b&lSANS" to all players where [{Settings::%input's uuid%::BossDeathMSGs} is true]
+			if name of attacker contains "&x&C&2&3&9&3&8&lRED SKULL":
+				send "§x§C§B§2§D§3§E☠ &7%victim% &7was slain by &x&C&2&3&9&3&8&lRED SKULL" to all players where [{Settings::%input's uuid%::BossDeathMSGs} is true]
+			if name of attacker contains "§x§9§8§6§3§E§7§lRONAN":
+				send "§x§C§B§2§D§3§E☠ &7%victim% &7was crushed by §x§9§8§6§3§E§7§lRONAN" to all players where [{Settings::%input's uuid%::BossDeathMSGs} is true]
+			if name of attacker contains "&4&lTHANOS":
+				send "§x§C§B§2§D§3§E☠ &7%victim% &7was snapped by &4&lTHANOS" to all players where [{Settings::%input's uuid%::BossDeathMSGs} is true]
+			if name of attacker contains "§x§0§0§c§f§f§b§lLOKI":
+				send "§x§C§B§2§D§3§E☠ &7%victim% &7was impaled by §x§0§0§c§f§f§b§lLOKI" to all players where [{Settings::%input's uuid%::BossDeathMSGs} is true]
+			if name of attacker contains "&x&F&B&C&8&0&8&lVISION":
+				send "§x§C§B§2§D§3§E☠ &7%victim% &7was lasered by &x&F&B&C&8&0&8&lVISION" to all players where [{Settings::%input's uuid%::BossDeathMSGs} is true]
+			if name of attacker contains "&x&0&8&F&B&6&2&lDR. STRANGE":
+				send "§x§C§B§2§D§3§E☠ &7%victim% &7was turned into a baby by &x&0&8&F&B&6&2&lDR. STRANGE" to all players where [{Settings::%input's uuid%::BossDeathMSGs} is true]
+			if name of attacker contains "§x§a§f§7§3§f§b&lENDER MAGE":
+				send "§x§C§B§2§D§3§E☠ &7%victim% &7was destroyed by the §x§a§f§7§3§f§bENDER MAGE" to all players where [{Settings::%input's uuid%::BossDeathMSGs} is true] 
+			attacker's name contains "&b&lMEGA-FISH":
+				send "§x§C§B§2§D§3§E☠ &7%victim% &7was zapped by the &b&lMEGA-FISH" to all players where [{Settings::%input's uuid%::BossDeathMSGs} is true] 
+			attacker's name contains "&2&lAQUAMAN":
+				send "§x§C§B§2§D§3§E☠ &7%victim% &7was slain by the &2&lAQUAMAN" to all players where [{Settings::%input's uuid%::BossDeathMSGs} is true] 
+			attacker's name contains "§x§f§b§5§a§0§0§lKRAKEN":
+				send "§x§C§B§2§D§3§E☠ &7%victim% &7was crushed by the §x§f§b§5§a§0§0§lKRAKEN" to all players where [{Settings::%input's uuid%::BossDeathMSGs} is true] 
+			attacker's name contains "&3&lPOSEIDON":
+				send "§x§C§B§2§D§3§E☠ &7%victim% &7was slain by the &3&lPOSEIDON" to all players where [{Settings::%input's uuid%::BossDeathMSGs} is true] 
+			attacker is an iron golem:
+				set {_healthSplit::*} to name of attacker split at " "
+				broadcast "§x§C§B§2§D§3§E☠ &f%victim% was killed by %{_healthSplit::1}% %{_healthSplit::2}%"
+			if attacker is a player:
+				if attacker's tool is not air:
+					if name of attacker's tool is set:
+						set {_t} to text component from name of attacker's tool
+					else:
+						set {_t} to translate component from attacker's tool
+					broadcast "§x§C§B§2§D§3§E☠ &f%victim% was killed by &c%attacker% &fusing %{_t}%"
+				else:
+					broadcast "§x§C§B§2§D§3§E☠ &f%victim% was killed by &c%attacker%"
+				
+		
+
+on death:
+	victim is a guardian or iron golem:
+		clear drops
+
+		
+
+on death:
+	name of victim is "&1Guardian":
+		attacker is a player:
+			clear drops
+			drop 1 of cod named "&3Guardian Fish"
+			
+
+		
+
+
+
+		

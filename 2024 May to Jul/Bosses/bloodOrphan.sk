@@ -1,0 +1,195 @@
+# ------------------------ CONFIG CONFIG CONFIG CONFIG CONFIG ----------------------
+
+
+options:
+	entity: baby zombie
+	name: "§x§F§F§4§3§4§3§lBLOOD ORPHAN"  # made uuid of boss to ID
+	
+	health: 500
+	attack_damage: 100
+	movement_speed: 0.3
+	
+	helmet: redstone block
+	chestplate: air
+	leggings: air
+	boots: air
+	
+	mainItem: redstone torch
+	offHand: redstone dust
+	
+	leaderboard_color: "<##00EAFF>"
+	leaderboard_topname: "&c&l"
+	bossbar_color: red
+	bossbar_style: solid_bar
+	bossbar_radius: 20
+
+#------------------------------------ END OF CONFIG----------------------------------
+	
+
+function server_SpawnBloodOrphan(p: player):
+	spawn {@entity} at {_p}:
+	
+		add nbt from "{CustomNameVisble:1b}" to nbt of entity
+	
+		set max health of entity to {@health}
+		set health of entity to {@health}
+		set entity's attack damage attribute to {@attack_damage}
+		set entity's movement speed attribute to  {@movement_speed}
+		set name of entity to "%{@name}% &c%health of entity%❤"
+		
+		
+		set {_chest} to unbreakable leather chestplate
+		set {_legs} to unbreakable leather leggings
+		set {_boots} to unbreakable leather boots
+		dye {_chest} dark red
+		dye {_legs} dark red
+		dye {_boots} dark red
+		set entity's helmet to {@helmet}
+		set entity's chestplate to {_chest}
+		set entity's leggings to {_legs}
+		set entity's boots to {_boots}
+		
+		set entity's held item to {@mainItem}
+		set the off hand item of entity to {@offHand}
+		
+		set {_e} to the entity
+	set {_u} to uuid int array as string from {_e}
+	set {mob::%{_u}%} to {_p}
+	set {_bar} to bossbar with id "%{_e}'s uuid%" with title "%{@name}% &c%health of {_e}%❤" with color {@bossbar_color} with style {@bossbar_style} with progress 100
+	if {Settings::%{_p}'s uuid%::Bossbars} is true:
+		add {_p} to {_bar}
+	loop 150 times:
+		delete boss bar with id "%{_e}'s uuid%" if {_e} is not alive
+		if {_e}'s health < 1:
+			kill {_e}
+		exit loop if {_e} is not alive
+		loop all players in radius {@bossbar_radius} around {_e}:
+			if {Settings::%loop-player's uuid%::Bossbars} is true:
+				add loop-player to {_bar}
+		set bossbar progress of {_bar} to ((health of {_e})/(max health of {_e}))*100
+		set bar title of {_bar} to "%{@name}% &c%health of {_e}%❤"
+		
+		set {_ability} to random integer between 1 and 3
+		
+		#ABILITIES HERE
+		if {_ability} is 1:
+			BlorphanLifesteal({_e})
+		if {_ability} is 2:
+			BloodLeech({_e})
+		
+		wait 16 seconds
+	kill {_e}
+
+on damage of {@entity}:
+	if name of victim contains {@name}:
+		wait 1 tick
+		set {_bar} to bossbar with id "%victim's uuid%"
+		set name of victim to "%{@name}% &c%health of victim%❤"
+		set bar title of {_bar} to "%{@name}% &c%health of victim%❤"
+		set bossbar progress of {_bar} to ((health of victim)/(max health of victim))*100
+
+on death of {@entity}:
+	name of victim contains {@name}
+	delete boss bar with id "%victim's uuid%"
+	clear drops
+	set {_u} to uuid int array as string from victim
+	
+	if {mob::%{_u}%} is connected:
+		give {mob::%{_u}%} 1 of ominous trial key of soul speed 1 named "§x§F§F§4§3§4§3Blood Key" with lore "&9&lRARE KEY" with hide enchants item flag
+	else if {mob::%{_u}%} is not connected:
+		give {mob::%{_u}%} 1 of ominous trial key of soul speed 1 named "§x§F§F§4§3§4§3Blood Key" with lore "&9&lRARE KEY" with hide enchants item flag
+		
+	add 250 to {EXP::%{mob::%{_u}%}'s uuid%::TotalCombat}
+	add 250 to {EXP::%{mob::%{_u}%}'s uuid%::ResetCombat}
+	if {Settings::%{mob::%{_u}%}'s uuid%::ExpDisplayAsPercent} is true:
+		send action bar "&6&l+250 XP &8|| &r&b%({EXP::%{mob::%{_u}%}'s uuid%::ResetCombat})/(floor(25 * (1.3 ^ ({EXP::%{mob::%{_u}%}'s uuid%::CombatLevel} - 1)))) * 100%%% &8|| &r&6Combat" to {mob::%{_u}%}
+	else:
+		send action bar "&6&l250 XP &8|| &r&b%formatNumber({EXP::%{mob::%{_u}%}'s uuid%::ResetCombat})%&7/&2%formatNumber(floor(150 * (1.3 ^ ({EXP::%{mob::%{_u}%}'s uuid%::CombatLevel} - 1))))% &8|| &r&6Combat" to {mob::%{_u}%}
+		play sound "entity.experience_orb.pickup" at pitch 2 to {mob::%{_u}%}
+		CombatLevelUp({mob::%{_u}%})
+	
+	set {Collections::%{mob::%{_u}%}'s uuid%::BloodOrphan} to ({Collections::%{mob::%{_u}%}'s uuid%::BloodOrphan} + 1)
+	wait 1 tick
+	if {Collections::%{mob::%{_u}%}'s uuid%::BloodOrphan} = 1:
+		play sound "entity.player.levelup" to {mob::%{_u}%}
+		send "" to {mob::%{_u}%}
+		send " &6&lCOLLECTION UNLOCKED" to {mob::%{_u}%}
+		send smallFont(" §x§F§F§4§3§4§3Blood Orphan") to {mob::%{_u}%}
+		send "" to {mob::%{_u}%}
+	if {Collections::%{mob::%{_u}%}'s uuid%::BloodOrphan} = 5:
+		CollectionLevelUp("§x§F§F§4§3§4§3Blood Orphan", 2, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::BloodOrphan} = 10:
+		CollectionLevelUp("§x§F§F§4§3§4§3Blood Orphan", 3, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::BloodOrphan} = 15:
+		CollectionLevelUp("§x§F§F§4§3§4§3Blood Orphan", 4, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::BloodOrphan} = 25:
+		CollectionLevelUp("§x§F§F§4§3§4§3Blood Orphan", 5, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::BloodOrphan} = 35:
+		CollectionLevelUp("§x§F§F§4§3§4§3Blood Orphan", 6, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::BloodOrphan} = 50:
+		CollectionLevelUp("§x§F§F§4§3§4§3Blood Orphan", 7, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::BloodOrphan} = 65:
+		CollectionLevelUp("§x§F§F§4§3§4§3Blood Orphan", 8, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::BloodOrphan} = 80:
+		CollectionLevelUp("§x§F§F§4§3§4§3Blood Orphan", 9, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::BloodOrphan} = 100:
+		CollectionLevelUp("§x§F§F§4§3§4§3Blood Orphan", 10, {mob::%{_u}%})
+	
+	delete {mob::%{_u}%}
+	
+	
+on right click:
+	if name of player's held item = hexfix("&#FF4343Blood Orphan Spawn Egg"):
+		"%region at player%" contains "arena":
+			if player's target block is not within 4.5 blocks of player:
+				item cooldown of player's tool for player < 0.05 seconds
+				set item cooldown of player's tool for player to 1 second
+				remove 1 of spider spawn egg named hexfix("&#FF4343Blood Orphan Spawn Egg") from player's inventory
+				server_SpawnBloodOrphan(player)
+			else:
+				message "&8[&c✖&8] &7Please right click in the air." to player
+				cancel event
+		else:
+			message "&8[&c✖&8] &7You must be in an arena to spawn this." to player
+			cancel event
+
+on death:
+	name of attacker contains {@name}:
+		loop all players in radius 20 of attacker:
+			send action bar "§x§F§F§4§3§4§3§lBLOOD ORPHAN &7» &x&E&F&4&7&3&ANeed For More" to loop-player
+			play sound "entity.vex.charge" at pitch 1 to loop-player
+			if {Settings::%loop-player's uuid%::BossAbilitiesInChat} is true:
+				send "§x§F§F§4§3§4§3§lBLOOD ORPHAN &7» &x&E&F&4&7&3&ANeed For More" to loop-player
+		SolidAura(red, 5, attacker)
+		apply speed 3 to attacker for 4 seconds
+		apply strength 3 to attacker for 4 seconds
+		wait 10 ticks
+		play sound "entity.vex.charge" at pitch 1 to victim
+	
+function BlorphanLifesteal(e: entity):
+	loop all players in radius 20 of {_e}:
+		send action bar "§x§F§F§4§3§4§3§lBLOOD ORPHAN &7» &x&E&F&4&7&3&ALifesteal" to loop-player
+		if {Settings::%loop-player's uuid%::BossAbilitiesInChat} is true:
+			send "§x§F§F§4§3§4§3§lBLOOD ORPHAN &7» &x&E&F&4&7&3&ALifesteal" to loop-player
+	loop 20 times:
+		if {_e} is alive:
+			draw 20 of heart at location 1 above {_e} with offset vector(0.75, 1, 0.75)
+			loop all players in radius 10 of {_e}:
+				make {_e} damage loop-player by 20
+				draw 20 of block particle using redstone block at location 1 above loop-player with offset vector(0.75, 1, 0.75)
+			heal {_e} by 5
+			wait 0.5 seconds
+		else:
+			exit loop
+			
+function BloodLeech(e: entity):
+	loop all players in radius 20 of {_e}:
+		send action bar "§x§F§F§4§3§4§3§lBLOOD ORPHAN &7» &x&E&F&4&7&3&ABlood Leech" to loop-player
+		if {Settings::%loop-player's uuid%::BossAbilitiesInChat} is true:
+			send "§x§F§F§4§3§4§3§lBLOOD ORPHAN &7» &x&E&F&4&7&3&ABlood Leech" to loop-player
+	loop all players in radius 10 of {_e}:
+		make {_e} damage loop-player by 10
+		play sound "entity.spider.ambient" at pitch 2 to loop-player
+		draw 20 of block particle using redstone block at location 1 above loop-player with offset vector(0.75, 1, 0.75)
+		wait 0.5 seconds
+			

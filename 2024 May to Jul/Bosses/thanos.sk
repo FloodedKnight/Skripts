@@ -1,0 +1,179 @@
+on right click:
+	unformatted name of player's held item is "M Thanos Spawn Egg M"
+	cancel event
+	if "%region at player%" contains "arena2":
+		if {ThanosSpawned} is true:
+			cancel event
+			message "&8[&c✖&8] &7There is already another &4Thanos &7spawned." to player
+			stop
+		
+		if {Achievement::%player's uuid%::Endgame} is not true:
+			broadcast "&8[&5◆&8] &d%player% completed the achievement: &5We're in the endgame now."
+			play sound "entity.player.levelup" at pitch 0 to all players
+			set {Achievement::%player's uuid%::Endgame} to true
+		remove 1 of player's held item from player's inventory
+		wait 1 tick
+		broadcast "&6» %player% is spawning &4&lTHANOS"
+		execute console command "/gamerule sendCommandFeedback false"
+		loop all players in radius 30 of location(663.5, 4, -37.5, world "world"):
+			ThanosSpawn(loop-player)
+		loop 23 times:
+			set {_1} to random number between 0 and 1
+			set {_2} to random number between 0 and 1
+			set {_3} to random number between 0 and 1
+			execute console command "/particle entity_effect{color:[%{_1}%,%{_2}%,%{_3}%,1.0]} 663.5 4 -37.5 1 3 1 0.1 500"
+			wait 5 ticks
+		execute console command "/gamerule sendCommandFeedback true"
+		set {ThanosSpawned} to true
+		spawn zombie at location(663.5, 4.3, -37.5, world "world")
+		wait 1 tick
+		
+		set {_Thanos} to last spawned zombie
+		set name of {_Thanos} to "&4&lTHANOS"
+
+		set max health of {_Thanos} to 10000
+		set health of {_Thanos} to 10000
+		set helmet of {_Thanos} to {ThanosHead}
+		set leggings of {_Thanos} to unbreakable golden leggings
+		set chestplate of {_Thanos} to unbreakable golden chestplate
+		set boots of {_Thanos} to 1 of unbreakable golden boots
+		set {_Thanos}'s attack damage attribute to 600
+		set {_Thanos}'s movement speed attribute to 0.7
+		set {_bar} to bossbar with id "%{_Thanos}'s uuid%" with title "&4&lTHANOS &c%health of {_Thanos}%❤" with color red with style segmented 6 with progress 100
+		add all players to {_bar}
+		set {_uThanos} to uuid int array as string from {_Thanos}
+		set {mob::%{_uThanos}%} to the player
+		loop 500 times:
+			if {_Thanos}'s health < 1:
+				kill {_Thanos}
+			set {_random} to random integer between 1 and 100
+			if {_random} is between 1 and 50:
+				ThanosPush({_Thanos})
+			if {_random} is between 51 and 61:
+				ThanosTeleport({_Thanos})
+			if {_random} is between 62 and 72:
+				ThanosTimeStone({_Thanos})
+			if {_random} is between 73 and 85:
+				ThanosPowerStone({_Thanos})
+			if {_random} is between 86 and 100:
+				ThanosSoulStone({_Thanos})
+			wait 9 seconds
+			if {_Thanos} is not alive:
+				exit loop
+		
+	else:
+		message "&8[&c✖&8] &7You must be in the &6Infinity Arena &7to spawn that." to player
+		stop
+	
+function ThanosPowerStone(e: entity):
+	set {_m} to mini message from "<gradient:##FF00E3:##9F00D6>is charging the Power Stone"
+	loop all players in radius 30 of {_e}:
+		message "%name of {_e}% %{_m}%" to loop-player
+		play sound "block.note_block.bell" at volume 10 at pitch 0 to loop-player
+	wait 10 ticks
+	loop 3 times:
+		loop all players in radius 30 of {_e}:
+			play sound "block.note_block.bell" at volume 99 at pitch 0 to loop-player
+		wait 10 ticks
+	wait 3 ticks
+	loop all players in radius 20 of {_e}:
+		play sound "entity.generic.explode" at volume 99 at pitch 1 to loop-player
+		damage loop-player by 500
+		show 20 angry villager with speed 1 at loop-player in radius of 1.5
+		
+function ThanosPush(e: entity):
+	loop all players in radius 20 of {_e}:
+		push loop-player backwards at speed 3
+		push loop-player up at speed 3
+		apply levitation 50 to the loop-player for 3 seconds
+		
+function ThanosTeleport(e: entity):
+	set {_m} to mini message from "<gradient:##1488CC:##00D6CD>is using the Space Stone"
+	loop all players in radius 30 of {_e}:
+		message "%name of {_e}% %{_m}%" to loop-player
+	loop 20 times:
+		"%region at nearest player relative to {_e}%" contains "arena2"
+		teleport {_e} to nearest player relative to {_e}
+		draw 200 of dust using dustOption(rgb(66, 135, 245), 1) at {_e} ~ vector(0, 0, 0) with offset vector(0.5, 1, 0.5)
+		play sound "entity.enderman.teleport" at pitch 2 to all players where [input is within 30 blocks of {_e}]
+		wait 10 ticks
+		
+function ThanosTimeStone(e: entity):
+	set {_m} to mini message from "<gradient:##00FF1C:##157C14>is using the Time Stone"
+	loop all players in radius 30 of {_e}:
+		play sound "entity.illusioner.prepare_mirror" at pitch 1 to loop-player
+		message "%name of {_e}% %{_m}%" to loop-player
+		timestone(loop-player, 8)
+		
+function ThanosSoulStone(e: entity):
+	set {_m} to mini message from "<gradient:##FF9B00:##FFEE00>is using the Soul Stone"
+	loop 30 times:
+		ProperThanosSFX({_e})
+		wait 3 ticks
+		heal {_e} by 10
+		
+function ProperThanosSFX(e: entity):
+	play sound "block.note_block.bit" to all players where [input is within 30 blocks of {_e}]
+	heal {_e} by 20
+	
+on damage:
+	name of victim contains "&4&lTHANOS":
+		wait 1 tick
+		set name of victim to "&4&lTHANOS &c%health of victim%❤"
+		set {_bar} to bossbar with id "%victim's uuid%"
+		set bar title of {_bar} to "&4&lTHANOS &c%health of victim%❤"
+		set bossbar progress of {_bar} to ((health of victim)/(max health of victim))*100
+	
+	
+on death:
+	if name of victim contains "&4&lTHANOS":
+		clear drops
+		delete boss bar with id "%victim's uuid%"
+		set {ThanosSpawned} to false
+		set {_m} to mini message from "<gradient:##FFEE00:##FE9413>Infinity Gauntlet Key"
+		set {_u} to uuid int array as string from victim
+		add 50000 to {EXP::%{mob::%{_u}%}'s uuid%::TotalCombat}
+		add 50000 to {EXP::%{mob::%{_u}%}'s uuid%::ResetCombat}
+		if {Settings::%{mob::%{_u}%}'s uuid%::ExpDisplayAsPercent} is true:
+			send action bar "&6&l+50,000 XP &r&8|| &r&b%({EXP::%{mob::%{_u}%}'s uuid%::ResetCombat})/(floor(25 * (1.3 ^ ({EXP::%{mob::%{_u}%}'s uuid%::CombatLevel} - 1)))) * 100%%% &8|| &r&6Combat" to {mob::%{_u}%}
+		else:
+			send action bar "&6&l+50,000 XP &8|| &r&b%formatNumber({EXP::%{mob::%{_u}%}'s uuid%::ResetCombat})%&7/&2%formatNumber(floor(150 * (1.3 ^ ({EXP::%{mob::%{_u}%}'s uuid%::CombatLevel} - 1))))% &8|| &r&6Combat" to {mob::%{_u}%}
+			play sound "entity.experience_orb.pickup" at pitch 2 to {mob::%{_u}%}
+			CombatLevelUp({mob::%{_u}%})
+		set {Collections::%{mob::%{_u}%}'s uuid%::Thanos} to ({Collections::%{mob::%{_u}%}'s uuid%::Thanos} + 1)
+		wait 1 tick
+		if {Collections::%{mob::%{_u}%}'s uuid%::Thanos} = 1:
+			play sound "entity.player.levelup" to {mob::%{_u}%}
+			send "" to {mob::%{_u}%}
+			send " &6&lCOLLECTION UNLOCKED" to {mob::%{_u}%}
+			send smallFont(" &4thanos") to {mob::%{_u}%}
+			send "" to {mob::%{_u}%}
+		if {Collections::%{mob::%{_u}%}'s uuid%::Thanos} = 3:
+			CollectionLevelUp("&4thanos", 2, {mob::%{_u}%})
+		if {Collections::%{mob::%{_u}%}'s uuid%::Thanos} = 5:
+			CollectionLevelUp("&4thanos", 3, {mob::%{_u}%})
+		if {Collections::%{mob::%{_u}%}'s uuid%::Thanos} = 10:
+			CollectionLevelUp("&4thanos", 4, {mob::%{_u}%})
+		if {Collections::%{mob::%{_u}%}'s uuid%::Thanos} = 15:
+			CollectionLevelUp("&4thanos", 5, {mob::%{_u}%})
+
+
+		if {mob::%{_u}%} is connected:
+			give {mob::%{_u}%} 1 of ominous trial key of soul speed 1 named {_m} with lore "&d&l&kM &r&d&lMYTHIC KEY &r&d&l&kM" with hide enchants item flag
+		else if {mob::%{_u}%} is not connected:
+			give {mob::%{_u}%} 1 of ominous trial key of soul speed 1 named {_m} with lore "&d&l&kM &r&d&lMYTHIC KEY &r&d&l&kM" with hide enchants item flag
+		delete {mob::%{_uThanos}%}
+		
+function ThanosSpawn(ThanosSpawnPlayer: player):
+	play sound "block.end_portal.spawn" at pitch 1 to {_ThanosSpawnPlayer}
+	wait 1 second
+	play sound "block.end_portal.spawn" at pitch 1 to {_ThanosSpawnPlayer}
+	wait 1 second
+	play sound "block.end_portal.spawn" at pitch 1 to {_ThanosSpawnPlayer}
+	wait 1 second
+	play sound "block.end_portal.spawn" at pitch 1 to {_ThanosSpawnPlayer}
+	wait 1 second
+	play sound "block.end_portal.spawn" at pitch 1 to {_ThanosSpawnPlayer}
+	wait 1 second
+	play sound "block.end_portal.spawn" at pitch 1 to {_ThanosSpawnPlayer}
+

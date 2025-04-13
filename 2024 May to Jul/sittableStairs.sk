@@ -1,0 +1,21 @@
+on right click on any stair:
+	player's world is "world"
+	"%region at event-block%" contains "main" or "darkauction":
+		player is not sneaking
+		player's y coordinate < 80
+		if {SittingChairLocs::%location at event-block%} is true:
+			cancel event
+			stop
+		else:
+			set {SittingChairLocs::%location at event-block%} to true
+			spawn interaction at event-block
+			set {_interaction} to last spawned interaction
+	#		set width of {_interaction} to 0.4
+	#		set height of {_interaction} to 3
+			make player ride {_interaction}
+		#make {_entity} disappear from all players
+			while {_interaction} is alive:
+				if player is not riding {_interaction}:
+					kill {_interaction}
+				wait 2 seconds
+			delete {SittingChairLocs::%location at event-block%}

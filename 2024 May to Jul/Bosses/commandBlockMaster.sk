@@ -1,0 +1,209 @@
+# ------------------------ CONFIG CONFIG CONFIG CONFIG CONFIG ----------------------
+
+
+options:
+	entity: vindicator
+	name: "§x§F§B§9§8§4§C§lCOMMAND BLOCK MASTER"  # made uuid of boss to ID
+	
+	health: 350
+	attack_damage: 125
+	movement_speed: 0.4
+	
+	helmet: command block
+	chestplate: air
+	leggings: air
+	boots: air
+	
+	mainItem: diamond axe of unbreaking 100
+	offHand: command block
+	
+	leaderboard_color: "<##00EAFF>"
+	leaderboard_topname: "&c&l"
+	bossbar_color: orange
+	bossbar_style: solid_bar
+	bossbar_radius: 20
+
+#------------------------------------ END OF CONFIG----------------------------------
+	
+
+function server_SpawnCommandBlockMaster(p: player):
+	spawn {@entity} at {_p}:
+	
+		add nbt from "{CustomNameVisble:1b}" to nbt of entity
+	
+		set max health of entity to {@health}
+		set health of entity to {@health}
+		set entity's attack damage attribute to {@attack_damage}
+		set entity's movement speed attribute to  {@movement_speed}
+		set name of entity to "%{@name}% &c%health of entity%❤"
+		
+		
+		set entity's helmet to {@helmet}
+		set entity's helmet to {@chestplate}
+		set entity's helmet to {@leggings}
+		set entity's helmet to {@boots}
+		
+		set entity's held item to {@mainItem}
+		set the off hand item of entity to {@offHand}
+		
+		set {_e} to the entity
+	set {_u} to uuid int array as string from {_e}
+	set {mob::%{_u}%} to {_p}
+	set {_bar} to bossbar with id "%{_e}'s uuid%" with title "%{@name}% &c%health of {_e}%❤" with color {@bossbar_color} with style {@bossbar_style} with progress 100
+	if {Settings::%{_p}'s uuid%::Bossbars} is true:
+		add {_p} to {_bar}
+	loop 150 times:
+		delete boss bar with id "%{_e}'s uuid%" if {_e} is not alive
+		exit loop if {_e} is not alive
+		loop all players in radius {@bossbar_radius} around {_e}:
+			if {Settings::%loop-player's uuid%::Bossbars} is true:
+				add loop-player to {_bar}
+		set bossbar progress of {_bar} to ((health of {_e})/(max health of {_e}))*100
+		set bar title of {_bar} to "%{@name}% &c%health of {_e}%❤"
+		
+		set {_ability} to random integer between 1 and 2
+		#ABILITIES HERE
+		if {_ability} is 1:
+			loop all players in radius 20 of {_e}:
+				apply levitation 9 to loop-player for 3 seconds
+				send action bar "&x&F&B&9&8&4&C&lCOMMAND BLOCK MASTER &7» &x&E&F&4&7&3&AGravity Manipulation" to loop-player
+				if {Settings::%loop-player's uuid%::BossAbilitiesInChat} is true:
+					send "&x&F&B&9&8&4&C&lCOMMAND BLOCK MASTER &7» &x&E&F&4&7&3&AGravity Manipulation" to loop-player
+				swoopSFX(loop-player)
+				
+		if {_ability} is 2:
+			CommandOverload({_e})
+		
+		wait 11 seconds
+	kill {_e}
+
+function swoopSFX(p: player):
+	play sound "entity.phantom.swoop" at volume 999 at pitch 1 to {_p}
+	wait 1 second
+	stop sound "entity.phantom.swoop" for {_p}
+
+on damage of {@entity}:
+	attacker is a player
+	if name of victim contains {@name}:
+		chance of 15%:
+			loop all players in radius 20 of victim:
+				send action bar "&x&F&B&9&8&4&C&lCOMMAND BLOCK MASTER &7» &x&E&F&4&7&3&ATeleportation" to loop-player
+				play sound "entity.illusioner.mirror_move" at pitch 1 to loop-player
+				if {Settings::%loop-player's uuid%::BossAbilitiesInChat} is true:
+					send "&x&F&B&9&8&4&C&lCOMMAND BLOCK MASTER &7» &x&E&F&4&7&3&ATeleportation" to loop-player
+			draw 200 of dust using dustOption(rgb(255, 0, 225), 1) at victim ~ vector(0, 0, 0) with offset vector(0.5, 1, 0.5)
+			add all players in radius 20 of victim to {_list::*}
+			remove attacker from {_list::*}
+			teleport victim to random element out of {_list::*}
+			wait 3 ticks
+			draw 200 of dust using dustOption(rgb(255, 0, 225), 1) at victim ~ vector(0, 0, 0) with offset vector(0.5, 1, 0.5)
+		wait 1 tick
+		set {_bar} to bossbar with id "%victim's uuid%"
+		set name of victim to "%{@name}% &c%health of victim%❤"
+		set bar title of {_bar} to "%{@name}% &c%health of victim%❤"
+		set bossbar progress of {_bar} to ((health of victim)/(max health of victim))*100
+
+on death of {@entity}:
+	name of victim contains {@name}
+	delete boss bar with id "%victim's uuid%"
+	clear drops
+	set {_u} to uuid int array as string from victim
+		
+	if {mob::%{_u}%} is connected:
+		give {mob::%{_u}%} 1 of ominous trial key of soul speed 1 named "&x&F&B&9&8&4&CCommand Block Key" with lore "&a&lUNCOMMON KEY" with hide enchants item flag
+	else if {mob::%{_u}%} is not connected:
+		give {mob::%{_u}%} 1 of ominous trial key of soul speed 1 named "&x&F&B&9&8&4&CCommand Block Key" with lore "&a&lUNCOMMON KEY" with hide enchants item flag
+		
+	add 100 to {EXP::%{mob::%{_u}%}'s uuid%::TotalCombat}
+	add 100 to {EXP::%{mob::%{_u}%}'s uuid%::ResetCombat}
+	if {Settings::%{mob::%{_u}%}'s uuid%::ExpDisplayAsPercent} is true:
+		send action bar "&6&l+100 XP &8|| &r&b%({EXP::%{mob::%{_u}%}'s uuid%::ResetCombat})/(floor(25 * (1.3 ^ ({EXP::%{mob::%{_u}%}'s uuid%::CombatLevel} - 1)))) * 100%%% &8|| &r&6Combat" to {mob::%{_u}%}
+	else:
+		send action bar "&6&l+100 XP &8|| &r&b%formatNumber({EXP::%{mob::%{_u}%}'s uuid%::ResetCombat})%&7/&2%formatNumber(floor(150 * (1.3 ^ ({EXP::%{mob::%{_u}%}'s uuid%::CombatLevel} - 1))))% &8|| &r&6Combat" to {mob::%{_u}%}
+		play sound "entity.experience_orb.pickup" at pitch 2 to {mob::%{_u}%}
+		CombatLevelUp({mob::%{_u}%})
+	set {Collections::%{mob::%{_u}%}'s uuid%::CommandBlockMaster} to ({Collections::%{mob::%{_u}%}'s uuid%::CommandBlockMaster} + 1)
+	wait 1 tick
+	if {Collections::%{mob::%{_u}%}'s uuid%::CommandBlockMaster} = 1:
+		play sound "entity.player.levelup" to {mob::%{_u}%}
+		send "" to {mob::%{_u}%}
+		send " &6&lCOLLECTION UNLOCKED" to {mob::%{_u}%}
+		send smallFont(" &x&F&B&9&8&4&CCommand Block Master") to {mob::%{_u}%}
+		send "" to {mob::%{_u}%}
+	if {Collections::%{mob::%{_u}%}'s uuid%::CommandBlockMaster} = 5:
+		CollectionLevelUp("&x&F&B&9&8&4&CCommand Block Master", 2, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::CommandBlockMaster} = 10:
+		CollectionLevelUp("&x&F&B&9&8&4&CCommand Block Master", 3, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::CommandBlockMaster} = 25:
+		CollectionLevelUp("&x&F&B&9&8&4&CCommand Block Master", 4, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::CommandBlockMaster} = 50:
+		CollectionLevelUp("&x&F&B&9&8&4&CCommand Block Master", 5, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::CommandBlockMaster} = 75:
+		CollectionLevelUp("&x&F&B&9&8&4&CCommand Block Master", 6, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::CommandBlockMaster} = 100:
+		CollectionLevelUp("&x&F&B&9&8&4&CCommand Block Master", 7, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::CommandBlockMaster} = 150:
+		CollectionLevelUp("&x&F&B&9&8&4&CCommand Block Master", 8, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::CommandBlockMaster} = 200:
+		CollectionLevelUp("&x&F&B&9&8&4&CCommand Block Master", 9, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::CommandBlockMaster} = 250:
+		CollectionLevelUp("&x&F&B&9&8&4&CCommand Block Master", 10, {mob::%{_u}%})
+
+	
+	delete {mob::%{_u}%}
+	
+	
+on right click:
+	if name of player's held item = hexfix("&#FB984CCommand Block Master Spawn Egg"):
+		"%region at player%" contains "arena":
+			if player's target block is not within 4.5 blocks of player:
+				item cooldown of player's tool for player < 0.05 seconds
+				set item cooldown of player's tool for player to 1 second
+				remove 1 of zoglin spawn egg named hexfix("&#FB984CCommand Block Master Spawn Egg") from player's inventory
+				server_SpawnCommandBlockMaster(player)
+			else:
+				message "&8[&c✖&8] &7Please right click in the air." to player
+				cancel event
+		else:
+			message "&8[&c✖&8] &7You must be in an arena to spawn this." to player
+			cancel event
+
+
+
+function CommandOverload(e: entity):
+	SolidAura(light blue, 10, {_e})
+	loop all players in radius 20 of {_e}:
+		send action bar "&x&F&B&9&8&4&C&lCOMMAND BLOCK MASTER &7» &x&E&F&4&7&3&ACommand Overload" to loop-player
+		play sound "block.respawn_anchor.set_spawn" at pitch 1.5 to loop-player
+		if {Settings::%loop-player's uuid%::BossAbilitiesInChat} is true:
+			send "&x&F&B&9&8&4&C&lCOMMAND BLOCK MASTER &7» &x&E&F&4&7&3&ACommand Overload" to loop-player
+	apply resistance 2 to {_e} for 10 seconds
+	apply strength 2 to {_e} for 10 seconds
+	apply fire resistance 2 to {_e} for 10 seconds
+	apply haste 2 to {_e} for 10 seconds
+	apply speed 2 to {_e} for 10 seconds
+	set {_scale} to 0.7
+	loop 3 times:
+		spawn block display at {_e}
+		set {_display} to last spawned block display
+		set display teleport duration of {_display} to 1
+		set display scale of {_display} to vector({_scale}, {_scale}, {_scale})
+		set display block data of {_display} to command block
+		set interpolation start of {_display} to 0
+		set interpolation duration of {_display} to 10
+		add {_display} to {_Displays::*}
+	loop 200 times:
+		set {_loc} to location({_e}'s x coordinate, ({_e}'s y coordinate) + 1, {_e}'s z coordinate, world "%{_e}'s world%")
+		set {_x} to 0
+		loop {_Displays::*}:
+			set interpolation start of {_display} to 0
+			set {_q} to display right rotation of loop-value-2 rotated around vector(0,15,15)
+			set display right rotation of loop-value-2 to {_q}
+			set {_v} to spherical vector radius 2, yaw (loop-value-1 * 12 + (120 * {_x})), pitch 10
+			teleport loop-value-2 at {_loc} ~ {_v}
+			add 1 to {_x}
+		wait 1 tick
+	loop {_Displays::*}:
+		kill loop-value
+	loop all players in radius 20 of {_e}:
+		play sound "block.respawn_anchor.deplete" at pitch 2 to loop-player

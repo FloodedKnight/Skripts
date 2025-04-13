@@ -1,0 +1,80 @@
+	command /afk:
+	cooldown: 15 seconds
+	cooldown message: &8[&c✖&8] &7That's on cooldown for &e%remaining time%.
+	trigger:
+		if "%region at player%" contains "afkpool":
+			stop
+		teleport player to location(603, 278.1, 29, world "world", 135, 0)
+		play sound "entity.enderman.teleport" at pitch 2 to player
+		while "%region at player%" contains "afkpool":
+			wait 1 second
+			add 1 to {_1}
+			set {_2} to "%{_1}% seconds" parsed as timespan
+			send action bar "&aTiny Bit &fin: %15 minutes - {_2}%"
+			if (15 minutes - {_2}) is 0 seconds:
+				give player 1 of {TinyBits}
+			#	chance of 5%:
+			#		give player 1 of trial key of soul speed named "&3&lAFK CRATE KEY" with lore "" with hide enchants item flag
+				set {_2} to 0
+				set {_1} to 0
+				
+
+function RollDailyCrate(p: player):
+	set {_x} to 2
+	loop 60 times:
+		play sound "ui.button.click" at pitch 1.5 to {_p}
+		set {_random} to random integer between 1 and 1000
+		
+		if {_random} is between 1 and 100: # 10% done
+			send title "&7• &b&lNETHER STAR &7•" with subtitle smallFont("&auncommon") to {_p} with fadein 1 tick
+			set {_reward} to 1 of nether star named "&bNether Star" with lore "&a&lUNCOMMON"
+			
+		if {_random} is between 101 and 200: # 10% done
+			send title "&8• &6&lRANDUMBITS &8•" with subtitle smallFont("&auncommon") to {_p} with fadein 1 tick
+			set {_reward} to 1 of {RandumBits}
+		if {_random} is between 201 and 250: # 5% done
+			send title "&8• &c&lBLOOD &8•" with subtitle smallFont("&9rare") to {_p} with fadein 1 tick
+			set {_reward} to 1 of redstone dust of soul speed 1 named "&cBlood" with lore "&9&lRARE" with hide enchants item flag
+		if {_random} is between 251 and 300: # 5% done
+			send title "&8• &5&lVOID KEY &8•" with subtitle smallFont("&5epic") to {_p} with fadein 0 tick
+			set {_reward} to 1 of {VoidKey}
+		if {_random} is between 301 and 425: # 12.5% done
+			send title "&8• &a&lTINY BITS &8•" with subtitle smallFont("&fcommon") to {_p} with fadein 0 tick
+			set {_reward} to 4 of {TinyBits}
+		if {_random} is between 426 and 525: # 10% done
+			send title "&8• &e&lNOTCH APPLE &8•" with subtitle smallFont("&fcommon") to {_p} with fadein 0 tick
+			set {_reward} to 4 of enchanted golden apple
+		if {_random} is between 526 and 650: # 12.5% done
+			send title "&8• &e&lGOLDEN APPLE &8•" with subtitle smallFont("&fcommon") to {_p} with fadein 0 tick
+			set {_reward} to 16 of golden apple
+		if {_random} is between 651 and 700: # 5% done
+			send title "&8• &6&lCOMMAND BLOCK &8•" with subtitle smallFont("&auncommon") to {_p} with fadein 0 tick
+			set {_reward} to command block named "&6Command Block" with lore "&a&lUNCOMMON"
+		if {_random} is between 701 and 800: # 10% done
+			send title "&8• &8&lNETHERITE &8•" with subtitle smallFont("&fcommon") to {_p} with fadein 0 tick
+			set {_reward} to 16 of {ZirconNetherite} 
+		if {_random} is between 801 and 900: # 10% done
+			send title "&8• &d&lOBSIDIAN &8•" with subtitle smallFont("&fcommon") to {_p} with fadein 0 tick
+			set {_reward} to 16 of {ZirconObsidian}
+		if {_random} is between 901 and 975: # 7.5% done
+			send title "&8• &b&lDIAMONDS &8•" with subtitle smallFont("&fcommon") to {_p} with fadein 0 tick
+			set {_reward} to 16 of {ZirconDiamonds}
+		if {_random} is between 976 and 1000: # 2.5%
+			send title "&8• &d&lRANDUMCOIN &8•" with subtitle smallFont("&cspecial") to {_p} with fadein 0 tick
+			set {_reward} to 1 of {RandCoin}
+		if mod(loop-counter, 20) = 0: 
+			add 1 to {_x}
+		set {_tSpan} to "%{_x}% ticks" parsed as timespan
+		wait {_tSpan}
+	give {_p} {_reward}
+	message "" to {_p}
+	message "&6[&c-&6] &7&3Daily Crate Key" to {_p}
+	if name of {_reward} is set:
+		message "&6[&a+&6] &7%name of {_reward}%" to {_p}
+	else:
+		message "&6[&a+&6] &7%translate component of {_reward}%s" to {_p}
+	message "" to {_p}
+	if name of {_reward} = smallFont("&drandum coin"):
+		play sound "entity.ender_dragon.ambient" at pitch 1 to {_p}
+	else:
+		play sound "entity.player.levelup" at pitch 2 to {_p}

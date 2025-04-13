@@ -1,0 +1,201 @@
+# ------------------------ CONFIG CONFIG CONFIG CONFIG CONFIG ----------------------
+
+
+options:
+	entity: zombie
+	name: "§x§5§F§E§2§6§C§lDREAM"  # made uuid of boss to ID
+	
+	health: 750
+	attack_damage: 300
+	movement_speed: 0.3
+	
+	helmet: player head with nbt from "{""minecraft:profile"":{properties:[{name:""textures"",value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2E5M2Y2ZmM0MDQ4OGYxODc3Y2RhOTRhODMwYjU0ZTlmNmY1NGFiNThhNTQ1M2JhZDVjOTQ3NzI2ZGQxZjQ3MyJ9fX0=""}]}}"
+	chestplate: air
+	leggings: air
+	boots: air
+	
+	mainItem: diamond axe
+	offHand: air
+	
+	leaderboard_color: "<##00EAFF>"
+	leaderboard_topname: "&c&l"
+	bossbar_color: green
+	bossbar_style: solid_bar
+	bossbar_radius: 20
+
+#------------------------------------ END OF CONFIG----------------------------------
+	
+
+function server_SpawnDream(p: player):
+	spawn {@entity} at {_p}:
+	
+		add nbt from "{CustomNameVisble:1b}" to nbt of entity
+	
+		set max health of entity to {@health}
+		set health of entity to {@health}
+		set entity's attack damage attribute to {@attack_damage}
+		set entity's movement speed attribute to  {@movement_speed}
+		set name of entity to "%{@name}% &c%health of entity%❤"
+		
+		
+		set {_chest} to unbreakable leather chestplate
+		set {_legs} to unbreakable leather leggings
+		set {_boots} to unbreakable leather boots
+		dye {_chest} lime
+		dye {_legs} lime
+		dye {_boots} lime
+		set entity's helmet to {@helmet}
+		set entity's chestplate to {_chest}
+		set entity's leggings to {_legs}
+		set entity's boots to {_boots}
+		
+		set entity's held item to {@mainItem}
+		set the off hand item of entity to {@offHand}
+		
+		set {_e} to the entity
+	set {_u} to uuid int array as string from {_e}
+	set {mob::%{_u}%} to {_p}
+	set {_bar} to bossbar with id "%{_e}'s uuid%" with title "%{@name}% &c%health of {_e}%❤" with color {@bossbar_color} with style {@bossbar_style} with progress 100
+	if {Settings::%{_p}'s uuid%::Bossbars} is true:
+		add {_p} to {_bar}
+	loop 150 times:
+		delete boss bar with id "%{_e}'s uuid%" if {_e} is not alive
+		exit loop if {_e} is not alive
+		loop all players in radius {@bossbar_radius} around {_e}:
+			if {Settings::%loop-player's uuid%::Bossbars} is true:
+				add loop-player to {_bar}
+		set bossbar progress of {_bar} to ((health of {_e})/(max health of {_e}))*100
+		set bar title of {_bar} to "%{@name}% &c%health of {_e}%❤"
+		
+		set {_ability} to random integer between 1 and 3
+		
+		#ABILITIES HERE
+		if {_ability} is 1:
+			DreamTrap({_e})
+		if {_ability} is 2:
+			DreamPearlEscape({_e})
+		if {_ability} is 3:
+			DreamSpeedRun({_e})
+		
+		wait 12 seconds
+	kill {_e}
+
+on damage of {@entity}:
+	if name of victim contains {@name}:
+		wait 1 tick
+		set {_bar} to bossbar with id "%victim's uuid%"
+		set name of victim to "%{@name}% &c%health of victim%❤"
+		set bar title of {_bar} to "%{@name}% &c%health of victim%❤"
+		set bossbar progress of {_bar} to ((health of victim)/(max health of victim))*100
+
+on death of {@entity}:
+	name of victim contains {@name}
+	delete boss bar with id "%victim's uuid%"
+	clear drops
+	set {_u} to uuid int array as string from victim
+		
+	if {mob::%{_u}%} is connected:
+		give {mob::%{_u}%} 1 of ominous trial key of soul speed 1 named "§x§F§F§4§3§4§3§x§5§F§E§2§6§CDream's Head Key" with lore "&9&lRARE KEY" with hide enchants item flag
+	else if {mob::%{_u}%} is not connected:
+		give {mob::%{_u}%} 1 of ominous trial key of soul speed 1 named "§x§F§F§4§3§4§3§x§5§F§E§2§6§CDream's Head Key" with lore "&9&lRARE KEY" with hide enchants item flag
+		
+	add 500 to {EXP::%{mob::%{_u}%}'s uuid%::TotalCombat}
+	add 500 to {EXP::%{mob::%{_u}%}'s uuid%::ResetCombat}
+	if {Settings::%{mob::%{_u}%}'s uuid%::ExpDisplayAsPercent} is true:
+		send action bar "&6&l+500 XP &8|| &r&b%({EXP::%{mob::%{_u}%}'s uuid%::ResetCombat})/(floor(25 * (1.3 ^ ({EXP::%{mob::%{_u}%}'s uuid%::CombatLevel} - 1)))) * 100%%% &8|| &r&6Combat" to {mob::%{_u}%}
+	else:
+		send action bar "&6&l+500 XP &8|| &r&b%formatNumber({EXP::%{mob::%{_u}%}'s uuid%::ResetCombat})%&7/&2%formatNumber(floor(150 * (1.3 ^ ({EXP::%{mob::%{_u}%}'s uuid%::CombatLevel} - 1))))% &8|| &r&6Combat" to {mob::%{_u}%}
+		play sound "entity.experience_orb.pickup" at pitch 2 to {mob::%{_u}%}
+		CombatLevelUp({mob::%{_u}%})
+	set {Collections::%{mob::%{_u}%}'s uuid%::Dream} to ({Collections::%{mob::%{_u}%}'s uuid%::Dream} + 1)
+	wait 1 tick
+	if {Collections::%{mob::%{_u}%}'s uuid%::Dream} = 1:
+		play sound "entity.player.levelup" to {mob::%{_u}%}
+		send "" to {mob::%{_u}%}
+		send " &6&lCOLLECTION UNLOCKED" to {mob::%{_u}%}
+		send smallFont(" §x§5§F§E§2§6§CDream") to {mob::%{_u}%}
+		send "" to {mob::%{_u}%}
+	if {Collections::%{mob::%{_u}%}'s uuid%::Dream} = 5:
+		CollectionLevelUp("§x§5§F§E§2§6§CDream", 2, {mob::%{_u}%})	
+	if {Collections::%{mob::%{_u}%}'s uuid%::Dream} = 10:
+		CollectionLevelUp("§x§5§F§E§2§6§CDream", 3, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::Dream} = 15:
+		CollectionLevelUp("§x§5§F§E§2§6§CDream", 4, {mob::%{_u}%})	
+	if {Collections::%{mob::%{_u}%}'s uuid%::Dream} = 25:
+		CollectionLevelUp("§x§5§F§E§2§6§CDream", 5, {mob::%{_u}%})	
+	if {Collections::%{mob::%{_u}%}'s uuid%::Dream} = 35:
+		CollectionLevelUp("§x§5§F§E§2§6§CDream", 6, {mob::%{_u}%})	
+	if {Collections::%{mob::%{_u}%}'s uuid%::Dream} = 50:
+		CollectionLevelUp("§x§5§F§E§2§6§CDream", 7, {mob::%{_u}%})	
+	if {Collections::%{mob::%{_u}%}'s uuid%::Dream} = 65:
+		CollectionLevelUp("§x§5§F§E§2§6§CDream", 8, {mob::%{_u}%})	
+	if {Collections::%{mob::%{_u}%}'s uuid%::Dream} = 80:
+		CollectionLevelUp("§x§5§F§E§2§6§CDream", 9, {mob::%{_u}%})	
+	if {Collections::%{mob::%{_u}%}'s uuid%::Dream} = 100:
+		CollectionLevelUp("§x§5§F§E§2§6§CDream", 10, {mob::%{_u}%})	
+
+	
+	delete {mob::%{_u}%}
+	
+	
+on right click:
+	if name of player's held item = hexfix("&#5FE26CDream Spawn Egg"):
+		"%region at player%" contains "arena":
+			if player's target block is not within 4.5 blocks of player:
+				item cooldown of player's tool for player < 0.05 seconds
+				set item cooldown of player's tool for player to 1 second
+				remove 1 of slime spawn egg named hexfix("&#5FE26CDream Spawn Egg") from player's inventory
+				server_SpawnDream(player)
+			else:
+				message "&8[&c✖&8] &7Please right click in the air." to player
+				cancel event
+		else:
+			message "&8[&c✖&8] &7You must be in an arena to spawn this." to player
+			cancel event
+
+	
+function DreamTrap(e: entity):
+	loop all players in radius 20 of {_e}:
+		send action bar "§x§5§F§E§2§6§C§lDREAM &7» &x&E&F&4&7&3&AHunter's Trap" to loop-player
+		play sound "block.grass.place" at pitch 0.8 to loop-player
+		if {Settings::%loop-player's uuid%::BossAbilitiesInChat} is true:
+			send "§x§5§F§E§2§6§C§lDREAM &7» &x&E&F&4&7&3&AHunter's Trap" to loop-player
+	spawn minecart with tnt at location at {_e}
+	set {_w} to last spawned minecart with tnt
+	set name of {_w} to "§x§5§F§E§2§6§C§lʜᴜɴᴛᴇʀ'ѕ ᴛʀᴀᴘ"
+	loop 25 times:
+		loop all players in radius 3 of {_w}:
+			create fake explosion at {_w}
+			delete entity within {_w}
+			make {_e} damage loop-player by 1000
+		if {_w} is not alive:
+			exit loop
+		wait 8 ticks
+	if {_w} exists:
+		loop all players in radius 3 around {_w}:
+			make {_e} damage loop-player by 1000
+		create fake explosion at {_w}
+		delete entity within {_w}
+		
+			
+function DreamPearlEscape(e: entity):
+	loop all players in radius 20 of {_e}:
+		send action bar "§x§5§F§E§2§6§C§lDREAM &7» &x&E&F&4&7&3&APearl Escape" to loop-player
+		play sound "entity.illusioner.mirror_move" at pitch 1 to loop-player
+		if {Settings::%loop-player's uuid%::BossAbilitiesInChat} is true:
+			send "§x§5§F§E§2§6§C§lDREAM &7» &x&E&F&4&7&3&APearl Escape" to loop-player
+	draw 200 of dust using dustOption(rgb(255, 0, 225), 1) at {_e} ~ vector(0, 0, 0) with offset vector(0.5, 1, 0.5)
+	wait 2 tick
+	if "%region at {_e}%" contains "arena1":
+		teleport {_e} to location(394.5, 4.1, -41.5, world "world", 0, 0)
+	if "%region at {_e}%" contains "arena2":
+		teleport {_e} to location(663.5, 4.1, -37.5, world "world", 0, 0)
+	draw 200 of dust using dustOption(rgb(255, 0, 225), 1) at {_e} ~ vector(0, 0, 0) with offset vector(0.5, 1, 0.5)
+	
+function DreamSpeedRun(e: entity):
+	loop all players in radius 20 of {_e}:
+		send action bar "§x§5§F§E§2§6§C§lDREAM &7» &x&E&F&4&7&3&ASpeedrun" to loop-player
+		if {Settings::%loop-player's uuid%::BossAbilitiesInChat} is true:
+			send "§x§5§F§E§2§6§C§lDREAM &7» &x&E&F&4&7&3&ASpeedrun" to loop-player
+	
+	apply speed 7 to {_e} for 10 seconds

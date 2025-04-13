@@ -1,0 +1,7 @@
+on right click:
+	name of player's held item is "&x&0&8&D&8&F&BExclusive Item Token":
+		make player execute command "/shopkeeper remote 230"
+		
+command /exclusiveshop:
+	trigger:
+		make player execute command "/shopkeeper remote 230"

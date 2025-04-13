@@ -1,0 +1,373 @@
+# ------------------------ CONFIG CONFIG CONFIG CONFIG CONFIG ----------------------
+
+
+options:
+	entity: elder guardian
+	name: "§x§D§4§D§B§4§4§lTECH"  # made uuid of boss to ID
+	
+	health: 1000
+	attack_damage: 500
+	movement_speed: 0.4
+	
+	helmet: air
+	chestplate: air
+	leggings: air
+	boots: air
+	
+	mainItem: air
+	offHand: 100 of totem of undying
+	
+	leaderboard_color: "<##00EAFF>"
+	leaderboard_topname: "&c&l"
+	bossbar_color: yellow
+	bossbar_style: solid_bar
+	bossbar_radius: 20
+
+#------------------------------------ END OF CONFIG----------------------------------
+	
+
+function server_SpawnTech(p: player):
+	spawn {@entity} at {_p}:
+	
+		add nbt from "{CustomNameVisble:1b}" to nbt of entity
+	
+		set max health of entity to {@health}
+		set health of entity to {@health}
+		set entity's attack damage attribute to {@attack_damage}
+		set entity's movement speed attribute to  {@movement_speed}
+		set name of entity to "%{@name}% &c%health of entity%❤"
+		
+		
+		set entity's helmet to {@helmet}
+		set entity's helmet to {@chestplate}
+		set entity's helmet to {@leggings}
+		set entity's helmet to {@boots}
+		
+		set entity's held item to {@mainItem}
+		set the off hand item of entity to {@offHand}
+		
+		set {_e} to the entity
+	set {_u} to uuid int array as string from {_e}
+	set {mob::%{_u}%} to {_p}
+	set {_bar} to bossbar with id "%{_e}'s uuid%" with title "%{@name}% &c%health of {_e}%❤" with color {@bossbar_color} with style {@bossbar_style} with progress 100
+	if {Settings::%{_p}'s uuid%::Bossbars} is true:
+		add {_p} to {_bar}
+	loop 150 times:
+		delete boss bar with id "%{_e}'s uuid%" if {_e} is not alive
+		exit loop if {_e} is not alive
+		loop all players in radius {@bossbar_radius} around {_e}:
+			if {Settings::%loop-player's uuid%::Bossbars} is true:
+				add loop-player to {_bar}
+		set bossbar progress of {_bar} to ((health of {_e})/(max health of {_e}))*100
+		set bar title of {_bar} to "%{@name}% &c%health of {_e}%❤"
+		
+		set {_ability} to random integer between 1 and 3
+		#ABILITIES HERE
+		if {_ability} is 1:
+			
+			loop all players in radius 20 of {_e}:
+				send action bar "§x§D§4§D§B§4§4§lTECH &7» &x&E&F&4&7&3&AHack" to loop-player
+				if {Settings::%loop-player's uuid%::BossAbilitiesInChat} is true:
+					send "§x§D§4§D§B§4§4§lTECH &7» &x&E&F&4&7&3&AHack" to loop-player
+			loop 5 times:
+				loop all players in radius 20 of {_e}:
+					ShuffleTechInventory(loop-player)
+				wait 5 ticks
+			loop all players in radius 20 of {_e}:
+				play sound "block.note_block.pling" at pitch 2 to loop-player
+				
+		if {_ability} is 2:
+			TechHologram({_e})
+		if {_ability} is 3:
+			TechHomingRockets({_e})
+		
+		wait 11 seconds
+	kill {_e}
+
+on damage of {@entity}:
+	if name of victim contains {@name}:
+		wait 1 tick
+		set {_bar} to bossbar with id "%victim's uuid%"
+		set name of victim to "%{@name}% &c%health of victim%❤"
+		if health of victim >= 5:
+			set bar title of {_bar} to "%{@name}% &c%health of victim%❤"
+		else:
+			set {_totemCount} to "%victim's off hand item%"
+			set {_totemCount::*} to {_totemCount} split at " "
+			set {_totemCount} to 1st element of {_totemCount::*}
+			set bar title of {_bar} to "%{@name}% &e&l%{_totemCount}% TOTEMS"
+		set bossbar progress of {_bar} to ((health of victim)/(max health of victim))*100
+
+on death of {@entity}:
+	name of victim contains {@name}
+	delete boss bar with id "%victim's uuid%"
+	clear drops
+	set {_u} to uuid int array as string from victim
+		
+	if {mob::%{_u}%} is connected:
+		give {mob::%{_u}%} 1 of ominous trial key of soul speed 1 named "§x§D§4§D§B§4§4All of Tech Key" with lore "&5&lEPIC KEY" with hide enchants item flag
+	else if {mob::%{_u}%} is not connected:
+		give {mob::%{_u}%} 1 of ominous trial key of soul speed 1 named "§x§D§4§D§B§4§4All of Tech Key" with lore "&5&lEPIC KEY" with hide enchants item flag
+		
+	add 1000 to {EXP::%{mob::%{_u}%}'s uuid%::TotalCombat}
+	add 1000 to {EXP::%{mob::%{_u}%}'s uuid%::ResetCombat}
+	if {Settings::%{mob::%{_u}%}'s uuid%::ExpDisplayAsPercent} is true:
+		send action bar "&6&l+1000 XP &8|| &r&b%({EXP::%{mob::%{_u}%}'s uuid%::ResetCombat})/(floor(25 * (1.3 ^ ({EXP::%{mob::%{_u}%}'s uuid%::CombatLevel} - 1)))) * 100%%% &8|| &r&6Combat" to {mob::%{_u}%}
+	else:
+		send action bar "&6&l+1000 XP &8|| &r&b%formatNumber({EXP::%{mob::%{_u}%}'s uuid%::ResetCombat})%&7/&2%formatNumber(floor(150 * (1.3 ^ ({EXP::%{mob::%{_u}%}'s uuid%::CombatLevel} - 1))))% &8|| &r&6Combat" to {mob::%{_u}%}
+		play sound "entity.experience_orb.pickup" at pitch 2 to {mob::%{_u}%}
+		CombatLevelUp({mob::%{_u}%})
+	set {Collections::%{mob::%{_u}%}'s uuid%::TechChief} to ({Collections::%{mob::%{_u}%}'s uuid%::TechChief} + 1)
+	wait 1 tick
+	if {Collections::%{mob::%{_u}%}'s uuid%::TechChief} = 1:
+		play sound "entity.player.levelup" to {mob::%{_u}%}
+		send "" to {mob::%{_u}%}
+		send " &6&lCOLLECTION UNLOCKED" to {mob::%{_u}%}
+		send smallFont(" §x§D§4§D§B§4§4Tech") to {mob::%{_u}%}
+		send "" to {mob::%{_u}%}
+	if {Collections::%{mob::%{_u}%}'s uuid%::TechChief} = 3:
+		CollectionLevelUp("§x§D§4§D§B§4§4Tech", 2, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::TechChief} = 5:
+		CollectionLevelUp("§x§D§4§D§B§4§4Tech", 3, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::TechChief} = 10:
+		CollectionLevelUp("§x§D§4§D§B§4§4Tech", 4, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::TechChief} = 20:
+		CollectionLevelUp("§x§D§4§D§B§4§4Tech", 5, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::TechChief} = 30:
+		CollectionLevelUp("§x§D§4§D§B§4§4Tech", 6, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::TechChief} = 40:
+		CollectionLevelUp("§x§D§4§D§B§4§4Tech", 7, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::TechChief} = 50:
+		CollectionLevelUp("§x§D§4§D§B§4§4Tech", 8, {mob::%{_u}%})
+	if {Collections::%{mob::%{_u}%}'s uuid%::TechChief} = 60:
+		CollectionLevelUp("§x§D§4§D§B§4§4Tech", 9, {mob::%{_u}%})
+		if {Collections::%{mob::%{_u}%}'s uuid%::TechChief} = 75:
+		CollectionLevelUp("§x§D§4§D§B§4§4Tech", 10, {mob::%{_u}%})
+	delete {mob::%{_u}%}
+	
+	
+on right click:
+	if name of player's held item = hexfix("&#D4DB44Tech Spawn Egg"):
+		"%region at player%" contains "arena":
+			if player's target block is not within 4.5 blocks of player:
+				item cooldown of player's tool for player < 0.05 seconds
+				set item cooldown of player's tool for player to 1 second
+				remove 1 of dolphin spawn egg named hexfix("&#D4DB44Tech Spawn Egg") from player's inventory
+				server_SpawnTech(player)
+			else:
+				message "&8[&c✖&8] &7Please right click in the air." to player
+				cancel event
+		else:
+			message "&8[&c✖&8] &7You must be in an arena to spawn this." to player
+			cancel event
+
+
+
+
+
+function ShuffleInventory(p: player):
+	play sound "block.note_block.bit" at pitch 1 to {_p}
+	set {_random::*} to (integers between 0 and 40)
+	remove 39, 38, 37, 36 from {_random::*}
+	set {_random::*} to shuffled {_random::*}
+	loop {_p}'s inventory:
+		if loop-value is any armor:
+			continue
+		else:
+			add loop-value to {_items::*}
+			remove loop-value from {_p}'s inventory
+	loop {_random::*}:
+		if slot (loop-value) of {_p}'s inventory is any armor:
+			continue
+		else:
+			set {_random} to random element out of {_items::*}
+			set slot (loop-value) of {_p}'s inventory to {_random}
+			remove {_random} from {_items::*}
+			
+function ShuffleTechInventory(p: player):
+	play sound "block.note_block.bit" at pitch 1 to {_p}
+	set {_random::*} to (integers between 0 and 40)
+	remove 39, 38, 37, 36 from {_random::*}
+	set {_random::*} to shuffled {_random::*}
+	loop {_p}'s inventory:
+		if all:
+			loop-value is not any sword
+			loop-value is not trident
+		then:
+			continue
+		else:
+			add loop-slot to {_x::*}
+			add loop-value to {_items::*}
+			remove loop-value from {_p}'s inventory
+	loop {_random::*}:
+		if slot (loop-value) of {_p}'s inventory is air:
+			set {_random} to random element out of {_items::*}
+			set slot (loop-value) of {_p}'s inventory to {_random}
+			remove {_random} from {_items::*}
+
+function TechHologram(e: entity):
+	loop all players in radius 20 of {_e}:
+		send action bar "§x§D§4§D§B§4§4§lTECH &7» &x&E&F&4&7&3&AHolograms" to loop-player
+		if {Settings::%loop-player's uuid%::BossAbilitiesInChat} is true:
+			send "§x§D§4§D§B§4§4§lTECH &7» &x&E&F&4&7&3&AHolograms" to loop-player
+	loop 3 times:
+		spawn elder guardian at {_e}
+		set {_w} to last spawned elder guardian
+		set name of {_w} to "§x§D§4§D§B§4§4§lᴛᴇᴄʜ ʜᴏʟᴏɢʀᴀᴍѕ"
+		set {_w}'s attack damage attribute to {@attack_damage}
+		add {_w} to {_list::*}
+		wait 1 tick
+	wait 1 second
+	add {_e} to {_list::*}
+	loop {_list::*}:
+	
+		add location at loop-value to {_locs1::*}
+	loop 10 times:
+		set {_locs::*} to shuffled {_locs1::*}
+		loop {_list::*}:
+			set {_random} to random element out of {_locs::*}
+			teleport {_list::*} to {_random}
+			remove {_random} from {_locs::*}
+			draw 200 of dust using dustOption(rgb(255, 0, 225), 1) at {_e} ~ vector(0, 0, 0) with offset vector(3, 3, 3)
+			wait 1 tick
+		play sound "entity.enderman.teleport" at volume 999 at pitch 1.5 to all players in radius 20 of {_e}
+
+	wait 20 seconds
+	remove {_e} from {_list::*}
+	loop {_list::*}:
+		delete entity within loop-value
+
+on damage:
+	victim's name is "§x§D§4§D§B§4§4§lᴛᴇᴄʜ ʜᴏʟᴏɢʀᴀᴍѕ":
+		attacker is a player:
+			cancel event
+			delete entity within victim
+			
+on spell cast:
+	if event-entity is an elder guardian:
+		cancel event
+	
+on right click:
+	name of player's tool is "&6Homing Rocket":
+		loop 20 times:
+			play sound "block.piston.contract" at pitch 1.5 to player
+			HomingRockets(player)
+			wait 1 tick
+	
+function TechHomingRockets(e: entity):
+	loop 5 times:
+		loop all players in radius 20 of {_e}:
+			send action bar "§x§D§4§D§B§4§4§lTECH &7» &x&E&F&4&7&3&AHoming Rockets" to loop-player
+			play sound "block.piston.contract" at pitch 1.5 to loop-player
+			if {Settings::%loop-player's uuid%::BossAbilitiesInChat} is true:
+				send "§x§D§4§D§B§4§4§lTECH &7» &x&E&F&4&7&3&AHoming Rockets" to loop-player
+			HomingRockets({_e})
+		wait 5 ticks
+	stop
+
+#	HomingRockets({_e})
+	
+function HomingRockets(e: entity):
+	set {_target} to {_e}'s target
+	if {_e} is a player:
+		if {_target} is set:
+			set {_randomx} to random number between -15 and 15
+			set {_randomy} to random number between 1 and 20
+			set {_randomz} to random number between -15 and 15
+			set {_targetoffset} to location of {_e}'s target entity ~ vector({_randomx}, {_randomy}, {_randomz})
+			set {_location} to location of {_e}
+			set y coordinate of {_location} to y coordinate of {_location} + 0.5
+			homeRocketsProper({_e}'s world, {_location}, {_targetoffset}, {_target}, {_e}, orange, 5, 1)
+		else:
+			set {_targetx} to {_e}'s target block
+			set {_target} to nearest entity relative to {_targetx}
+			{_targetx} is not {_p}
+			set {_a} to distance between {_e} and {_target}
+			set {_randomx} to random number between -15 and 15
+			set {_randomy} to random number between 1 and 20
+			set {_randomz} to random number between -15 and 15
+			set {_targetoffset} to location of {_target} ~ vector({_randomx}*({_a}/20), {_randomy}*({_a}/20), {_randomz}*({_a}/20))
+			set {_location} to location of {_e}
+			set y coordinate of {_location} to y coordinate of {_location} + 0.5
+			homeRocketsProper({_e}'s world, {_location}, {_targetoffset}, {_target}, {_e}, orange, 30, 1) 
+	else:
+		set {_target} to nearest player relative to {_e}
+		if "%region at {_target}%" contains "arena":
+			set {_a} to distance between {_e} and {_target}
+			set {_randomx} to random number between -15 and 15
+			set {_randomy} to random number between 1 and 20
+			set {_randomz} to random number between -15 and 15
+			set {_targetoffset} to location of {_target} ~ vector({_randomx}*({_a}/20), {_randomy}*({_a}/20), {_randomz}*({_a}/20))
+			set {_location} to location of {_e}
+			set y coordinate of {_location} to y coordinate of {_location} + 0.5
+			homeRocketsProper({_e}'s world, {_location}, {_targetoffset}, {_target}, {_e}, orange, 200, 3) 
+
+
+function homeRocketsProper(w: world, loc1: location, loc2: location, loc3: entity, e: entity, col: color, dmg: number, speed: number):
+	spawn block display at {_e}
+	set {_display} to last spawned block display
+	set display teleport duration of {_display} to {_speed}
+	#set display scale of {_display} to vector({_scale}, {_scale}, {_scale})
+	set display block data of {_display} to lightning rod
+	set glowing of {_display} to true
+	deletingFrozenMissiles({_display})
+	add {_display} to {homingRockets::*}
+	set {_loc1x} to x-coordinate of {_loc1} 
+	set {_loc1y} to y-coordinate of {_loc1} 
+	set {_loc1z} to z-coordinate of {_loc1} 
+    
+	set {_loc2x} to x-coordinate of {_loc2} 
+	set {_loc2y} to y-coordinate of {_loc2} 
+	set {_loc2z} to z-coordinate of {_loc2} 
+    
+	set {_loc3x} to x-coordinate of location of {_loc3} 
+	set {_loc3y} to y-coordinate of location of {_loc3} + 1.5
+	set {_loc3z} to z-coordinate of location of {_loc3} 
+	set {_pos} to 0
+	set {_increment} to (1 / distance between {_loc1} and {_loc3}) / 3
+	set {_count} to 0
+	set {_tSpan} to "%{_speed}% ticks" parsed as timespan
+	while {_pos} < 1:
+		set {_loc3x} to x-coordinate of location of {_loc3} 
+		set {_loc3y} to y-coordinate of location of {_loc3} + 1.5
+		set {_loc3z} to z-coordinate of location of {_loc3} 
+		
+		add 1 to {_count}
+		set {_1loctx} to ({_loc1x} + (({_loc2x} - {_loc1x}) * {_pos})) 
+		set {_1locty} to ({_loc1y} + (({_loc2y} - {_loc1y}) * {_pos}))
+		set {_1loctz} to ({_loc1z} + (({_loc2z} - {_loc1z}) * {_pos}))
+
+		set {_2loctx} to ({_loc2x} + (({_loc3x} - {_loc2x}) * {_pos})) 
+		set {_2locty} to ({_loc2y} + (({_loc3y} - {_loc2y}) * {_pos})) 
+		set {_2loctz} to ({_loc2z} + (({_loc3z} - {_loc2z}) * {_pos}))
+	
+		set {_floctx} to ({_1loctx} + (({_2loctx} - {_1loctx}) * {_pos})) 
+		set {_flocty} to ({_1locty} + (({_2locty} - {_1locty}) * {_pos})) 
+		set {_floctz} to ({_1loctz} + (({_2loctz} - {_1loctz}) * {_pos}))
+		set {_v} to vector from {_display} to {_loc3}
+		set {_flocm} to location({_floctx}, {_flocty}, {_floctz}, world "%{_e}'s world%", 90 - ({_loc3}'s yaw), 90)
+		if {_count} >= 4:
+			set {_count} to 0
+			wait {_tSpan}
+		
+		show 1 flame at {_flocm}
+		teleport {_display} to location({_flocm}'s x coordinate, {_flocm}'s y coordinate + 0.2, {_flocm}'s z coordinate, world "%{_e}'s world%", {_v}'s yaw, {_v}'s pitch + 60)
+		add {_increment} to {_pos}
+	make {_e} damage {_loc3} by {_dmg}
+	make 200 of smoke at {_display} with offset vector(2, 2, 2) with extra 0.1
+	loop all players in radius 25 of {_display}:
+		play sound "entity.breeze.shoot" at pitch 0 to loop-player
+	delete entity within {_display}
+
+
+
+
+function deletingFrozenMissiles(e: entity):
+	set {_loc} to location at {_e}
+	wait 10 ticks
+	if location at {_e} is {_loc}:
+		kill {_e}
+
+every 10 minutes:
+	loop {homingRockets::*}:
+		delete entity within loop-value
