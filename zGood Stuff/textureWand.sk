@@ -1,0 +1,43 @@
+on right click:
+	event-block is set
+	if name of player's held item is "&9Texturing Wand":
+		set {_dens} to int tag "density" of custom nbt of player's held item
+		set {_space} to double tag "space" of custom nbt of player's held item
+		set {_blocktype} to string tag "blocktype" of custom nbt of player's held item
+		set {_blocktype} to {_blocktype} parsed as itemtype
+		set {_scale} to double tag "scale" of custom nbt of player's held item
+		loop {_dens} times:
+			set {_distanceVector} to (random vector) * {_space}
+			set {_rotationVector} to random vector
+			spawn item display at event-block ~ {_distanceVector}:
+				set display item of entity to {_blocktype}
+				set display scale of entity to vector({_scale}, {_scale}, {_scale})
+				set {_pitch} to random number between -90 and 90
+				set {_yaw} to random number between 0 and 360
+				set {_entity} to entity
+			set {_entity}'s yaw to {_yaw}
+			set {_entity}'s pitch to {_pitch}
+			
+			
+command texturizingwand [<string>] [<string>]:
+	permission: sk.dev
+	trigger:
+		if name of player's held item is "&9Texturing Wand":
+			set {_flag} to true
+			if arg-1 is "density":
+				set int tag "density" of custom nbt of player's held item to (arg-2 parsed as integer) ? 0
+			else if arg-1 is "space":
+				set double tag "space" of custom nbt of player's held item to (arg-2 parsed as number) ? 0
+			else if arg-1 is "blocktype":
+				set string tag "blocktype" of custom nbt of player's held item to (arg-2)
+			else if arg-1 is "scale":
+				set double tag "scale" of custom nbt of player's held item to (arg-2 parsed as number) ? 0
+			
+			else:
+				send "&cInvalid: arg-1 must be density, space, or itemtype" to player
+				set {_flag} to false
+			if {_flag} is true:
+				message "&bEdited &a%arg-1% &bto equal &a%arg-2 ? 0%" to player
+				
+		else:
+			message "&cthats not a texturing wand" to player
